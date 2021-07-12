@@ -1,0 +1,23 @@
+{
+  "name": "backend-borderplate",
+  "version": "1.0.0",
+  "description": "Um borderplate para Aceleradora Ágil",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "borderplate",
+    "aceleradora",
+    "nodejs",
+    "javascript"
+  ],
+  "author": "Ju Dantas",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
+    "husky": "^7.0.1"
+  }
+}
