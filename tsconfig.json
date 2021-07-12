@@ -25,7 +25,6 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "exclude": ["./commitlint.config.js"],
   "include": [
     "src/**/*"
   ]
