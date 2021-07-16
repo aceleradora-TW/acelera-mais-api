@@ -1,12 +1,13 @@
+import 'reflect-metadata'
 import express from 'express'
 
-const server = express()
+const app = express()
 const port = process.env.PORT || 3333
 
-server.get('/', (req, res) => {
+app.get('/', (req, res) => {
   return res.json({ message: "it's works!" })
 })
 
-server.listen(port, () => {
+app.listen(port, () => {
   console.log(`Server's running in http://localhost:${port}`)
 })
