@@ -1,0 +1,24 @@
+{
+   "type": "postgres",
+   "host": "localhost",
+   "port": 5432,
+   "username": "judantas",
+   "password": "123456",
+   "database": "aceleradora_agil",
+   "synchronize": true,
+   "logging": false,
+   "entities": [
+      "src/models/entity/**/*.ts"
+   ],
+   "migrations": [
+      "src/models/migration/**/*.ts"
+   ],
+   "subscribers": [
+      "src/models/subscriber/**/*.ts"
+   ],
+   "cli": {
+      "entitiesDir": "src/models/entity",
+      "migrationsDir": "src/models/migration",
+      "subscribersDir": "src/models/subscriber"
+   }
+}
