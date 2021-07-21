@@ -2,7 +2,7 @@
    "type": "postgres",
    "host": "localhost",
    "port": 5432,
-   "username": "judantas",
+   "username": "postgres",
    "password": "123456",
    "database": "aceleradora_agil",
    "synchronize": true,

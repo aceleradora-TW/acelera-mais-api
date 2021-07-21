@@ -22,3 +22,13 @@ Configurando projeto
 - Clonar repositório
 - Iniciando a aplicação
 - Chicken dance!
+
+TypeORM
+====
+
+- Criando Migration
+
+```bash
+yarn typeorm migration:create -n <NomeDaMigration>
+```
+
