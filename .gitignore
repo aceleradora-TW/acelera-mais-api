@@ -1,4 +1,9 @@
-node_modules
-dist
+.idea/
+.vscode/
+node_modules/
+build/
+tmp/
+temp/
+dist/
 
 yarn-error.log
