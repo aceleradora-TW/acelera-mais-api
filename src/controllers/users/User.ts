@@ -1,5 +1,5 @@
 import { getRepository } from 'typeorm'
-import { User } from '@models/User'
+import { User } from '@models/entity/User'
 
 export const getAllUsers = (request, response) => {
   const users = getRepository(User).find()
