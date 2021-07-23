@@ -2,26 +2,26 @@ Tecnologias
 ====
 
 - Node
-- Typescript
+- JavaScript / Typescript
 - Express
-- Sequelize
+- TypeORM
 
 Configurando projeto
 ====
 
-- Instalar Oh my zsh
-- Instalar NodeJS
+- [Instalar Oh my zsh](https://ohmyz.sh/)
+- [Instalar NodeJS](https://nodejs.org/en/)
 - Instalar o Yarn
-- Instalar Postgres
-    - criar banco de dados
-- Instalar Beekeeper
-- Instalar Visual Studio Code
+
+```bash
+npm install -g yarn
+```
+- [Instalar Postgres](https://www.postgresql.org/download/)
+- [Instalar Beekeeper](https://www.beekeeperstudio.io/get)
+- [Instalar Visual Studio Code](https://code.visualstudio.com/)
     - [Configuração do editor - Rocketseat](https://www.youtube.com/watch?v=c7P03kkrEG8) - *GraphQL e **Live Server** não são necessários serem instalados*
-- Instalar Modulo de Live Share
-- Instalar Modulo Eslint
 - Clonar repositório
 - Iniciando a aplicação
-- Chicken dance!
 
 TypeORM
 ====
