@@ -1,7 +1,7 @@
 #<NUMERO-DO-CARD> - Titulo do Card
 ====
   
-### CHANGELOG
+### ↗️ CHANGELOG
 
 *Esses passos são apenas exemplos*
 
@@ -9,7 +9,7 @@
 - Mudança 2
 - Mudança 3
 
-## Me certifico que:
+## ⚠️ Me certifico que:
 
 - [ ] Não deixei nenhum novo warning, erro ou console.log nas minhas modificações
 - [ ] Fiz deploy para ambiente de teste certificando que o build não quebrou
@@ -17,7 +17,7 @@
 - [ ] Solicitei **QA** para 2 pessoas
 - [ ] Obtive aprovação de QA e posso fazer merge
 
-## Como testar:
+## ⚠️ Como testar:
 
 *Esses passos são apenas exemplos*
 
