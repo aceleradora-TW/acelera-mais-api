@@ -10,13 +10,13 @@ Configurando projeto
 ====
 
 ### Pré requisitos
-====
+
   - [Entendendo linhas de comando](https://tutorial.djangogirls.org/pt/intro_to_command_line/) - É importante entender o que é um terminal e o que são linhas de comando.
 
 ### Preparando o ambiente de desenvolvimento
-====
 
-- [Instalar o git](https://git-scm.com/downloads)
+
+- [Instalar o Git](https://git-scm.com/downloads)
 - [Instalar Oh my zsh](https://ohmyz.sh/)
 - [Instalar NodeJS](https://nodejs.org/en/)
 - Instalar o **Yarn**
