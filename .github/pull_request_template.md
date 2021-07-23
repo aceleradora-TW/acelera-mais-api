@@ -1,7 +1,7 @@
 #<NUMERO-DO-CARD> - Titulo do Card
 ====
   
-### ↗️ CHANGELOG
+### 🆙 CHANGELOG
 
 *Esses passos são apenas exemplos*
 
