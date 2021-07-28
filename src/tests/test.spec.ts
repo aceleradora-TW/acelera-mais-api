@@ -1,7 +1,7 @@
-import { User } from '@models/User'
+import { User } from '@models/entity/User'
 
 test('ola mundo', () => {
   const user = new User()
-  user.name = 'test'
-  expect(user.name).toBe('test')
+  user.firstName = 'test'
+  expect(user.firstName).toBe('test')
 })
