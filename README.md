@@ -1,3 +1,8 @@
+Template Node JS
+====
+
+Este repositório serve como template para o backend de um projeto utilizando Node JS para a Aceleradora Ágil. 
+
 Tecnologias
 ====
 
