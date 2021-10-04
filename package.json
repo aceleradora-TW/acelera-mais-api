@@ -18,6 +18,7 @@
   "author": "Ju Dantas",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "pg": "^8.6.0",
     "reflect-metadata": "^0.1.13",

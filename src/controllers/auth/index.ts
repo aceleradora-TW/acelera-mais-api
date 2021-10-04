@@ -8,5 +8,4 @@ export const login = (request, response) => {
   }
 
   return response.json({ message: 'tente novamente!' })
-
 }
