@@ -9,6 +9,10 @@ export const createProcess = (request, response) => {
     description: request.body.description
   }
 
+  const name = hiringProcess.name
+  if (name === null || name.length === 0 || name === undefined) {
+    return response.json({ message: 'Por favor, digite o nome do processo!' })
+  }
   // nome não pode ser vazio -> preencha algo no nome
   // a
 
