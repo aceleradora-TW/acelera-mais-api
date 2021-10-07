@@ -1,8 +1,8 @@
 import './models'
 import express from 'express'
 import { itsWorks } from './controllers'
-import { login } from './controllers/auth'
-import { createProcess } from './controllers/hiring_process'
+import { login } from '@controllers/auth'
+import { createProcess } from '@controllers/hiring-process'
 import cors from 'cors'
 const app = express()
 const port = process.env.PORT || 9000
