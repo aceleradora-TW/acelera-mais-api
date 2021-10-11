@@ -9,18 +9,35 @@ export const createProcess = (request, response) => {
     description: request.body.description
   }
 
-  const name = hiringProcess.name
-  if (name === null || name.length === 0 || name === undefined) {
-    return response.json({ message: 'Por favor, digite o nome do processo!' })
+  const convertStringToDate = (date) => {
+    return new Date(date)
   }
-  // nome não pode ser vazio -> preencha algo no nome
-  // a
 
-  //  onde faz a logica das regras de negocio
-  //  tratar as datas
+  const startDateIsValid = (hiringProcess) => {
+    const startDate = convertStringToDate(hiringProcess.startDate)
+    const endDate = convertStringToDate(hiringProcess.endDate)
+    return startDate.getTime() < endDate.getTime()
+  }
+
+  const nameIsValid = !(hiringProcess.name === null || hiringProcess.name.length === 0 || hiringProcess.name === undefined)
+  const dateIsValid = startDateIsValid(hiringProcess)
+
+  const validations = [{
+    name: 'name',
+    valid: nameIsValid,
+    message: 'Por favor, digite o nome do processo!'
+  },
+  {
+    name: 'startDate',
+    valid: dateIsValid,
+    message: 'Por favor, insira uma data de início válida'
+  }]
+  const errors = validations.filter(validation => !validation.valid)
+  if (errors.length > 0) {
+    return response.status(400).json(errors)
+  }
 
   const result = getRepository(HiringProcess).create(hiringProcess)
 
-  // return response.status(201).json({ message: 'Processo criado com sucesso' })
   return response.json(result)
 }
