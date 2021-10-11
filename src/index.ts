@@ -1,6 +1,5 @@
 import './models'
 import express from 'express'
-import { itsWorks } from './controllers'
 import { login } from '@controllers/auth'
 import { createProcess } from '@controllers/hiring-process'
 import cors from 'cors'
@@ -11,7 +10,6 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors({ origin: '*' }))
 
-app.get('/', itsWorks)
 app.post('/login', login)
 app.post('/hiring_process', createProcess)
 app.listen(port, () => {
