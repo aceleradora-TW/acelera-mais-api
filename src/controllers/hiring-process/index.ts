@@ -1,7 +1,7 @@
 import { getRepository } from 'typeorm'
 import { HiringProcess } from '@models/entity/HiringProcess'
 
-export const createProcess = (request, response) => {
+export const createProcess = async (request, response) => {
   const hiringProcess = {
     name: request.body.name,
     startDate: request.body.startDate,
@@ -37,7 +37,12 @@ export const createProcess = (request, response) => {
     return response.status(400).json(errors)
   }
 
-  const result = getRepository(HiringProcess).create(hiringProcess)
-
-  return response.json(result)
+  try {
+    const hiringProcessRepository = getRepository(HiringProcess)
+    const newHiringProcess = hiringProcessRepository.create(hiringProcess)
+    const result = await hiringProcessRepository.save(newHiringProcess)
+    return response.json({ message: 'Processo salvo com sucesso', result })
+  } catch (error) {
+    return response.status(400).json(error)
+  }
 }
