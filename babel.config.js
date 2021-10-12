@@ -17,12 +17,7 @@ module.exports = {
         '@models': './src/models'
       }
     }],
-    [
-      require('@babel/plugin-proposal-decorators').default,
-      {
-        legacy: true
-      }
-    ]
+    ['@babel/plugin-proposal-decorators', { legacy: true }]
   ],
   ignore: [
     '**/*.spec.ts'
