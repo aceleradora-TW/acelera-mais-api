@@ -9,6 +9,9 @@
     "start": "node dist/index.js",
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored"
   },
+  "engines": {
+    "node": "14.x"
+  },
   "keywords": [
     "borderplate",
     "aceleradora",
