@@ -22,6 +22,7 @@
   "license": "ISC",
   "dependencies": {
     "@babel/plugin-proposal-decorators": "^7.15.8",
+    "class-validator": "^0.13.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "pg": "^8.6.0",
