@@ -1,7 +1,7 @@
 {
-  "name": "backend-borderplate",
+  "name": "acelera-mais-api",
   "version": "1.0.0",
-  "description": "Um borderplate para Aceleradora Ágil",
+  "description": "Acelera Mais",
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/index.ts",
