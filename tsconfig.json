@@ -9,8 +9,15 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "@controllers/*": ["./src/controllers/*"],
-      "@models/*": ["./src/models/*"]
+      "@controllers/*": [
+        "./src/controllers/*"
+      ],
+      "@models/*": [
+        "./src/models/*"
+      ],
+      "@messages/*": [
+        "./src/messages/*"
+      ]
     },
     "outDir": "./dist",
     "rootDir": "./src",

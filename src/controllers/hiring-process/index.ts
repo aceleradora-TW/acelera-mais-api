@@ -1,7 +1,7 @@
 import { getRepository } from 'typeorm'
-import { HiringProcess } from '@models/entity/HiringProcess'
 import { validate } from 'class-validator'
-import { message } from 'src/messages/pt-br'
+import { HiringProcess } from '@models/entity/HiringProcess'
+import { message } from '../../messages/languages/pt-br'
 
 export const createProcess = async (request, response) => {
   const { name, startDate, endDate, description } = request.body
