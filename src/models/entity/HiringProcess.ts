@@ -6,7 +6,7 @@ export class HiringProcess {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ name: 'name', type: 'string' })
+  @Column({ name: 'name', type: 'varchar' })
   @IsNotEmpty()
   name: string;
 
@@ -20,7 +20,7 @@ export class HiringProcess {
   @Match('startDate')
   endDate: Date;
 
-  @Column({ name: 'description', type: 'string' })
+  @Column({ name: 'description', type: 'varchar' })
   description: string;
 
   @CreateDateColumn({
