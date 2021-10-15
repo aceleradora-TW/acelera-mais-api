@@ -13,7 +13,8 @@ const connect = async () => {
   const options: ConnectionOptions = {
     type: 'postgres',
     name: NODE_ENV,
-    url: DATABASE_URL
+    url: DATABASE_URL,
+    ssl: true
   }
 
   const connectionManager = getConnectionManager()
