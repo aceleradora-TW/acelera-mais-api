@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { createConnection, getConnectionManager, ConnectionOptions } from 'typeorm'
+import { createConnection, ConnectionOptions } from 'typeorm'
 
 const connect = async () => {
   const { NODE_ENV = null, DATABASE_URL = '' } = process.env
@@ -12,14 +12,16 @@ const connect = async () => {
 
   const options: ConnectionOptions = {
     type: 'postgres',
-    name: NODE_ENV,
-    database: DATABASE_URL
+    name: 'default',
+    url: DATABASE_URL,
+    ssl: {
+      rejectUnauthorized: false
+    },
+    synchronize: true,
+    entities: ['**/models/**/*{.ts,.js}']
   }
 
-  const connectionManager = getConnectionManager()
-  const connection = connectionManager.create(options)
-
-  await connection.connect()
+  await createConnection(options)
 }
 
 connect()

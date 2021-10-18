@@ -14,10 +14,12 @@ module.exports = {
     ['module-resolver', {
       alias: {
         '@controllers': './src/controllers',
-        '@models': './src/models'
+        '@models': './src/models',
+        '@message': './src/messages'
       }
     }],
-    ['@babel/plugin-proposal-decorators', { legacy: true }]
+    ['@babel/plugin-proposal-decorators', { legacy: true }],
+    ['@babel/plugin-proposal-class-properties', { loose: false }]
   ],
   ignore: [
     '**/*.spec.ts'
