@@ -26,3 +26,21 @@ export const createProcess = async (request, response) => {
     return response.status(500).json(error)
   }
 }
+
+export const editProcess = async (request, response) => {
+  try {
+    const hiringProcessRepository = getRepository(HiringProcess)
+    const hiringProcess = new HiringProcess()
+
+    hiringProcess.name = request.body.name
+    hiringProcess.startDate = new Date(request.body.startDate)
+    hiringProcess.endDate = new Date(request.body.endDate)
+    hiringProcess.description = request.body.description
+
+    await hiringProcessRepository.update(request.params.id, hiringProcess)
+    const updatedHiringProcess = await hiringProcessRepository.findOne(request.params.id)
+    return response.json({ message: message.UPDATED, updatedHiringProcess })
+  } catch (error) {
+    return response.status(500).json(error)
+  }
+}
