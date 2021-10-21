@@ -26,3 +26,13 @@ export const createProcess = async (request, response) => {
     return response.status(500).json(error)
   }
 }
+
+export const getAllHiringProcesses = async (request, response) => {
+  try {
+    const hiringProcessRepository = getRepository(HiringProcess)
+    const result = await hiringProcessRepository.find({})
+    return response.status(200).json(result)
+  } catch (error) {
+    return response.status(500).json(error)
+  }
+}
