@@ -3,7 +3,7 @@ import { validate } from 'class-validator'
 import { HiringProcess } from '@models/entity/HiringProcess'
 import { message } from '../../messages/languages/pt-br'
 
-export const createProcess = async (request, response) => {
+export const createHiringProcess = async (request, response) => {
   const { name, startDate, endDate, description } = request.body
 
   const hiringProcessData = {
