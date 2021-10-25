@@ -27,7 +27,7 @@ export const createProcess = async (request, response) => {
   }
 }
 
-export const editProcess = async (request, response) => {
+export const editHiringProcess = async (request, response) => {
   try {
     const hiringProcessRepository = getRepository(HiringProcess)
     const hiringProcess = new HiringProcess()
