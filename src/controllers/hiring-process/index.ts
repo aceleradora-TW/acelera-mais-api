@@ -41,7 +41,14 @@ export const getAllHiringProcesses = async (request, response) => {
 export const delAllHiringProcesses = async (request, response) => {
   try {
     const hiringProcessRepository = getRepository(HiringProcess)
-    const result = await hiringProcessRepository.findOne({ select: ['id'] })
+    const result = await hiringProcessRepository.findOne(request.params.id)
+
+    result.name = request.body.name
+    result.startDate = new Date(request.body.startDate)
+    result.endDate = new Date(request.body.endDate)
+    result.description = request.body.description
+
+    await hiringProcessRepository.delete(request.params.id)
     return response.json({ message: 'Processo Removido com sucesso', result })
   } catch (error) {
     return response.status(500).json(error)
