@@ -7,6 +7,7 @@ export const createHiringProcess = async (request, response) => {
   const { name, startDate, endDate, description } = request.body
 
   const hiringProcessData = {
+    id: request.body.id,
     name,
     startDate: new Date(startDate),
     endDate: new Date(endDate),
@@ -40,8 +41,8 @@ export const getAllHiringProcesses = async (request, response) => {
 export const delAllHiringProcesses = async (request, response) => {
   try {
     const hiringProcessRepository = getRepository(HiringProcess)
-    const result = await hiringProcessRepository.findOne('userId', { select: ['id'] })
-    return response.status(200).json({ message: 'Processo Removido com sucesso', result })
+    const result = await hiringProcessRepository.findOne({ select: ['id'] })
+    return response.json({ message: 'Processo Removido com sucesso', result })
   } catch (error) {
     return response.status(500).json(error)
   }
