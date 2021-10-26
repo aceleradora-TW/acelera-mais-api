@@ -1,7 +1,7 @@
 import './models'
 import express from 'express'
 import { login } from '@controllers/auth'
-import { createHiringProcess, getAllHiringProcesses } from '@controllers/hiring-process'
+import { createHiringProcess, getAllHiringProcesses, delAllHiringProcesses } from '@controllers/hiring-process'
 import cors from 'cors'
 import { itsWorks } from './controllers'
 
@@ -16,6 +16,7 @@ app.get('/', itsWorks)
 app.post('/login', login)
 app.post('/hiring_process', createHiringProcess)
 app.get('/hiring_process', getAllHiringProcesses)
+app.delete('/hiring_process', delAllHiringProcesses)
 app.listen(port, () => {
   console.log(`Server's running in http://localhost:${port}`)
 })
