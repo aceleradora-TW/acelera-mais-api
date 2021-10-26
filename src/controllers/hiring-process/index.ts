@@ -30,7 +30,7 @@ export const createProcess = async (request, response) => {
 export const editHiringProcess = async (request, response) => {
   try {
     const hiringProcessRepository = getRepository(HiringProcess)
-    const hiringProcess = new HiringProcess()
+    const hiringProcess = await hiringProcessRepository.findOne(request.params.id)
 
     hiringProcess.name = request.body.name
     hiringProcess.startDate = new Date(request.body.startDate)
@@ -38,8 +38,7 @@ export const editHiringProcess = async (request, response) => {
     hiringProcess.description = request.body.description
 
     await hiringProcessRepository.update(request.params.id, hiringProcess)
-    const updatedHiringProcess = await hiringProcessRepository.findOne(request.params.id)
-    return response.json({ message: message.UPDATED, updatedHiringProcess })
+    return response.json({ message: message.UPDATED, hiringProcess })
   } catch (error) {
     return response.status(500).json(error)
   }
