@@ -36,3 +36,13 @@ export const getAllHiringProcesses = async (request, response) => {
     return response.status(500).json(error)
   }
 }
+
+export const delAllHiringProcesses = async (request, response) => {
+  try {
+    const hiringProcessRepository = getRepository(HiringProcess)
+    const result = await hiringProcessRepository.find({})
+    return response.json({ message: message.SUCCESS, result })
+  } catch (error) {
+    return response.status(500).json(error)
+  }
+}
