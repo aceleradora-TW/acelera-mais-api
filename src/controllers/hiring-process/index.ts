@@ -1,13 +1,12 @@
 import { getRepository } from 'typeorm'
 import { validate } from 'class-validator'
 import { HiringProcess } from '@models/entity/HiringProcess'
-import { message, messageDelete } from '../../messages/languages/pt-br'
+import { message } from '../../messages/languages/pt-br'
 
 export const createHiringProcess = async (request, response) => {
   const { name, startDate, endDate, description } = request.body
 
   const hiringProcessData = {
-    id: request.body.id,
     name,
     startDate: new Date(startDate),
     endDate: new Date(endDate),
@@ -42,7 +41,7 @@ export const delAllHiringProcesses = async (request, response) => {
   try {
     const hiringProcessRepository = getRepository(HiringProcess)
     const result = await hiringProcessRepository.delete(request.params.id)
-    return response.json({ message: messageDelete.SUCCESS, result })
+    return response.json({ message: message.REMOVED, result })
   } catch (error) {
     return response.status(500).json(error)
   }

@@ -1,6 +1,4 @@
 export const message = {
-  SUCCESS: 'Salvo com sucesso!'
-}
-export const messageDelete = {
-  SUCCESS: 'Deletado com sucesso!'
+  SUCCESS: 'Salvo com sucesso!',
+  REMOVED: 'Removido com sucesso!'
 }
