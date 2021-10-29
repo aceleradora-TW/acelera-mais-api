@@ -3,7 +3,7 @@ import { validate } from 'class-validator'
 import { HiringProcess } from '@models/entity/HiringProcess'
 import { message } from '../../messages/languages/pt-br'
 
-export const createProcess = async (request, response) => {
+export const createHiringProcess = async (request, response) => {
   const { name, startDate, endDate, description } = request.body
 
   const hiringProcessData = {
@@ -22,6 +22,16 @@ export const createProcess = async (request, response) => {
     }
     const result = await hiringProcessRepository.save(hiringProcess)
     return response.json({ message: message.SUCCESS, result })
+  } catch (error) {
+    return response.status(500).json(error)
+  }
+}
+
+export const getAllHiringProcesses = async (request, response) => {
+  try {
+    const hiringProcessRepository = getRepository(HiringProcess)
+    const result = await hiringProcessRepository.find({})
+    return response.status(200).json(result)
   } catch (error) {
     return response.status(500).json(error)
   }
