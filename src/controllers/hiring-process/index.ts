@@ -32,6 +32,10 @@ export const editHiringProcess = async (request, response) => {
     const hiringProcessRepository = getRepository(HiringProcess)
     const hiringProcess = await hiringProcessRepository.findOne(request.params.id)
 
+    if (!hiringProcess) {
+      return response.status(404).json({ message: message.NOT_FOUND })
+    }
+
     if (request.body.name) {
       hiringProcess.name = request.body.name
     }
@@ -52,7 +56,6 @@ export const editHiringProcess = async (request, response) => {
     if (errors.length > 0) {
       return response.status(400).json(errors)
     }
-
     await hiringProcessRepository.update(request.params.id, hiringProcess)
     return response.json({ message: message.UPDATED, hiringProcess })
   } catch (error) {
