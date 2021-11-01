@@ -27,7 +27,6 @@ export const createHiringProcess = async (request, response) => {
   }
 }
 
-<<<<<<< HEAD
 export const editHiringProcess = async (request, response) => {
   try {
     const hiringProcessRepository = getRepository(HiringProcess)
@@ -59,13 +58,16 @@ export const editHiringProcess = async (request, response) => {
     }
     await hiringProcessRepository.update(request.params.id, hiringProcess)
     return response.json({ message: message.UPDATED, hiringProcess })
-=======
+  } catch (error) {
+    return response.status(500).json(error)
+  }
+}
+
 export const getAllHiringProcesses = async (request, response) => {
   try {
     const hiringProcessRepository = getRepository(HiringProcess)
     const result = await hiringProcessRepository.find({})
     return response.status(200).json(result)
->>>>>>> 0c06d9f5b5ef80c510f5cf2ea64a478abbccb3c6
   } catch (error) {
     return response.status(500).json(error)
   }
