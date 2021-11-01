@@ -27,6 +27,42 @@ export const createHiringProcess = async (request, response) => {
   }
 }
 
+export const editHiringProcess = async (request, response) => {
+  try {
+    const hiringProcessRepository = getRepository(HiringProcess)
+    const hiringProcess = await hiringProcessRepository.findOne(request.params.id)
+
+    if (!hiringProcess) {
+      return response.status(404).json({ message: message.NOT_FOUND })
+    }
+
+    if (request.body.name) {
+      hiringProcess.name = request.body.name
+    }
+
+    if (request.body.startDate) {
+      hiringProcess.startDate = new Date(request.body.startDate)
+    }
+
+    if (request.body.endDate) {
+      hiringProcess.endDate = new Date(request.body.endDate)
+    }
+
+    if (request.body.description) {
+      hiringProcess.description = request.body.description
+    }
+
+    const errors = await validate(hiringProcess)
+    if (errors.length > 0) {
+      return response.status(400).json(errors)
+    }
+    await hiringProcessRepository.update(request.params.id, hiringProcess)
+    return response.json({ message: message.UPDATED, hiringProcess })
+  } catch (error) {
+    return response.status(500).json(error)
+  }
+}
+
 export const getAllHiringProcesses = async (request, response) => {
   try {
     const hiringProcessRepository = getRepository(HiringProcess)
