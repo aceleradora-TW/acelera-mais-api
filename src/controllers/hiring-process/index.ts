@@ -93,3 +93,16 @@ export const getAllHiringProcesses = async (request, response) => {
     return response.status(500).json(error)
   }
 }
+
+export const delAllHiringProcesses = async (request, response) => {
+  try {
+    const hiringProcessRepository = getRepository(HiringProcess)
+    const result = await hiringProcessRepository.delete(request.params.id)
+    if (result.affected === 0) {
+      return response.status(410).json({ message: message.NOT_REMOVED })
+    }
+    return response.json({ message: message.REMOVED, result })
+  } catch (error) {
+    return response.status(500).json(error)
+  }
+}
