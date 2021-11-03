@@ -74,3 +74,12 @@ TypeORM
     yarn typeorm migration:create -n <NomeDaMigration>
     ```
 
+# Preparando ambiente de teste
+
+- Criar uma conta no [Heroku](https://signup.heroku.com/)
+- [Criar uma App no Heroku](https://www.youtube.com/watch?v=RNQ5XsGADdg)
+- Adicionar o **postgres** na App
+- Configurar as **variaveis de ambiente** na App
+- [Fazer deploy da branch main](https://www.youtube.com/watch?v=DMPJNe8PqnU)
+
+OBS: O arquivo **`.env-example`** está listada todas as variaveis de ambiente que essa aplicação precisa para funcionar em qualquer ambiente. Os valores que devem ser atribuidos a elas vão depender dos ambientes. Por exemplo `DATABASE_URL` não contem valor pois esse valor irá mudar de acordo com o endereço do banco que será criado para cada aplicação. Julgando que cada aplicação terá seu proprio banco. Já `PGSSLMODE` contem o valor `no-verify` pois será um valor comum para todos os ambientes.
