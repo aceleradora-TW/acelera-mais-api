@@ -3,6 +3,22 @@ import { validate } from 'class-validator'
 import { HiringProcess } from '@models/entity/HiringProcess'
 import { message } from '../../messages/languages/pt-br'
 
+const getStatus = (startDate, endDate) => {
+  const currentDate = Date.now()
+
+  const statusPreparation = currentDate < startDate
+  const statusOpened = currentDate >= startDate && currentDate <= endDate
+
+  if (statusPreparation) {
+    return 'status-preparing'
+  }
+  if (statusOpened) {
+    return 'status-opened'
+  }
+
+  return 'status-closed'
+}
+
 export const createHiringProcess = async (request, response) => {
   const { name, startDate, endDate, description } = request.body
 
@@ -66,8 +82,11 @@ export const editHiringProcess = async (request, response) => {
 export const getAllHiringProcesses = async (request, response) => {
   try {
     const hiringProcessRepository = getRepository(HiringProcess)
-    const result = await hiringProcessRepository.find({})
-    return response.status(200).json(result)
+    let hiringProcesses = await hiringProcessRepository.find({})
+
+    hiringProcesses = hiringProcesses.map(process => ({ ...process, status: getStatus(process.startDate, process.endDate) }))
+
+    return response.status(200).json(hiringProcesses)
   } catch (error) {
     return response.status(500).json(error)
   }
