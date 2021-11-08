@@ -1,7 +1,7 @@
 import './models'
 import express from 'express'
 import { login } from '@controllers/auth'
-import { createHiringProcess, getAllHiringProcesses, delAllHiringProcesses, editHiringProcess } from '@controllers/hiring-process'
+import { createHiringProcessEndpoint, getAllHiringProcesses, delAllHiringProcesses, editHiringProcess } from '@controllers/hiring-process'
 import cors from 'cors'
 import { itsWorks } from './controllers'
 
@@ -15,7 +15,7 @@ app.use(cors({ origin: '*' }))
 app.get('/', itsWorks)
 app.post('/login', login)
 app.patch('/hiring_process/:id', editHiringProcess)
-app.post('/hiring_process', createHiringProcess)
+app.post('/hiring_process', createHiringProcessEndpoint)
 app.get('/hiring_process', getAllHiringProcesses)
 app.delete('/hiring_process/:id', delAllHiringProcesses)
 app.listen(port, () => {

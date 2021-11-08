@@ -5,7 +5,7 @@ Este repositório serve como template para o backend de um projeto utilizando No
 
 Tecnologias
 ====
-
+ 
 - Node
 - JavaScript / Typescript
 - Express
