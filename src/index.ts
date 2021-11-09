@@ -2,6 +2,7 @@ import './models'
 import express from 'express'
 import { login } from '@controllers/auth'
 import { createHiringProcess, getAllHiringProcesses, delAllHiringProcesses, editHiringProcess } from '@controllers/hiring-process'
+import { testeConexao } from '@controllers/spreadsheets'
 import cors from 'cors'
 import { itsWorks } from './controllers'
 
@@ -18,6 +19,7 @@ app.patch('/hiring_process/:id', editHiringProcess)
 app.post('/hiring_process', createHiringProcess)
 app.get('/hiring_process', getAllHiringProcesses)
 app.delete('/hiring_process/:id', delAllHiringProcesses)
+app.post('/teste_conexao', testeConexao)
 app.listen(port, () => {
   console.log(`Server's running in http://localhost:${port}`)
 })

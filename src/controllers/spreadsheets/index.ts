@@ -2,8 +2,15 @@ import { GoogleSpreadsheet } from 'google-spreadsheet'
 import { URL } from 'url'
 import credential from '../../credential.json'
 
-const link = new URL('https://docs.google.com/spreadsheets/d/1FxkDqFIfCAwvwrwmR-BMCuV_uO_YQv1H8U7QHA-FJk4/edit#gid=0')
-const idLink = link.pathname.split('/')[3]
+export const testeConexao = async (request, response) => {
+  const { urlSheet } = request.body
+
+  const link = new URL(urlSheet)
+  const idLink = link.pathname.split('/')[3]
+  const sheetConnection = await connectSheet(idLink)
+  await sheetConnection.loadInfo()
+  return response.json({ titulo: sheetConnection.title })
+}
 
 const connectSheet = async (idSheet) => {
   const docSheet = new GoogleSpreadsheet(idSheet)
@@ -11,11 +18,10 @@ const connectSheet = async (idSheet) => {
   return docSheet
 }
 
-const loadDocument = async (idSheet) => {
-  const connection = connectSheet(idSheet)
-  await connection.loadInfo()
-  return connection.title
-}
+// const loadDocument = async (idSheet) => {
+//     const connection = await connectSheet(idSheet)
+//     await connection.loadInfo()
+//     return connection.title
+// }
 
-connectSheet(idLink)
-console.log(loadDocument(idLink))
+// console.log(loadDocument(idLink))
