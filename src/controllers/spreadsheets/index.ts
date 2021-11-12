@@ -1,4 +1,6 @@
+import { Spreadsheet } from '@models/entity/Spreadsheet'
 import { GoogleSpreadsheet } from 'google-spreadsheet'
+import { getRepository } from 'typeorm'
 import { URL } from 'url'
 import credential from '../../credential.json'
 
@@ -39,9 +41,10 @@ export const connection = async (request, response) => {
       }
     })
 
-    // Spreadsheet
+    const spreadsheetRepository = getRepository(Spreadsheet)
+    const spreadsheet = spreadsheetRepository.create(spreadsheets)
 
-    return response.json(spreadsheets)
+    return response.json(spreadsheet)
   } catch (error) {
     return response.status(500).json(error)
   }

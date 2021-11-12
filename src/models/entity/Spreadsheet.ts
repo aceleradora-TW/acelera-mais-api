@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, RelationId } from 'typeorm'
 import { IsDate, IsNotEmpty } from 'class-validator'
-// import { HiringProcess } from '@models/entity/HiringProcess'
+import { HiringProcess } from '@models/entity/HiringProcess'
 
 @Entity()
 export class Spreadsheet {
@@ -11,11 +11,11 @@ export class Spreadsheet {
   // @IsNotEmpty()
   // hiringProcessID: number;
 
-  // @ManyToOne(type => HiringProcess)
-  // hiringProcessID: HiringProcess;
+  @ManyToOne(type => HiringProcess)
+  hiringProcess: HiringProcess;
 
-  // @RelationId((post: Post) => post.category) // you need to specify target relation
-  // categoryId: number;
+  @RelationId((hiring: HiringProcess) => hiring.id) // you need to specify target relation
+  hiringProcessID: number;
 
   @Column({ name: 'time_stamp', type: 'timestamptz' })
   @IsNotEmpty()
@@ -41,6 +41,14 @@ export class Spreadsheet {
   @Column({ name: 'birth_date', type: 'timestamptz' })
   @IsNotEmpty()
   birthDate: Date;
+
+  @Column({ name: 'genre', type: 'varchar' })
+  @IsNotEmpty()
+  genre: string;
+
+  @Column({ name: 'skin_color', type: 'varchar' })
+  @IsNotEmpty()
+  skinColore: string;
 
   @Column({ name: 'instituition_name', type: 'varchar' })
   @IsNotEmpty()
