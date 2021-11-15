@@ -26,14 +26,8 @@ const getStatus = (startDate, endDate) => {
 }
 
 export const createHiringProcessEndpoint = async (request, response) => {
-  const { name, startDate, endDate, description } = request.body
   try {
-    const hiringProcessRequest = new HiringProcessRequest(
-      name,
-      new Date(startDate),
-      new Date(endDate),
-      description
-    )
+    const hiringProcessRequest = HiringProcessRequest.convertFromHttpBody(request.body)
     const result = await hiringService.createHiringProcessService(hiringProcessRequest)
     return httpResponseHandler.createSuccessResponse(message.SUCCESS, result, response)
   } catch (error) {

@@ -10,4 +10,14 @@ export class HiringProcessRequest {
     this.endDate = endDate
     this.description = description
   }
+
+  public static convertFromHttpBody (body) {
+    const { name, startDate, endDate, description } = body
+    return new HiringProcessRequest(
+      name,
+      startDate ? new Date(startDate) : undefined,
+      endDate ? new Date(endDate) : undefined,
+      description
+    )
+  }
 }
