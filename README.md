@@ -75,7 +75,7 @@ Subir aplicação após criar a modificação e o testes na pasta ./e2eTest
 
 Rodar todos os testes e2e
 ```bash
-yarn run e2eTest
+npm run e2eTest
 ```
 
 TypeORM
