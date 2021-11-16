@@ -17,7 +17,7 @@ export class HiringProcessRequest {
       name,
       startDate ? new Date(startDate) : undefined,
       endDate ? new Date(endDate) : undefined,
-      description
+      description || ''
     )
   }
 }

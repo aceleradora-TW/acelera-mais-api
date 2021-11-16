@@ -9,6 +9,7 @@ function assertFields (hiringProcessResponse) {
   expect(hiringProcessResponse.data.startDate).toBeDefined()
   expect(hiringProcessResponse.data.endDate).toBeDefined()
   expect(hiringProcessResponse.data.description).toBeDefined()
+  expect(hiringProcessResponse.data.description).toEqual('')
   expect(hiringProcessResponse.data.createdAt).toBeDefined()
   expect(hiringProcessResponse.data.updatedAt).toBeDefined()
 }
@@ -19,7 +20,7 @@ test('should test create, get and delete HiringProcess', async () => {
     name: 'Test',
     startDate: '03/15/2021',
     endDate: '03/25/2021',
-    description: 'Teste de descrição'
+    description: undefined
   })
   const hiringProcessResponse = response.data
   expect(response.status).toEqual(HttpStatusCode.OK)
