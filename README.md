@@ -65,6 +65,19 @@ Configurando projeto
     Server's running in http://localhost:9000
     ```
 
+- Rodar testes End to End
+
+  
+Subir aplicação após criar a modificação e o testes na pasta ./e2eTest
+  ```bash
+  yarn dev
+  ```
+
+Rodar todos os testes e2e
+```bash
+yarn run e2eTest
+```
+
 TypeORM
 ====
 
