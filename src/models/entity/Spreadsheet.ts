@@ -1,5 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, RelationId } from 'typeorm'
-import { IsDate, IsNotEmpty } from 'class-validator'
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm'
+import { IsDate } from 'class-validator'
 import { HiringProcess } from '@models/entity/HiringProcess'
 
 @Entity()
@@ -11,75 +11,79 @@ export class Spreadsheet {
   // @IsNotEmpty()
   // hiringProcessID: number;
 
-  @ManyToOne(type => HiringProcess)
-  hiringProcess: HiringProcess;
+  @ManyToOne(type => HiringProcess, HiringProcessFK => HiringProcessFK)
+  @JoinColumn({ name: 'hiring_process_id' })
+  public HiringProcessFK: HiringProcess;
 
-  @RelationId((hiring: HiringProcess) => hiring.id) // you need to specify target relation
+  @Column({ name: 'hiring_process_id', type: 'integer' })
   hiringProcessID: number;
 
+  // @RelationId((hiring: HiringProcess) => hiring.id) // you need to specify target relation
+  // hiringProcessID: number;
+
   @Column({ name: 'time_stamp', type: 'timestamptz' })
-  @IsNotEmpty()
+  // @IsNotEmpty()
   @IsDate()
   timeStamp: Date;
 
   @Column({ name: 'adress_email', type: 'varchar' })
-  @IsNotEmpty()
+  // @IsNotEmpty()
   adressEmail: string;
 
   @Column({ name: 'name', type: 'varchar' })
-  @IsNotEmpty()
+  // @IsNotEmpty()
   name: string;
 
   @Column({ name: 'email', type: 'varchar' })
-  @IsNotEmpty()
+  // @IsNotEmpty()
   email: string;
 
   @Column({ name: 'phone', type: 'varchar' })
-  @IsNotEmpty()
+  // @IsNotEmpty()
   phone: string;
 
   @Column({ name: 'birth_date', type: 'timestamptz' })
-  @IsNotEmpty()
+  // @IsNotEmpty()
   birthDate: Date;
 
   @Column({ name: 'genre', type: 'varchar' })
-  @IsNotEmpty()
+  // @IsNotEmpty()
   genre: string;
 
   @Column({ name: 'skin_color', type: 'varchar' })
-  @IsNotEmpty()
+  // @IsNotEmpty()
   skinColore: string;
 
   @Column({ name: 'instituition_name', type: 'varchar' })
-  @IsNotEmpty()
+  // @IsNotEmpty()
   instituitionName: string;
 
   @Column({ name: 'course_name', type: 'varchar' })
-  @IsNotEmpty()
+  // @IsNotEmpty()
   courseName: string;
 
   @Column({ name: 'milestone', type: 'varchar' })
-  @IsNotEmpty()
+  // @IsNotEmpty()
   milestone: string;
 
   @Column({ name: 'how_found', type: 'varchar' })
-  @IsNotEmpty()
+  // @IsNotEmpty()
   howFound: string;
 
   @Column({ name: 'expectation', type: 'varchar' })
-  @IsNotEmpty()
+  // @IsNotEmpty()
   expectation: string;
 
   @Column({ name: 'motivation', type: 'varchar' })
-  @IsNotEmpty()
+  // @IsNotEmpty()
   motivation: string;
 
   @Column({ name: 'curriculum', type: 'varchar' })
-  @IsNotEmpty()
+  // @IsNotEmpty()
   curriculum: string;
 
   @Column({ name: 'ok_CI', type: 'boolean' })
-  @IsNotEmpty()
+  // @IsNotEmpty()
   okCI: boolean;
 
   @CreateDateColumn({

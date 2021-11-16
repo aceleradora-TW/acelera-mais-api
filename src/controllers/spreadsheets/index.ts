@@ -1,4 +1,6 @@
+import { message } from '@messages/languages/pt-br'
 import { Spreadsheet } from '@models/entity/Spreadsheet'
+import { validate } from 'class-validator'
 import { GoogleSpreadsheet } from 'google-spreadsheet'
 import { getRepository } from 'typeorm'
 import { URL } from 'url'
@@ -12,7 +14,8 @@ const connectSheet = async (idSheet) => {
 
 export const connection = async (request, response) => {
   console.log(request.body)
-  const { urlSheet, hiringProcessID } = request.body
+  const { urlSheet } = request.body
+  const { hiringProcessID } = request.params.id
   try {
     const link = new URL(urlSheet)
     const idLink = link.pathname.split('/')[3]
@@ -21,6 +24,7 @@ export const connection = async (request, response) => {
     const sheetFirst = sheetConnection.sheetsByIndex[0]
     const spreadsheets = (await sheetFirst.getRows()).map((row) => {
       return {
+        idSpreadsheet: row._rawData[0],
         timeStamp: row._rawData[1],
         adressEmail: row._rawData[2],
         name: row._rawData[3],
@@ -44,7 +48,12 @@ export const connection = async (request, response) => {
     const spreadsheetRepository = getRepository(Spreadsheet)
     const spreadsheet = spreadsheetRepository.create(spreadsheets)
 
-    return response.json(spreadsheet)
+    const errors = await validate(spreadsheet)
+    if (errors.length > 0) {
+      return response.status(400).json(errors)
+    }
+    const result = await spreadsheetRepository.save(spreadsheet)
+    return response.json({ message: message.SUCCESS, result })
   } catch (error) {
     return response.status(500).json(error)
   }
