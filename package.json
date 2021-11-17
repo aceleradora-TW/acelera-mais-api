@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/index.ts",
-    "test": "jest",
+    "test": "jest ./test",
     "start": "cd dist && node index.js",
+    "e2eTest": "jest ./e2eTest",
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored"
   },
   "engines": {
@@ -22,10 +23,12 @@
   "license": "ISC",
   "dependencies": {
     "@babel/plugin-proposal-decorators": "^7.15.8",
+    "axios": "^0.24.0",
     "class-validator": "^0.13.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "google-spreadsheet": "^3.2.0",
+    "jest-mock-extended": "^2.0.4",
     "pg": "^8.6.0",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.2.34"

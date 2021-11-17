@@ -5,7 +5,7 @@ Este repositório serve como template para o backend de um projeto utilizando No
 
 Tecnologias
 ====
-
+ 
 - Node
 - JavaScript / Typescript
 - Express
@@ -64,6 +64,19 @@ Configurando projeto
     ```bash
     Server's running in http://localhost:9000
     ```
+
+- Rodar testes End to End
+
+  
+Subir aplicação após criar a modificação e o testes na pasta ./e2eTest
+  ```bash
+  yarn dev
+  ```
+
+Rodar todos os testes e2e
+```bash
+npm run e2eTest
+```
 
 TypeORM
 ====

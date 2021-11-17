@@ -2,6 +2,12 @@ import { getRepository } from 'typeorm'
 import { validate } from 'class-validator'
 import { HiringProcess } from '@models/entity/HiringProcess'
 import { message } from '../../messages/languages/pt-br'
+import { HiringProcessRequest } from '../../service/hiring-process/HiringProcessRequest'
+import { HiringProcessService } from '../../service/hiring-process/HiringProcessService'
+import { HttpResponseHandler } from '@controllers/HttpResponseHandler'
+
+const hiringService = new HiringProcessService()
+const httpResponseHandler = new HttpResponseHandler()
 
 const getStatus = (startDate, endDate) => {
   const currentDate = Date.now()
@@ -19,27 +25,13 @@ const getStatus = (startDate, endDate) => {
   return 'status-closed'
 }
 
-export const createHiringProcess = async (request, response) => {
-  const { name, startDate, endDate, description } = request.body
-
-  const hiringProcessData = {
-    name,
-    startDate: new Date(startDate),
-    endDate: new Date(endDate),
-    description
-  }
-
+export const createHiringProcessEndpoint = async (request, response) => {
   try {
-    const hiringProcessRepository = getRepository(HiringProcess)
-    const hiringProcess = hiringProcessRepository.create(hiringProcessData)
-    const errors = await validate(hiringProcess)
-    if (errors.length > 0) {
-      return response.status(400).json(errors)
-    }
-    const result = await hiringProcessRepository.save(hiringProcess)
-    return response.json({ message: message.SUCCESS, result })
+    const hiringProcessRequest = HiringProcessRequest.convertFromHttpBody(request.body)
+    const result = await hiringService.createHiringProcessService(hiringProcessRequest)
+    return httpResponseHandler.createSuccessResponse(message.SUCCESS, result, response)
   } catch (error) {
-    return response.status(500).json(error)
+    return httpResponseHandler.createErrorResponse(error, response)
   }
 }
 

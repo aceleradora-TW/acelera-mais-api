@@ -6,7 +6,7 @@ export class HiringProcess {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ name: 'name', type: 'varchar' })
+  @Column({ name: 'name', type: 'varchar', nullable: false })
   @IsNotEmpty()
   name: string;
 
