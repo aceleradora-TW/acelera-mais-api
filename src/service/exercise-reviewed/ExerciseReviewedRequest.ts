@@ -11,10 +11,14 @@ export class ExerciseReviewedRequest {
 
   public static convertFromHttpBody(body) {
     const { name, feedback, score } = body
-    return new ExerciseReviewedRequest(
-      name,
-      feedback,
-      score
-    )
+    if (score >= 0 && score <= 5) {
+      return new ExerciseReviewedRequest(
+        name,
+        feedback,
+        score
+      )
+    } else {
+      return 'Score should be between 0 and 5'
+    }
   }
 }

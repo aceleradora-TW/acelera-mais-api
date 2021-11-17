@@ -14,9 +14,9 @@ export class ExerciseReviewed {
   @IsNotEmpty()
   feedback: string;
 
-  @Column({ name: 'score', type: 'int', nullable: false })
+  @Column({ name: 'score', type: 'varchar', nullable: false })
   @IsNotEmpty()
-  score: number;
+  score: string;
 
   @CreateDateColumn({
     name: 'created_at',
