@@ -13,7 +13,18 @@ const connect = async () => {
       rejectUnauthorized: false
     },
     synchronize: true,
-    entities: ['**/models/**/*{.ts,.js}']
+    entities: ['**/models/**/*{.ts,.js}'],
+    migrations: [
+      'src/models/migration/**/*.ts'
+    ],
+    subscribers: [
+      'src/models/subscriber/**/*.ts'
+    ],
+    cli: {
+      entitiesDir: 'src/models/entity',
+      migrationsDir: 'src/models/migration',
+      subscribersDir: 'src/models/subscriber'
+    }
   }
 
   const options: ConnectionOptions = {
@@ -21,7 +32,19 @@ const connect = async () => {
     name: 'default',
     url,
     synchronize: true,
-    entities: ['**/models/**/*{.ts,.js}']
+    logging: true,
+    entities: ['**/models/**/*{.ts,.js}'],
+    migrations: [
+      'src/models/migration/**/*.ts'
+    ],
+    subscribers: [
+      'src/models/subscriber/**/*.ts'
+    ],
+    cli: {
+      entitiesDir: 'src/models/entity',
+      migrationsDir: 'src/models/migration',
+      subscribersDir: 'src/models/subscriber'
+    }
   }
 
   await createConnection(local ? options : optionsSsl)
