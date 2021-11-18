@@ -2,21 +2,21 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 import { IsNotEmpty } from 'class-validator'
 
 @Entity()
-export class ExerciseReviewed {
+export class Evaluation {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ name: 'name', type: 'varchar', nullable: false })
+  @Column({ name: 'mentor_name', type: 'varchar', nullable: false })
   @IsNotEmpty()
-  name: string;
+  mentorName: string;
 
   @Column({ name: 'feedback', type: 'varchar', nullable: false })
   @IsNotEmpty()
   feedback: string;
 
-  @Column({ name: 'score', type: 'varchar', nullable: false })
+  @Column({ name: 'score', type: 'int', nullable: false })
   @IsNotEmpty()
-  score: string;
+  score: number;
 
   @CreateDateColumn({
     name: 'created_at',
