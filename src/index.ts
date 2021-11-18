@@ -1,4 +1,5 @@
 import express from 'express'
+import './dbConnection'
 import cors from 'cors'
 import { defineRoutes } from './routes'
 
