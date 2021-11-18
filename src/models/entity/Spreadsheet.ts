@@ -52,7 +52,7 @@ export class Spreadsheet {
 
   @Column({ name: 'skin_color', type: 'varchar' })
   // @IsNotEmpty()
-  skinColore: string;
+  skinColor: string;
 
   @Column({ name: 'instituition_name', type: 'varchar' })
   // @IsNotEmpty()

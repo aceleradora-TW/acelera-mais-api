@@ -1,6 +1,6 @@
 import { message } from '../../messages/languages/pt-br'
 import { HttpResponseHandler } from '@controllers/HttpResponseHandler'
-import { importCandidatesFromSpreadsheet } from 'src/service/spreadsheet/SpreadsheetCanditatesService'
+import { importCandidatesFromSpreadsheet } from 'src/service/spreadsheet/SpreadsheetCandidatesService'
 
 const httpResponseHandler = new HttpResponseHandler()
 
