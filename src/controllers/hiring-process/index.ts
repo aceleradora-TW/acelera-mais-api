@@ -5,22 +5,6 @@ import { message } from '../../messages/languages/pt-br'
 import { createHiringProcessService } from '../../service/hiring-process'
 import { createErrorResponse, createSuccessResponse } from '@controllers/HttpResponseHandler'
 
-const getStatus = (startDate, endDate) => {
-  const currentDate = Date.now()
-
-  const statusPreparation = currentDate < startDate
-  const statusOpened = currentDate >= startDate && currentDate <= endDate
-
-  if (statusPreparation) {
-    return 'status-preparing'
-  }
-  if (statusOpened) {
-    return 'status-opened'
-  }
-
-  return 'status-closed'
-}
-
 export const createHiringProcessEndpoint = async (request, response) => {
   try {
     const result = await createHiringProcessService(request)
@@ -64,6 +48,22 @@ export const editHiringProcess = async (request, response) => {
   } catch (error) {
     return response.status(500).json(error)
   }
+}
+
+const getStatus = (startDate, endDate) => {
+  const currentDate = Date.now()
+
+  const statusPreparation = currentDate < startDate
+  const statusOpened = currentDate >= startDate && currentDate <= endDate
+
+  if (statusPreparation) {
+    return 'status-preparing'
+  }
+  if (statusOpened) {
+    return 'status-opened'
+  }
+
+  return 'status-closed'
 }
 
 export const getAllHiringProcesses = async (request, response) => {

@@ -1,6 +1,17 @@
-import { httpStatusCode } from '../service/HttpError'
+export const httpStatusCode = {
+  OK: 200,
+  BAD_REQUEST: 400,
+  NOT_FOUND: 404,
+  INTERNAL_SERVER: 500
+}
 
-const { OK, INTERNAL_SERVER } = httpStatusCode
+export const httpError = (message, status) => {
+  const error = new Error(message)
+  return {
+    error,
+    status
+  }
+}
 
 export const createSuccessResponse = (message, data, response) => {
   return response.status(OK).json({ message, data })
