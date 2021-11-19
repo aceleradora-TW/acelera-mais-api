@@ -11,7 +11,7 @@ const validateHiringProcess = async (hiringProcess) => {
   }
 }
 
-const hiringProcessRequest = ({ body }) => {
+export const hiringProcessRequest = ({ body }) => {
   const { name, startDate, endDate, description = '' } = body
   return {
     name,

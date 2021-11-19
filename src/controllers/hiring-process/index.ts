@@ -1,9 +1,9 @@
 import { getRepository } from 'typeorm'
 import { validate } from 'class-validator'
 import { HiringProcess } from '@models/entity/HiringProcess'
-import { message } from '../../messages/languages/pt-br'
-import { createHiringProcessService } from '../../service/hiring-process'
-import { createErrorResponse, createSuccessResponse } from '@controllers/HttpResponseHandler'
+import { message } from '@messages/languages/pt-br'
+import { createHiringProcessService } from '@service/hiring-process'
+import { createErrorResponse, createSuccessResponse } from '@service/HttpHandler'
 
 export const createHiringProcessEndpoint = async (request, response) => {
   try {

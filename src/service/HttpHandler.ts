@@ -14,10 +14,10 @@ export const httpError = (message, status) => {
 }
 
 export const createSuccessResponse = (message, data, response) => {
-  return response.status(OK).json({ message, data })
+  return response.status(httpStatusCode.OK).json({ message, data })
 }
 
 export const createErrorResponse = (error, response) => {
-  const status = error?.status || INTERNAL_SERVER
+  const status = error?.status || httpStatusCode.INTERNAL_SERVER
   return response.status(status).json(error)
 }
