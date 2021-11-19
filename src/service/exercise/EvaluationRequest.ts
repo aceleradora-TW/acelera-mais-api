@@ -1,12 +1,7 @@
 const scoreRange = (score) => {
-  if (score < 0 || !score) {
-    score = 0
-  } else if (score > 5) {
-    score = 5
-  }
-
-  const integerScore = Math.trunc(score)
-  return integerScore
+  if (score >= 0 && score <= 5) return Math.trunc(score)
+  if (score > 5) return 5
+  return 0
 }
 
 export class EvaluationRequest {
