@@ -2,12 +2,8 @@ import { getRepository } from 'typeorm'
 import { validate } from 'class-validator'
 import { HiringProcess } from '@models/entity/HiringProcess'
 import { message } from '../../messages/languages/pt-br'
-import { HiringProcessRequest } from '../../service/hiring-process/HiringProcessRequest'
-import { HiringProcessService } from '../../service/hiring-process/HiringProcessService'
-import { HttpResponseHandler } from '@controllers/HttpResponseHandler'
-
-const hiringService = new HiringProcessService()
-const httpResponseHandler = new HttpResponseHandler()
+import { createHiringProcessService } from '../../service/hiring-process'
+import { createErrorResponse, createSuccessResponse } from '@controllers/HttpResponseHandler'
 
 const getStatus = (startDate, endDate) => {
   const currentDate = Date.now()
@@ -27,11 +23,10 @@ const getStatus = (startDate, endDate) => {
 
 export const createHiringProcessEndpoint = async (request, response) => {
   try {
-    const hiringProcessRequest = HiringProcessRequest.convertFromHttpBody(request.body)
-    const result = await hiringService.createHiringProcessService(hiringProcessRequest)
-    return httpResponseHandler.createSuccessResponse(message.SUCCESS, result, response)
+    const result = await createHiringProcessService(request)
+    return createSuccessResponse(message.SUCCESS, result, response)
   } catch (error) {
-    return httpResponseHandler.createErrorResponse(error, response)
+    return createErrorResponse(error, response)
   }
 }
 

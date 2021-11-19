@@ -1,8 +1,6 @@
 import { message } from '../../messages/languages/pt-br'
-import { HttpResponseHandler } from '@controllers/HttpResponseHandler'
-
-const httpResponseHandler = new HttpResponseHandler()
+import { createSuccessResponse } from '@controllers/HttpResponseHandler'
 
 export const importSpreadSheet = async (request, response) => {
-  return httpResponseHandler.createSuccessResponse(message.SUCCESS, { message: 'NO IMPLEMENTED' }, response)
+  return createSuccessResponse(message.SUCCESS, { message: 'NO IMPLEMENTED' }, response)
 }

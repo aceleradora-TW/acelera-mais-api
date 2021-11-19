@@ -1,18 +1,12 @@
-import { HttpError, HttpStatusCode } from '../service/HttpError'
+import { httpStatusCode } from '../service/HttpError'
 
-export class HttpResponseHandler {
-  public createSuccessResponse (message: string, data, response) {
-    const status = HttpStatusCode.OK
-    response.status(status).json({ message, data })
-    return response
-  }
+const { OK, INTERNAL_SERVER } = httpStatusCode
 
-  public createErrorResponse (error, response) {
-    let status = HttpStatusCode.INTERNAL_SERVER
-    if (error instanceof HttpError) {
-      status = error.status
-    }
-    response.status(status).json(error)
-    return response
-  }
+export const createSuccessResponse = (message, data, response) => {
+  return response.status(OK).json({ message, data })
+}
+
+export const createErrorResponse = (error, response) => {
+  const status = error?.status || INTERNAL_SERVER
+  return response.status(status).json(error)
 }
