@@ -1,4 +1,4 @@
-import { importSpreadSheet } from 'src/service/google-spreadsheet'
+import { importSpreadSheet } from '../../service/google-spreadsheet'
 import { getRepository } from 'typeorm'
 import { Candidate } from '@models/entity/Candidate'
 
