@@ -1,4 +1,6 @@
 import { importSpreadSheet } from 'src/service/google-spreadsheet'
+import { getRepository } from 'typeorm'
+import { Candidate } from '@models/entity/Candidate'
 
 const mapCandidates = rows => {
   const candidate = {
@@ -47,6 +49,8 @@ export const importCandidates = async (request, response) => {
   const { link } = request.body
 
   const candidates = await importSpreadSheet({ link }, mapCandidates)
+  const candidateRepository = getRepository(Candidate)
+  const result = await candidateRepository.save(candidates)
 
-  return response.json({ candidates })
+  return response.json({ result })
 }
