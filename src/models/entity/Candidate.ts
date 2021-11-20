@@ -8,19 +8,19 @@ import {
   OneToOne
 } from 'typeorm'
 import { IsDate } from 'class-validator'
-import { HiringProcess } from '@models/entity/HiringProcess'
+// import { HiringProcess } from '@models/entity/HiringProcess'
 
 @Entity()
 export class Candidate {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(type => HiringProcess, HiringProcessFK => HiringProcessFK)
-  @JoinColumn({ name: 'hiring_process_id' })
-  HiringProcessFK: HiringProcess;
+  // @OneToOne(type => HiringProcess, HiringProcessFK => HiringProcessFK)
+  // @JoinColumn({ name: 'hiring_process_id' })
+  // HiringProcessFK: HiringProcess;
 
-  @Column({ name: 'hiring_process_id', type: 'integer' })
-  hiringProcessID: number;
+  // @Column({ name: 'hiring_process_id', type: 'integer' })
+  // hiringProcessID: number;
 
   @Column({ name: 'time_stamp', type: 'timestamptz' })
   // @IsNotEmpty()

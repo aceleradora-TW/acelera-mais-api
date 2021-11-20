@@ -22,14 +22,21 @@ const mapCandidates = rows => {
     okCI: 'OK do CI'
   }
 
+  const normalizeDate = date => {
+    const newDate = date.split('/')
+    return `${newDate[1]}/${newDate[0]}/${newDate[2]}`
+  }
+
   return rows.map(r => {
+    const timeStamp = normalizeDate(r[candidate.timeStamp])
+    const birthDate = normalizeDate(r[candidate.birthDate])
     return {
-      timeStamp: r[candidate.timeStamp],
+      timeStamp: new Date(timeStamp) || undefined,
       adressEmail: r[candidate.addressEmail],
       name: r[candidate.name],
       email: r[candidate.email],
       phone: r[candidate.phone],
-      birthDate: r[candidate.birthDate],
+      birthDate: new Date(birthDate) || undefined,
       genre: r[candidate.genre],
       skinColor: r[candidate.skinColor],
       instituitionName: r[candidate.instituitionName],
@@ -39,7 +46,7 @@ const mapCandidates = rows => {
       expectation: r[candidate.expectation],
       motivation: r[candidate.motivation],
       curriculum: r[candidate.curriculum],
-      okCI: r[candidate.okCI]
+      okCI: r[candidate.okCI] || false
     }
   })
 }
