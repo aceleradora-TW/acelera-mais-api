@@ -1,6 +1,7 @@
 import { importSpreadSheet } from '../../service/google-spreadsheet'
 import { getRepository } from 'typeorm'
 import { Candidate } from '@models/entity/Candidate'
+import { message } from '@messages/languages/pt-br'
 
 const mapCandidates = rows => {
   const candidate = {
@@ -52,12 +53,15 @@ const mapCandidates = rows => {
 }
 
 export const importCandidates = async (request, response) => {
-  // const { id } = request.params
-  const { link } = request.body
+  try {
+    const { link } = request.body
 
-  const candidates = await importSpreadSheet({ link }, mapCandidates)
-  const candidateRepository = getRepository(Candidate)
-  const result = await candidateRepository.save(candidates)
+    const candidatesSheet = await importSpreadSheet({ link }, mapCandidates)
+    const candidateRepository = getRepository(Candidate)
+    const candidates = await candidateRepository.save(candidatesSheet)
 
-  return response.json({ result })
+    return response.status(200).json({ candidates })
+  } catch (error) {
+    return response.status(500).json({ message: message.INTERNAL_SERVER_ERROR })
+  }
 }
