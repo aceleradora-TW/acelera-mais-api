@@ -18,5 +18,5 @@ export const defineRoutes = (app) => {
   app.delete('/hiring_process/:id', delAllHiringProcesses)
 
   // app.post('/candidates', importSpreadsheet)
-  app.post('/hiring_process/:id/candidate', importCandidates)
+  app.post('/candidate/hiring_process/:id', importCandidates)
 }

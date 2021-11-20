@@ -3,14 +3,21 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
+  ManyToOne,
+  JoinColumn
 } from 'typeorm'
 import { IsDate } from 'class-validator'
+import { HiringProcess } from './HiringProcess'
 
 @Entity()
 export class Candidate {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @JoinColumn({ name: 'hiring_process_id' })
+  @ManyToOne(type => HiringProcess, hiringProcesss => hiringProcesss.candidates)
+  hiringProcess: HiringProcess;
 
   @Column({ name: 'time_stamp', type: 'timestamptz' })
   @IsDate()

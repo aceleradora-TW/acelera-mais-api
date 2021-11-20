@@ -1,6 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm'
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany
+} from 'typeorm'
 import { IsNotEmpty, IsDate } from 'class-validator'
 import { Match } from '@models/validators/date'
+import { Candidate } from './Candidate'
 @Entity()
 export class HiringProcess {
   @PrimaryGeneratedColumn()
@@ -22,6 +30,9 @@ export class HiringProcess {
 
   @Column({ name: 'description', type: 'varchar' })
   description: string;
+
+  @OneToMany(type => Candidate, candidate => candidate.hiringProcess, { eager: true })
+  candidates: Candidate[]
 
   @CreateDateColumn({
     name: 'created_at',
