@@ -28,6 +28,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "jest-mock-extended": "^2.0.4",
+    "jsonwebtoken": "^8.5.1",
     "pg": "^8.6.0",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.2.34"
