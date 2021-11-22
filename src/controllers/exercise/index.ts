@@ -22,31 +22,31 @@ export const createEvaluation = async (request, response) => {
 export const editEvaluation = async (request, response) => {
   try {
     const evaluationRepository = getRepository(Evaluation)
-    const exercise = await evaluationRepository.findOne(request.params.id)
+    const evaluation = await evaluationRepository.findOne(request.params.id)
 
-    if (!exercise) {
+    if (!evaluation) {
       return response.status(404).json({ message: message.NOT_FOUND })
     }
 
-    if (request.body.name) {
-      exercise.mentorName = request.body.name
+    if (request.body.mentorName) {
+      evaluation.mentorName = request.body.name
     }
 
     if (request.body.score) {
-      exercise.score = request.body.score
+      evaluation.score = request.body.score
     }
 
-    if (request.body.feedBack) {
-      exercise.feedback = request.body.feedBack
+    if (request.body.feedback) {
+      evaluation.feedback = request.body.feedback
     }
 
-    const errors = await validate(exercise)
+    const errors = await validate(evaluation)
     if (errors.length > 0) {
       return response.status(400).json(errors)
     }
-    await evaluationRepository.update(request.params.id, exercise)
+    await evaluationRepository.update(request.params.id, evaluation)
     // eslint-disable-next-line indent
-    return response.json({ message: message.UPDATED, exercise })
+    return response.json({ message: message.UPDATED, evaluation })
   } catch (error) {
     return response.status(500).json(error)
   }
