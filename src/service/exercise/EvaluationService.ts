@@ -1,4 +1,3 @@
-/* eslint-disable space-before-function-paren */
 
 import { getRepository } from 'typeorm'
 import { validate } from 'class-validator'

@@ -45,7 +45,6 @@ export const editEvaluation = async (request, response) => {
       return response.status(400).json(errors)
     }
     await evaluationRepository.update(request.params.id, evaluation)
-    // eslint-disable-next-line indent
     return response.json({ message: message.UPDATED, evaluation })
   } catch (error) {
     return response.status(500).json(error)
