@@ -7,6 +7,7 @@ import {
   getAllHiringProcesses
 } from '@controllers/hiring-process'
 import { importSpreadsheet } from '@controllers/spreadsheet'
+import { createEvaluation } from '@controllers/exercise'
 
 export const defineRoutes = (app) => {
   app.get('/', itsWorks)
@@ -17,4 +18,5 @@ export const defineRoutes = (app) => {
   app.delete('/hiring_process/:id', delAllHiringProcesses)
 
   app.post('/candidates', importSpreadsheet)
+  app.post('/exercise', createEvaluation)
 }
