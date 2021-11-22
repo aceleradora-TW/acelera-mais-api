@@ -1,5 +1,6 @@
 // import { getRepository } from 'typeorm'
 
+import { message } from '@messages/languages/pt-br'
 import { Candidate } from '@models/entity/Candidate'
 import { importSpreadSheet } from 'src/service/google-spreadsheet'
 import { getRepository } from 'typeorm'
@@ -8,7 +9,7 @@ const mapCandidates = (id) => {
   return (rows) => {
     const normalizeDate = date => {
       const newDate = date.split('/')
-      return `${newDate[1]}/${newDate[0]}/${newDate[2]}`
+      return `${newDate[0]}/${newDate[1]}/${newDate[2]}`
     }
 
     return rows.map(r => {
@@ -40,10 +41,9 @@ const mapCandidates = (id) => {
 export const importCandidates = async (request, response) => {
   const { id } = request.params
   const { link } = request.body
-
   const candidatesSheet = await importSpreadSheet(link, mapCandidates(id))
   const candidateRepository = getRepository(Candidate)
   const candidates = await candidateRepository.save(candidatesSheet)
 
-  return response.json({ id, candidates })
+  return response.json({ id, candidates, message: message.SUCCESS })
 }
