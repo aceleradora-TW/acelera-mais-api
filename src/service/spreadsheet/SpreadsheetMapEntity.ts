@@ -8,7 +8,7 @@ export class SpreadsheetEntityModel {
   public readonly birthDate: Date;
   public readonly genre: string;
   public readonly skinColor: string;
-  public readonly instituitionName: string;
+  public readonly institutionName: string;
   public readonly courseName: string;
   public readonly milestone: Date;
   public readonly howFound: string;
@@ -16,6 +16,7 @@ export class SpreadsheetEntityModel {
   public readonly motivation: string;
   public readonly curriculum: string;
   public readonly okCI: boolean;
+  public readonly hiringProcessId: number;
 
   constructor (idSpreadsheet: number,
     timeStamp: Date,
@@ -26,14 +27,15 @@ export class SpreadsheetEntityModel {
     birthDate: Date,
     genre: string,
     skinColor: string,
-    instituitionName: string,
+    institutionName: string,
     courseName: string,
     milestone: Date,
     howFound: string,
     expectation: string,
     motivation: string,
     curriculum: string,
-    okCI: boolean) {
+    okCI: boolean,
+    hiringProcessId: number) {
     this.idSpreadsheet = idSpreadsheet
     this.timeStamp = timeStamp
     this.adressEmail = adressEmail
@@ -43,7 +45,7 @@ export class SpreadsheetEntityModel {
     this.birthDate = birthDate
     this.genre = genre
     this.skinColor = skinColor
-    this.instituitionName = instituitionName
+    this.institutionName = institutionName
     this.courseName = courseName
     this.milestone = milestone
     this.howFound = howFound
@@ -51,6 +53,7 @@ export class SpreadsheetEntityModel {
     this.motivation = motivation
     this.curriculum = curriculum
     this.okCI = okCI
+    this.hiringProcessId = hiringProcessId
   }
 
   public static spreadsheetFactory (rows) {

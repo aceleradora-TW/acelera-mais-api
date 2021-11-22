@@ -20,8 +20,8 @@ export const importCandidatesFromSpreadsheet = async (urlSheet) => {
     console.log(spreadsheetService)
     console.log(spreadsheets)
     console.log('teste')
-    return spreadsheets
-    // return spreadsheetService.spreadsheetSaveRecords(spreadsheets)
+    // return spreadsheets
+    return spreadsheetService.spreadsheetSaveRecords(spreadsheets)
   } catch (error) {
     throw new HttpError('Errors Request of spreadsheet:' + error, HttpStatusCode.BAD_REQUEST)
   }

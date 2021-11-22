@@ -14,7 +14,7 @@ export class SpreadsheetService {
   }
 
   private async validateSpreadsheet (spreadsheets) {
-    spreadsheets.array.forEach(async spreadsheet => {
+    spreadsheets.forEach(async spreadsheet => {
       const errors = await validate(spreadsheet)
       if (errors.length > 0) {
         throw new HttpError('Errors validating the spreadsheet:' + errors, HttpStatusCode.BAD_REQUEST)
