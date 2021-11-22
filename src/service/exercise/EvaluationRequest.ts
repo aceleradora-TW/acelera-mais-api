@@ -1,3 +1,4 @@
+/* eslint-disable space-before-function-paren */
 const scoreRange = (score) => {
   if (score >= 0 && score <= 5) return Math.trunc(score)
   if (score > 5) return 5
