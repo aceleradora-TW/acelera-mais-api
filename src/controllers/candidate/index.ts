@@ -7,22 +7,17 @@ import { getRepository } from 'typeorm'
 
 const mapCandidates = (id) => {
   return (rows) => {
-    const normalizeDate = date => {
-      const newDate = date.split('/')
-      return `${newDate[0]}/${newDate[1]}/${newDate[2]}`
-    }
+    
 
     return rows.map(r => {
-      const timeStamp = normalizeDate(r['Carimbo de data/hora'])
-      const birthDate = normalizeDate(r['Data de Nascimento:'])
       return {
         hiringProcess: { id: parseInt(id) },
-        timeStamp,
+        timeStamp: r['Carimbo de data/hora'],
         addressEmail: r['Endereço de e-mail'],
         name: r['Nome Completo:'],
         email: r['E-mail:'],
         phone: r['Número de telefone com (DDD):'],
-        birthDate,
+        birthDate: r['Data de Nascimento:'],
         genre: r['Qual é sua identidade de gênero?'],
         skinColor: r['Em relação a sua cor, como você autodeclara-se?'],
         instituitionName: r['Nome da sua Instituição de Ensino (Universidade / Faculdade)'],
