@@ -1,3 +1,6 @@
+/* eslint-disable import/first */
+require('dotenv').config()
+
 import './models'
 import express from 'express'
 import cors from 'cors'

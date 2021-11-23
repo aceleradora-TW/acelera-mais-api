@@ -10,13 +10,13 @@ import { importSpreadSheet } from '@controllers/spreadsheet'
 import { createEvaluation } from '@controllers/exercise'
 
 export const defineRoutes = (app) => {
-  app.get('/', verifyAccessToken, itsWorks)
+  app.get('/', itsWorks)
   app.post('/login', generateAccessToken)
-  app.patch('/hiring_process/:id', editHiringProcess)
-  app.post('/hiring_process', createHiringProcessEndpoint)
+  app.patch('/hiring_process/:id', verifyAccessToken, editHiringProcess)
+  app.post('/hiring_process', verifyAccessToken, createHiringProcessEndpoint)
   app.get('/hiring_process', verifyAccessToken, getAllHiringProcesses)
-  app.delete('/hiring_process/:id', delAllHiringProcesses)
+  app.delete('/hiring_process/:id', verifyAccessToken, delAllHiringProcesses)
 
-  app.post('/importspreadsheet', importSpreadSheet)
-  app.post('/exercise', createEvaluation)
+  app.post('/importspreadsheet', verifyAccessToken, importSpreadSheet)
+  app.post('/exercise', verifyAccessToken, createEvaluation)
 }
