@@ -18,11 +18,13 @@ export const createEvaluation = async (request, response) => {
 
 export const editEvaluation = async (request, response) => {
   try {
+    const { mentorName, score, feedback } = request.body
+    const { id } = request.params
     const evaluationUpdated = await evaluationService.editEvaluation(
-      request.body.id,
-      request.body.mentorName,
-      request.body.score,
-      request.body.feedback)
+      id,
+      mentorName,
+      score,
+      feedback)
     return httpResponseHandler.createSuccessResponse(message.UPDATED, evaluationUpdated, response)
   } catch (error) {
     return httpResponseHandler.createErrorResponse(error, response)
