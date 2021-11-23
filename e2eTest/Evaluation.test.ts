@@ -8,4 +8,12 @@ test('should edit evaluation', async () => {
     score: 5
   })
   expect(response.status).toEqual(HttpStatusCode.OK)
-})
+  const id = response.data.id
+  const responseEdit = await axiosInstance.patch('/exercise/' + id, {
+    mentorName: 'Inglyd',
+    feedback: 'novo feedback',
+    score: 5
+  })
+  expect(responseEdit.status).toEqual(HttpStatusCode.OK)
+  expect(responseEdit.data.mentorName).toEqual('Inglyd')
+}, 10000)

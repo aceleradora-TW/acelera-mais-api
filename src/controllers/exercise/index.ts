@@ -27,6 +27,7 @@ export const editEvaluation = async (request, response) => {
       feedback)
     return httpResponseHandler.createSuccessResponse(message.UPDATED, evaluationUpdated, response)
   } catch (error) {
+    console.log(error)
     return httpResponseHandler.createErrorResponse(error, response)
   }
 }
