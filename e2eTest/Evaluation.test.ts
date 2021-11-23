@@ -1,7 +1,7 @@
 import { axiosInstance } from './EndToEndConfig'
 import { HttpStatusCode } from '../src/service/HttpError'
 
-test('should access createExerciseReview API', async () => {
+test('should edit evaluation', async () => {
   const response = await axiosInstance.post('/exercise', {
     mentorName: 'teste mentor',
     feedback: 'teste feedback',
