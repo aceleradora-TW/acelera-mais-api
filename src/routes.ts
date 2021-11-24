@@ -7,7 +7,7 @@ import {
   getAllHiringProcesses
 } from '@controllers/hiring-process'
 import { importSpreadSheet } from '@controllers/spreadsheet'
-import { createEvaluation } from '@controllers/exercise'
+import { createEvaluation, editEvaluation } from '@controllers/exercise'
 
 export const defineRoutes = (app) => {
   app.get('/', itsWorks)
@@ -19,4 +19,5 @@ export const defineRoutes = (app) => {
 
   app.post('/importspreadsheet', verifyAccessToken, importSpreadSheet)
   app.post('/exercise', verifyAccessToken, createEvaluation)
+  app.patch('/exercise/:id', editEvaluation)
 }

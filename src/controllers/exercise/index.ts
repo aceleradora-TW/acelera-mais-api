@@ -15,3 +15,16 @@ export const createEvaluation = async (request, response) => {
     return httpResponseHandler.createErrorResponse(error, response)
   }
 }
+
+export const editEvaluation = async (request, response) => {
+  try {
+    const evaluationUpdated = await evaluationService.editEvaluation(
+      request.body.id,
+      request.body.mentorName,
+      request.body.score,
+      request.body.feedback)
+    return httpResponseHandler.createSuccessResponse(message.UPDATED, evaluationUpdated, response)
+  } catch (error) {
+    return httpResponseHandler.createErrorResponse(error, response)
+  }
+}
