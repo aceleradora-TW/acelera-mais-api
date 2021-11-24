@@ -2,13 +2,13 @@
 
 import { message } from '@messages/languages/pt-br'
 import { Candidate } from '@models/entity/Candidate'
+import { validate } from 'class-validator'
 import { importSpreadSheet } from 'src/service/google-spreadsheet'
 import { getRepository } from 'typeorm'
 
 const mapCandidates = (id) => {
   return (rows) => {
     
-
     return rows.map(r => {
       return {
         hiringProcess: { id: parseInt(id) },
@@ -33,12 +33,17 @@ const mapCandidates = (id) => {
   }
 }
 
-export const importCandidates = async (request, response) => {
+
+export const importCandidates = async (request, response, next) => {
+
   const { id } = request.params
   const { link } = request.body
-  const candidatesSheet = await importSpreadSheet(link, mapCandidates(id))
+
+  const candidatesSheet = await importSpreadSheet(link, mapCandidates(id), next)
   const candidateRepository = getRepository(Candidate)
+
   const candidates = await candidateRepository.save(candidatesSheet)
 
   return response.json({ id, candidates, message: message.SUCCESS })
+
 }
