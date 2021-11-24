@@ -95,4 +95,11 @@ TypeORM
 - Configurar as **variaveis de ambiente** na App
 - [Fazer deploy da branch main](https://www.youtube.com/watch?v=DMPJNe8PqnU)
 
-OBS: O arquivo **`.env-example`** está listada todas as variaveis de ambiente que essa aplicação precisa para funcionar em qualquer ambiente. Os valores que devem ser atribuidos a elas vão depender dos ambientes. Por exemplo `DATABASE_URL` não contem valor pois esse valor irá mudar de acordo com o endereço do banco que será criado para cada aplicação. Julgando que cada aplicação terá seu proprio banco. Já `PGSSLMODE` contem o valor `no-verify` pois será um valor comum para todos os ambientes.
+# Variáveis de ambiente
+Essas são as variaveis de ambiente que essa aplicação precisa para funcionar em qualquer ambiente. 
+Os valores que devem ser atribuidos a elas vão depender dos ambientes. Por exemplo `DATABASE_URL` não contem valor pois esse valor irá mudar de acordo com o endereço do banco que será criado para cada aplicação. Julgando que cada aplicação terá seu proprio banco. Já `PGSSLMODE` contem o valor `no-verify` pois será um valor comum para todos os ambientes.
+ ```bash
+DATABASE_URL=
+NODE_ENV=
+PGSSLMODE=no-verify
+```

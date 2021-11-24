@@ -13,6 +13,7 @@ export class HttpResponseHandler {
       status = error.status
     }
     response.status(status).json(error)
+    console.log(error)
     return response
   }
 }
