@@ -19,5 +19,5 @@ export const defineRoutes = (app) => {
 
   app.post('/importspreadsheet', verifyAccessToken, importSpreadSheet)
   app.post('/exercise', verifyAccessToken, createEvaluation)
-  app.patch('/exercise/:id', editEvaluation)
+  app.patch('/exercise/:id', verifyAccessToken, editEvaluation)
 }
