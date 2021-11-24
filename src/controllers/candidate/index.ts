@@ -1,5 +1,6 @@
 // import { getRepository } from 'typeorm'
 
+import { HttpResponseHandler } from '@controllers/HttpResponseHandler'
 import { message } from '@messages/languages/pt-br'
 import { Candidate } from '@models/entity/Candidate'
 import { validate } from 'class-validator'
@@ -8,7 +9,7 @@ import { getRepository } from 'typeorm'
 
 const mapCandidates = (id) => {
   return (rows) => {
-    
+
     return rows.map(r => {
       return {
         hiringProcess: { id: parseInt(id) },
@@ -33,17 +34,23 @@ const mapCandidates = (id) => {
   }
 }
 
+const responseHandle = new HttpResponseHandler()
 
-export const importCandidates = async (request, response, next) => {
+export const importCandidates = async (request, response) => {
 
-  const { id } = request.params
-  const { link } = request.body
+  try {
+    const { id } = request.params
+    const { link } = request.body
 
-  const candidatesSheet = await importSpreadSheet(link, mapCandidates(id), next)
-  const candidateRepository = getRepository(Candidate)
+    const candidatesSheet = await importSpreadSheet(link, mapCandidates(id))
+    const candidateRepository = getRepository(Candidate)
 
-  const candidates = await candidateRepository.save(candidatesSheet)
+    const candidates = await candidateRepository.save(candidatesSheet)
 
-  return response.json({ id, candidates, message: message.SUCCESS })
+    return responseHandle.createSuccessResponse(message.SUCCESS, { id, candidates }, response)
+
+  } catch (error) {
+    return responseHandle.createErrorResponse(error, response)
+  }
 
 }
