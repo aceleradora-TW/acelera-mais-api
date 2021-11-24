@@ -28,3 +28,15 @@ export const editEvaluation = async (request, response) => {
     return httpResponseHandler.createErrorResponse(error, response)
   }
 }
+
+export const deleteEvaluation = async (request, response) => {
+  try {
+    const evaluationDeleted = await evaluationService.deleteEvaluation(
+      request.body.id)
+    if (evaluationDeleted.affected === 0) {
+      return httpResponseHandler.createSuccessResponse(message.REMOVED, evaluationDeleted, response)
+    }
+  } catch (error) {
+    return httpResponseHandler.createErrorResponse(error, response)
+  }
+}
