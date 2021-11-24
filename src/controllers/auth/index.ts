@@ -1,5 +1,5 @@
 import { HttpResponseHandler } from '@controllers/HttpResponseHandler'
-import { createAccessToken, validateAccessToken } from 'src/service/auth/authService'
+import { createAccessToken, validateAccessToken } from 'src/service/auth/AuthService'
 
 const responseHandler = new HttpResponseHandler()
 
