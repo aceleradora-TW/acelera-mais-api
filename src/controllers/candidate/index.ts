@@ -1,7 +1,7 @@
 // import { getRepository } from 'typeorm'
 
 import { HttpResponseHandler } from '@controllers/HttpResponseHandler'
-import { message } from '@messages/languages/pt-br'
+import { message } from '../../messages/languages/pt-br'
 import { Candidate } from '@models/entity/Candidate'
 import { validate } from 'class-validator'
 import { importSpreadSheet } from '../../service/google-spreadsheet'
