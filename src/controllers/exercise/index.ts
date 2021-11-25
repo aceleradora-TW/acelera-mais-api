@@ -31,12 +31,9 @@ export const editEvaluation = async (request, response) => {
 
 export const deleteEvaluation = async (request, response) => {
   try {
-    const evaluationDeleted = await evaluationService.deleteEvaluation(
-      request.body.id)
-    if (evaluationDeleted.affected === 0) {
-      return httpResponseHandler.createSuccessResponse(message.REMOVED, evaluationDeleted, response)
-    }
+    const result = await evaluationService.deleteEvaluation(request.params.id)
+    return httpResponseHandler.createSuccessResponse(message.REMOVED, result, response)
   } catch (error) {
-    return httpResponseHandler.createErrorResponse(error, response)
+    return response.status(500).json(error)
   }
 }
