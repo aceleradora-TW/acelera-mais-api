@@ -74,7 +74,7 @@ export const editHiringProcess = async (request, response) => {
 export const getAllHiringProcesses = async (request, response) => {
   try {
     const hiringProcessRepository = getRepository(HiringProcess)
-    let hiringProcesses = await hiringProcessRepository.find({})
+    let hiringProcesses = await hiringProcessRepository.find({ order: { startDate: 'DESC' } })
 
     hiringProcesses = hiringProcesses.map(process => ({ ...process, status: getStatus(process.startDate, process.endDate) }))
 
