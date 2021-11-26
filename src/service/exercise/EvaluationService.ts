@@ -5,7 +5,7 @@ import { Evaluation } from '@models/entity/Evaluation'
 import { HttpError, HttpStatusCode } from '../HttpError'
 
 export class EvaluationService {
-  public async createEvaluationService (evaluationRequest: any) {
+  public async createEvaluationService(evaluationRequest: any) {
     const evaluationRepository = getRepository(Evaluation)
     const evaluationEntity = await evaluationRepository.create(evaluationRequest)
     await this.validateEvaluation(evaluationEntity)
@@ -13,14 +13,14 @@ export class EvaluationService {
     return evaluationEntitySaved
   }
 
-  private async validateEvaluation (evaluation) {
+  private async validateEvaluation(evaluation) {
     const errors = await validate(evaluation)
     if (errors.length > 0) {
       throw new HttpError('Errors validating the evaluation:' + errors, HttpStatusCode.BAD_REQUEST)
     }
   }
 
-  public async editEvaluation (id, mentorName, score, feedback) {
+  public async editEvaluation(id, mentorName, score, feedback) {
     const evaluationRepository = getRepository(Evaluation)
     const evaluation = await evaluationRepository.findOne(id)
 
@@ -41,8 +41,8 @@ export class EvaluationService {
     }
 
     this.validateEvaluation(evaluation)
-
-    const evaluationUpdated = await evaluationRepository.update(id, evaluation)
+    await evaluationRepository.update(id, evaluation)
+    const evaluationUpdated = await evaluationRepository.findOne(id)
     return evaluationUpdated
   }
 
