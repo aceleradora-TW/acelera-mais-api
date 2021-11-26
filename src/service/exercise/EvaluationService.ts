@@ -51,7 +51,7 @@ export class EvaluationService {
     const evaluationDeleted = await evaluationRepository.delete(id)
 
     if (evaluationDeleted.affected === 0) {
-      throw new HttpError('Evaluation not found with: ' + id, HttpStatusCode.BAD_REQUEST)
+      throw new HttpError('Evaluation not found with: ' + id, HttpStatusCode.NOT_FOUND)
     }
     return evaluationDeleted
   }
