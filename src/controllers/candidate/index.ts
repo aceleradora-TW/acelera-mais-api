@@ -3,22 +3,31 @@
 import { HttpResponseHandler } from '@controllers/HttpResponseHandler'
 import { message } from '../../messages/languages/pt-br'
 import { Candidate } from '@models/entity/Candidate'
-import { validate } from 'class-validator'
 import { importSpreadSheet } from '../../service/google-spreadsheet'
 import { getRepository } from 'typeorm'
 
 const mapCandidates = (id) => {
+
+  const normaliseDate = (date) => {
+    const newDate = date.split("/")
+    return `${newDate[1]}/${newDate[0]}/${newDate[2]}`
+  }
+
   return (rows) => {
 
     return rows.map(r => {
+
+      const timeStamp = normaliseDate(r['Carimbo de data/hora'])
+      const birthDate = normaliseDate(r['Data de Nascimento:'])
+
       return {
         hiringProcess: { id: parseInt(id) },
-        timeStamp: r['Carimbo de data/hora'],
+        timeStamp,
         addressEmail: r['Endereço de e-mail'],
         name: r['Nome Completo:'],
         email: r['E-mail:'],
         phone: r['Número de telefone com (DDD):'],
-        birthDate: r['Data de Nascimento:'],
+        birthDate,
         genre: r['Qual é sua identidade de gênero?'],
         skinColor: r['Em relação a sua cor, como você autodeclara-se?'],
         instituitionName: r['Nome da sua Instituição de Ensino (Universidade / Faculdade)'],
