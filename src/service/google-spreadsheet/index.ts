@@ -20,14 +20,6 @@ const timeoutConnect = () => {
   return setTimeout(() => new HttpError('Timeout ao carregar a planilha.:', HttpStatusCode.INTERNAL_SERVER), 40000);
 }
 
-const getGoogleSheetRows = async (id) => {
-  const { private_key, client_email } = credential
-  const sheet = new GoogleSpreadsheet(id)
-  await sheet.useServiceAccountAuth({
-    private_key,
-    client_email
-  })
-
   const getGoogleSheetRows = async (id) => {
     if (!(process.env.GDRIVE_PRIVATE_KEY && process.env.GDRIVE_CLIENT_EMAIL)) {
       throw new HttpError("variavel de ambiente GDRIVE_PRIVATE_KEY ou GDRIVE_CLIENT_EMAIL nao foi definida",
