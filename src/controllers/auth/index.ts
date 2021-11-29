@@ -1,11 +1,27 @@
-export const login = (request, response) => {
-  const email = request.body.email
-  const password = request.body.password
-  const emailUser = 'ju@gmail.com'
-  const passwordUser = '123456'
-  if (email === emailUser && password === passwordUser) {
-    return response.json({ message: 'Bem vinda querida Ju!' })
-  }
+import { HttpResponseHandler } from '@controllers/HttpResponseHandler'
+import { createAccessToken, validateAccessToken } from '../../service/auth/AuthService'
+const responseHandler = new HttpResponseHandler()
 
-  return response.json({ message: 'tente novamente!' })
+export const generateAccessToken = (request, response) => {
+  const emailUser = request.body.email
+  const passwordUser = request.body.password
+
+  try {
+    const tokenPayload = createAccessToken(emailUser, passwordUser)
+    return response.json(tokenPayload)
+  } catch (error) {
+    return responseHandler.createErrorResponse(error, response)
+  }
+}
+
+export const verifyAccessToken = (request, response, next) => {
+  const authHeaders = request.headers.authorization
+
+  const isAuthenticated = validateAccessToken(authHeaders)
+
+  if (isAuthenticated) {
+    next()
+  } else {
+    return response.sendStatus(401)
+  }
 }

@@ -1,5 +1,5 @@
 import { itsWorks } from '@controllers/index'
-import { login } from '@controllers/auth'
+import { generateAccessToken } from '@controllers/auth'
 import {
   createHiringProcessEndpoint,
   delAllHiringProcesses,
@@ -12,7 +12,7 @@ import { createEvaluation, editEvaluation } from '@controllers/exercise'
 
 export const defineRoutes = (app) => {
   app.get('/', itsWorks)
-  app.post('/login', login)
+  app.post('/login', generateAccessToken)
   app.patch('/hiring_process/:id', editHiringProcess)
   app.post('/hiring_process', createHiringProcessEndpoint)
   app.get('/hiring_process', getAllHiringProcesses)
