@@ -7,6 +7,9 @@
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/index.ts",
     "test": "jest ./test",
     "start": "cd dist && node index.js",
+    "migration:revert": "ts-node -r tsconfig-paths/register ./node_modules/.bin/typeorm  migration:revert",
+    "migration:run": "ts-node -r tsconfig-paths/register ./node_modules/.bin/typeorm  migration:run",
+    "migration:generate": "ts-node -r tsconfig-paths/register ./node_modules/.bin/typeorm  migration:generate -n",
     "e2eTest": "jest ./e2eTest",
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored"
   },
@@ -28,11 +31,12 @@
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "google-spreadsheet": "^3.2.0",
     "jest-mock-extended": "^2.0.4",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.6.0",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.2.34"
+    "typeorm": "^0.2.40"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",
@@ -45,6 +49,7 @@
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
     "@types/express": "^4.17.13",
+    "@types/google-spreadsheet": "^3.1.5",
     "@types/jest": "^26.0.24",
     "@types/node": "^16.3.3",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
