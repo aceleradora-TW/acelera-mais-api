@@ -2,7 +2,6 @@
 import { GoogleSpreadsheet } from 'google-spreadsheet'
 import { URL } from 'url'
 import { HttpError, HttpStatusCode } from '../HttpError'
-import credential from './credential.json'
 
 const getSheetId = (link) => {
   let url = undefined
@@ -21,13 +20,29 @@ const timeoutConnect = () => {
   return setTimeout(() => new HttpError('Timeout ao carregar a planilha.:', HttpStatusCode.INTERNAL_SERVER), 40000);
 }
 
+// const getGoogleSheetRows = async (id) => {
+//   const { private_key, client_email } = credential
+//   const sheet = new GoogleSpreadsheet(id)
+//   await sheet.useServiceAccountAuth({
+//     private_key,
+//     client_email
+//   })
+
 const getGoogleSheetRows = async (id) => {
-  const { private_key, client_email } = credential
+  if (!(process.env.GDRIVE_PRIVATE_KEY && process.env.GDRIVE_CLIENT_EMAIL)) {
+    throw new HttpError("variavel de ambiente GDRIVE_PRIVATE_KEY ou GDRIVE_CLIENT_EMAIL nao foi definida",
+      HttpStatusCode.INTERNAL_SERVER)
+  }
+  const private_key = process.env.GDRIVE_PRIVATE_KEY.replace(/\\n/g, '\n')
+  const client_email = process.env.GDRIVE_CLIENT_EMAIL
+  console.log(private_key)
+  console.log(client_email)
   const sheet = new GoogleSpreadsheet(id)
   await sheet.useServiceAccountAuth({
     private_key,
     client_email
   })
+
   await sheet.loadInfo()
   return await sheet.sheetsByIndex[0].getRows()
 }
