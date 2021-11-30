@@ -1,7 +1,7 @@
 import 'reflect-metadata'
 import { createConnection, ConnectionOptions } from 'typeorm'
 
-const connect = async () => {
+export const connect = async () => {
   const local = !process.env.DATABASE_URL
   const url = process.env.DATABASE_URL || 'postgres://postgres:1234@localhost:5432/aceleradora_agil'
 
@@ -28,4 +28,3 @@ const connect = async () => {
     ? options
     : { ...options, ssl: { rejectUnauthorized: false } })
 }
-connect()
