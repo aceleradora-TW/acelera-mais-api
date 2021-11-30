@@ -1,5 +1,3 @@
-// import { getRepository } from 'typeorm'
-
 import { HttpResponseHandler } from '@controllers/HttpResponseHandler'
 import { message } from '../../messages/languages/pt-br'
 import { Candidate } from '@models/entity/Candidate'
