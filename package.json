@@ -10,7 +10,7 @@
     "migration:revert": "ts-node -r tsconfig-paths/register ./node_modules/.bin/typeorm  migration:revert",
     "migration:run": "ts-node -r tsconfig-paths/register ./node_modules/.bin/typeorm  migration:run",
     "migration:generate": "ts-node -r tsconfig-paths/register ./node_modules/.bin/typeorm  migration:generate -n",
-    "e2eTest": "jest ./e2eTest",
+    "test:e2e": "jest ./test-e2e",
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored"
   },
   "engines": {
