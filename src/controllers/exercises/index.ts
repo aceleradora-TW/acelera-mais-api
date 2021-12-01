@@ -1,4 +1,8 @@
-import { importSpreadSheet } from "src/service/google-spreadsheet"
+import { HttpResponseHandler } from "@controllers/HttpResponseHandler"
+import { message } from "@messages/languages/pt-br"
+import { Exercise } from "@models/entity/Exercise"
+import { getRepository } from "typeorm"
+import { importSpreadSheet } from "../../service/google-spreadsheet"
 
 
 const mapExercises = (id) => {
@@ -16,17 +20,23 @@ const mapExercises = (id) => {
         haveComputer: r['Você possui computador em casa ?'],
         haveInternet: r['Você possui acesso a internet em casa?'],
         haveWebcam: r['Voce Possui Webcam?'],
-        canUserWebcam: r['Você se incomodaria em abrir sua Webcam durante as interações quanto a Aceleradora Ágil?'],
+        canUseWebcam: r['Você se incomodaria em abrir sua Webcam durante as interações quanto a Aceleradora Ágil?'],
         cityState: r['Qual a sua cidade/estado?']
       }
     })
   }
 }
 
+const responseHandle = new HttpResponseHandler()
+
 export const importExercises = async (request, response) => {
   const { id } = request.params
   const { link } = request.body
 
   const exercisesSheet = await importSpreadSheet(link, mapExercises(id))
-  return response.json(exercisesSheet)
+  const exerciseRepository = getRepository(Exercise)
+
+  const exercises = await exerciseRepository.save(exercisesSheet)
+
+  return responseHandle.createSuccessResponse(message.SUCCESS, {id, exercises}, response)
 }
