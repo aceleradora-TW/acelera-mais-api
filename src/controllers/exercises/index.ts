@@ -28,6 +28,5 @@ export const importExercises = async (request, response) => {
   const { link } = request.body
 
   const exercisesSheet = await importSpreadSheet(link, mapExercises(id))
-  console.log(mapExercises(id))
-  return response.json({ message: "Oi Cibely!" })
+  return response.json(exercisesSheet)
 }

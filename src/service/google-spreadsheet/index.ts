@@ -1,8 +1,9 @@
 /* eslint-disable camelcase */
+import { request } from 'express'
 import { GoogleSpreadsheet } from 'google-spreadsheet'
 import { URL } from 'url'
 import { HttpError, HttpStatusCode } from '../HttpError'
-
+require('dotenv').config()
 const getSheetId = (link) => {
   let url = undefined
   try {
