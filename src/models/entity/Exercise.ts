@@ -1,10 +1,14 @@
 import { IsDate } from "class-validator";
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { HiringProcess } from "./HiringProcess";
 
 @Entity()
 export class Exercise {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @ManyToOne(type => Exercise, hiring_process => HiringProcess)
+  hiringProcess: HiringProcess
 
   @Column({ name: 'time_stamp', type: 'timestamptz' })
   @IsDate()
