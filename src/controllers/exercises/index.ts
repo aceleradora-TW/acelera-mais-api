@@ -30,6 +30,7 @@ const mapExercises = (id) => {
 const responseHandle = new HttpResponseHandler()
 
 export const importExercises = async (request, response) => {
+  try {
   const { id } = request.params
   const { link } = request.body
 
@@ -39,4 +40,8 @@ export const importExercises = async (request, response) => {
   const exercises = await exerciseRepository.save(exercisesSheet)
 
   return responseHandle.createSuccessResponse(message.SUCCESS, {id, exercises}, response)
+  } catch (error) {
+    return responseHandle.createErrorResponse(error, response)
+  }
+  
 }
