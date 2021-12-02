@@ -11,7 +11,7 @@ export class HiringProcess {
   @IsNotEmpty()
   name: string;
 
-  @OneToMany(type => Candidate, hiringProcess => HiringProcess)
+  @OneToMany(type => Candidate, candidate => candidate.hiringProcess)
   candidates: Candidate[]
 
   @Column({ name: 'start_date', type: 'timestamptz' })
