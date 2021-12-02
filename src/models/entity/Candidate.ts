@@ -16,7 +16,7 @@ export class Candidate {
   id: number;
 
   @JoinColumn({ name: 'hiring_process_id' })
-  @ManyToOne(type => HiringProcess, hiringProcess => hiringProcess.candidates)
+  @ManyToOne(() => HiringProcess, hiringProcess => hiringProcess.candidates)
   hiringProcess: HiringProcess
 
   @Column({ name: 'time_stamp', type: 'timestamptz' })
