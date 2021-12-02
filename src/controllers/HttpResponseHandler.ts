@@ -1,4 +1,4 @@
-import { HttpError, HttpStatusCode } from '../service/HttpError'
+import { HttpError, HttpStatusCode } from '@service/HttpError'
 
 export class HttpResponseHandler {
   public createSuccessResponse (message: string, data, response) {
