@@ -5,6 +5,7 @@ import { message } from '../../messages/languages/pt-br'
 import { HiringProcessRequest } from '../../service/hiring-process/HiringProcessRequest'
 import { HiringProcessService } from '../../service/hiring-process/HiringProcessService'
 import { HttpResponseHandler } from '@controllers/HttpResponseHandler'
+import { HttpError, HttpStatusCode } from 'src/service/HttpError'
 
 const hiringService = new HiringProcessService()
 const httpResponseHandler = new HttpResponseHandler()
@@ -41,7 +42,7 @@ export const editHiringProcess = async (request, response) => {
     const hiringProcess = await hiringProcessRepository.findOne(request.params.id)
 
     if (!hiringProcess) {
-      return response.status(404).json({ message: message.NOT_FOUND })
+      throw new HttpError(message.NOT_FOUND, HttpStatusCode.BAD_REQUEST)
     }
 
     if (request.body.name) {
@@ -62,12 +63,12 @@ export const editHiringProcess = async (request, response) => {
 
     const errors = await validate(hiringProcess)
     if (errors.length > 0) {
-      return response.status(400).json(errors)
+      throw new HttpError("Erro validando edit hiring process", HttpStatusCode.BAD_REQUEST)
     }
     await hiringProcessRepository.update(request.params.id, hiringProcess)
     return response.json({ message: message.UPDATED, hiringProcess })
   } catch (error) {
-    return response.status(500).json(error)
+    return httpResponseHandler.createErrorResponse(error, response)
   }
 }
 
