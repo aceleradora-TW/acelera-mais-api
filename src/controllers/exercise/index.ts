@@ -2,7 +2,7 @@ import { EvaluationRequest } from '@service/exercise/EvaluationRequest'
 import { EvaluationService } from '@service/exercise/EvaluationService'
 
 import { HttpResponseHandler } from "@controllers/HttpResponseHandler"
-import { message } from "@messages/languages/pt-br"
+import { message } from "../../messages/languages/pt-br"
 import { Exercise } from "@models/entity/Exercise"
 import { getRepository } from "typeorm"
 import { importSpreadSheet } from "@service/google-spreadsheet"
