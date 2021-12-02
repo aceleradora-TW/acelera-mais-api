@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm'
 
 export default class criaTabelasBanco1637593089356 implements MigrationInterface {
-  name = 'criaTabelasBanco1637593089356'
+  name = 'criaTabelasBanco1637593089400'
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query('CREATE TABLE "hiring_process" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, "start_date" TIMESTAMP WITH TIME ZONE NOT NULL, "end_date" TIMESTAMP WITH TIME ZONE NOT NULL, "description" character varying NOT NULL, "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT (\'now\'::text)::timestamp(6) with time zone, "updated_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT (\'now\'::text)::timestamp(6) with time zone, CONSTRAINT "PK_67dfff18277bc7118d2189f42b5" PRIMARY KEY ("id"))')
