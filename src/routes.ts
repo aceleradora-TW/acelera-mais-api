@@ -9,7 +9,8 @@ import {
 
 import { importCandidates } from '@controllers/candidate'
 import { createEvaluation, editEvaluation } from '@controllers/exercise'
-import { importSpreadSheet } from './service/google-spreadsheet'
+import { importSpreadSheet } from '@service/google-spreadsheet'
+import { importExercises } from '@controllers/exercise'
 
 export const defineRoutes = (app) => {
   app.get('/', itsWorks)
@@ -25,4 +26,5 @@ export const defineRoutes = (app) => {
   app.post('/importspreadsheet', importSpreadSheet)
   app.post('/exercise', createEvaluation)
   app.patch('/exercise/:id', editEvaluation)
+  app.post('/exercise/hiring_process/:id', importExercises)
 }
