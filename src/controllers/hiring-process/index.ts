@@ -66,7 +66,7 @@ export const editHiringProcess = async (request, response) => {
     if (errors.length > 0) {
       throw new HttpError("Erro validando edit hiring process", HttpStatusCode.BAD_REQUEST)
     }
-    await hiringProcessRepository.update(request.params.id, hiringProcess)
+    await hiringProcessRepository.save(hiringProcess)
     const hiringProcessUpdated = await hiringProcessRepository.findOne(request.params.id)
     console.log("hiringProcessUpdated: " + JSON.stringify(hiringProcessUpdated))
     return response.json({ message: message.UPDATED, hiringProcess })
