@@ -5,7 +5,7 @@ import { message } from '../../messages/languages/pt-br'
 import { HiringProcessRequest } from '../../service/hiring-process/HiringProcessRequest'
 import { HiringProcessService } from '../../service/hiring-process/HiringProcessService'
 import { HttpResponseHandler } from '@controllers/HttpResponseHandler'
-import { HttpError, HttpStatusCode } from 'src/service/HttpError'
+import { HttpError, HttpStatusCode } from '../../service/HttpError'
 
 const hiringService = new HiringProcessService()
 const httpResponseHandler = new HttpResponseHandler()
