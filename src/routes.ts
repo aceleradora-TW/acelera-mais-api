@@ -14,10 +14,10 @@ import { importSpreadSheet } from './service/google-spreadsheet'
 export const defineRoutes = (app) => {
   app.get('/', itsWorks)
   app.post('/login', generateAccessToken)
-  app.patch('/hiring_process/:id', verifyAccessToken, editHiringProcess)
-  app.post('/hiring_process', verifyAccessToken, createHiringProcessEndpoint)
-  app.get('/hiring_process', verifyAccessToken, getAllHiringProcesses)
-  app.delete('/hiring_process/:id', verifyAccessToken, delAllHiringProcesses)
+  app.patch('/hiring_process/:id', editHiringProcess)
+  app.post('/hiring_process', createHiringProcessEndpoint)
+  app.get('/hiring_process', getAllHiringProcesses)
+  app.delete('/hiring_process/:id', delAllHiringProcesses)
 
   app.post('/candidate/hiring_process/:id', importCandidates)
   app.post('/exercise', createEvaluation)

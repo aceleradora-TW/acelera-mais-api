@@ -39,8 +39,9 @@ export const createHiringProcessEndpoint = async (request, response) => {
 export const editHiringProcess = async (request, response) => {
   try {
     const hiringProcessRepository = getRepository(HiringProcess)
+    console.log("ID: " + request.params.id)
     const hiringProcess = await hiringProcessRepository.findOne(request.params.id)
-
+    console.log("hiringProcess request: " + JSON.stringify(hiringProcess))
     if (!hiringProcess) {
       throw new HttpError(message.NOT_FOUND, HttpStatusCode.BAD_REQUEST)
     }
@@ -66,6 +67,8 @@ export const editHiringProcess = async (request, response) => {
       throw new HttpError("Erro validando edit hiring process", HttpStatusCode.BAD_REQUEST)
     }
     await hiringProcessRepository.update(request.params.id, hiringProcess)
+    const hiringProcessUpdated = await hiringProcessRepository.findOne(request.params.id)
+    console.log("hiringProcessUpdated: " + JSON.stringify(hiringProcessUpdated))
     return response.json({ message: message.UPDATED, hiringProcess })
   } catch (error) {
     return httpResponseHandler.createErrorResponse(error, response)
