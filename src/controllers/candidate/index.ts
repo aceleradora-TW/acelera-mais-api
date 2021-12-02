@@ -1,7 +1,7 @@
 import { HttpResponseHandler } from '@controllers/HttpResponseHandler'
-import { message } from '../../messages/languages/pt-br'
+import { message } from '@messages/languages/pt-br'
 import { Candidate } from '@models/entity/Candidate'
-import { importSpreadSheet } from '../../service/google-spreadsheet'
+import { importSpreadSheet } from '@service/google-spreadsheet'
 import { getRepository } from 'typeorm'
 
 const mapCandidates = (id) => {
