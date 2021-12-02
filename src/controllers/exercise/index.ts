@@ -7,6 +7,8 @@ import { Exercise } from "@models/entity/Exercise"
 import { getRepository } from "typeorm"
 import { importSpreadSheet } from "@service/google-spreadsheet"
 
+
+
 const evaluationService = new EvaluationService()
 const httpResponseHandler = new HttpResponseHandler()
 
@@ -38,10 +40,20 @@ export const editEvaluation = async (request, response) => {
 
 
 const mapExercises = (id) => {
+
+  const normaliseDate = (date) => {
+    const newDate = date.split('/')
+
+    return `${newDate[1]}/${newDate[0]}/${newDate[2]}`
+  }
+
   return (rows) => {
     return rows.map(r => {
+
+      const timeStamp = normaliseDate(r['Carimbo de data/hora'])
+
       return {
-        timeStamp: r['Carimbo de data/hora'],
+        timeStamp,
         addressEmail: r['Endereço de e-mail'],
         name: r['Informe seu nome completo'],
         phone: r['Informe o número de um telefone para contato:'],
@@ -59,8 +71,6 @@ const mapExercises = (id) => {
   }
 }
 
-const responseHandle = new HttpResponseHandler()
-
 export const importExercises = async (request, response) => {
   try {
   const { id } = request.params
@@ -71,9 +81,9 @@ export const importExercises = async (request, response) => {
 
   const exercises = await exerciseRepository.save(exercisesSheet)
 
-  return responseHandle.createSuccessResponse(message.SUCCESS, {id, exercises}, response)
+  return httpResponseHandler.createSuccessResponse(message.SUCCESS, {id, exercises}, response)
   } catch (error) {
-    return responseHandle.createErrorResponse(error, response)
+    return httpResponseHandler.createErrorResponse(error, response)
   }
   
 }
