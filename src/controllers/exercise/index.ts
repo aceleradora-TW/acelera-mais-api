@@ -38,6 +38,14 @@ export const editEvaluation = async (request, response) => {
   }
 }
 
+export const deleteEvaluation = async (request, response) => {
+  try {
+    const result = await evaluationService.deleteEvaluation(request.params.id)
+    return httpResponseHandler.createSuccessResponse(message.REMOVED, result, response)
+  } catch (error) {
+    return httpResponseHandler.createErrorResponse(error, response)
+  }
+}
 
 const mapExercises = (id) => {
 
