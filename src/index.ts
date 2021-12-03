@@ -2,6 +2,7 @@ import express from 'express'
 import { connect } from './db-connection'
 import cors from 'cors'
 import { defineRoutes } from './routes'
+require('dotenv').config()
 
 connect()
 
