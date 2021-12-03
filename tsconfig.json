@@ -17,6 +17,9 @@
       ],
       "@messages/*": [
         "./src/messages/*"
+      ],
+      "@service/*": [
+        "./src/service/*"
       ]
     },
     "outDir": "./dist",

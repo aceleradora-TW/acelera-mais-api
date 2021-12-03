@@ -1,4 +1,3 @@
-
 import { getRepository } from 'typeorm'
 import { validate } from 'class-validator'
 import { Evaluation } from '@models/entity/Evaluation'
@@ -45,8 +44,8 @@ export class EvaluationService {
     const evaluationUpdated = await evaluationRepository.findOne(id)
     return evaluationUpdated
   }
-
-  public async deleteEvaluation (id) {
+  
+    public async deleteEvaluation (id) {
     const evaluationRepository = getRepository(Evaluation)
     const evaluationDeleted = await evaluationRepository.delete(id)
 

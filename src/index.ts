@@ -1,7 +1,9 @@
 import express from 'express'
-import './dbConnection'
+import { connect } from './db-connection'
 import cors from 'cors'
 import { defineRoutes } from './routes'
+
+connect()
 
 const app = express()
 const port = process.env.PORT || 9000
