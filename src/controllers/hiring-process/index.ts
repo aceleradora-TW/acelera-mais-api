@@ -64,7 +64,7 @@ export const editHiringProcess = async (request, response) => {
     if (errors.length > 0) {
       return response.status(400).json(errors)
     }
-    await hiringProcessRepository.update(request.params.id, hiringProcess)
+    await hiringProcessRepository.save(hiringProcess)
     return response.json({ message: message.UPDATED, hiringProcess })
   } catch (error) {
     return response.status(500).json(error)

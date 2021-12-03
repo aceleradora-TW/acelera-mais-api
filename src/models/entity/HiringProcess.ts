@@ -12,7 +12,7 @@ export class HiringProcess {
   @IsNotEmpty()
   name: string;
 
-  @OneToMany(type => Candidate, hiringProcess => HiringProcess)
+  @OneToMany(() => Candidate, candidate => candidate.hiringProcess)
   candidates: Candidate[]
 
   @OneToMany(type => HiringProcess, exercise => Exercise)

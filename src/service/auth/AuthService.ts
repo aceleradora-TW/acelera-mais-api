@@ -1,4 +1,5 @@
 import { HttpError, HttpStatusCode } from '../HttpError'
+require('dotenv').config()
 
 const jwt = require('jsonwebtoken')
 
