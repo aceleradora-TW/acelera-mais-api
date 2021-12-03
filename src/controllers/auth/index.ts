@@ -5,7 +5,7 @@ const responseHandler = new HttpResponseHandler()
 export const generateAccessToken = (request, response) => {
   const emailUser = request.body.email
   const passwordUser = request.body.password
-
+  
   try {
     const tokenPayload = createAccessToken(emailUser, passwordUser)
     return response.json(tokenPayload)
