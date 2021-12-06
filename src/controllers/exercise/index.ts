@@ -6,11 +6,13 @@ import { message } from "../../messages/languages/pt-br"
 import { Exercise } from "@models/entity/Exercise"
 import { getRepository } from "typeorm"
 import { importSpreadSheet } from "@service/google-spreadsheet"
-
+import { response } from 'express'
+import { ExerciseService } from "@service/exercise/ExerciseService"
 
 
 const evaluationService = new EvaluationService()
 const httpResponseHandler = new HttpResponseHandler()
+const exerciseService = new ExerciseService()
 
 export const createEvaluation = async (request, response) => {
   try {
@@ -94,4 +96,15 @@ export const importExercises = async (request, response) => {
     return httpResponseHandler.createErrorResponse(error, response)
   }
   
+}
+
+export const getAllExercises = async (request, response) => {
+  try {
+    const {page, count} = request.query
+    const exercises = await exerciseService.getAllExercisesService(page, count)
+    return httpResponseHandler.createSuccessResponse(message.FOUND, exercises, response)
+  }
+  catch (error) {
+    return httpResponseHandler.createErrorResponse(error, response)
+  }
 }
