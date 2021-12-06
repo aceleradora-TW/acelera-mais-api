@@ -60,7 +60,8 @@ const mapExercises = (id) => {
   return (rows) => {
     return rows.map(r => {
 
-      const timeStamp = normaliseDate(r['Carimbo de data/hora'])
+      //const timeStamp = normaliseDate(r['Carimbo de data/hora'])
+      const timeStamp = (r['Carimbo de data/hora'])
 
       return {
         timeStamp,
@@ -101,7 +102,8 @@ export const importExercises = async (request, response) => {
 export const getAllExercises = async (request, response) => {
   try {
     const {page, count} = request.query
-    const exercises = await exerciseService.getAllExercisesService(page, count)
+    const id = request.params.id
+    const exercises = await exerciseService.getAllExercisesService(page, count, id)
     return httpResponseHandler.createSuccessResponse(message.FOUND, exercises, response)
   }
   catch (error) {

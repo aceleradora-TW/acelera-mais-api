@@ -29,5 +29,5 @@ export const defineRoutes = (app) => {
   app.post('/exercise', createEvaluation)
   app.patch('/exercise/:id', editEvaluation)
   app.post('/exercise/hiring_process/:id', importExercises)
-  app.get('/exercise', getAllExercises)
+  app.get('/exercise/hiring_process/:id', getAllExercises)
 }
