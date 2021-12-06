@@ -9,13 +9,13 @@ export class EvaluationRequest {
   public feedback: string;
   public score: number;
 
-  constructor(mentorName: string, feedback: string, score: number) {
+  constructor (mentorName: string, feedback: string, score: number) {
     this.mentorName = mentorName
     this.feedback = feedback
     this.score = score
   }
 
-  public static convertFromHttpBody(body) {
+  public static convertFromHttpBody (body) {
     const { mentorName, feedback, score } = body
     return new EvaluationRequest(
       mentorName,
