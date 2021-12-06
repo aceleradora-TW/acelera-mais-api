@@ -105,7 +105,7 @@ export const getExerciseById = async (request, response) => {
     if (!exercise) {
       return response.status(404).json({ message: message.NOT_FOUND })
     }
-
+    return response.status(200).json(exercise)
   } catch (error) {
     return response.status(500).json(error)
   }
