@@ -9,7 +9,6 @@ import {
 
 import { importCandidates } from '@controllers/candidate'
 import { createEvaluation, editEvaluation, deleteEvaluation, getExerciseById } from '@controllers/exercise'
-import { importSpreadSheet } from '@service/google-spreadsheet'
 import { importExercises } from '@controllers/exercise'
 
 export const defineRoutes = (app) => {
