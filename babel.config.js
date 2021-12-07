@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 module.exports = {
   presets: [
     [
@@ -16,7 +18,7 @@ module.exports = {
         '@controllers': './src/controllers',
         '@models': './src/models',
         '@messages': './src/messages',
-        '@service':  './src/service',
+        '@service': './src/service',
       }
     }],
     ['@babel/plugin-proposal-decorators', { legacy: true }],
