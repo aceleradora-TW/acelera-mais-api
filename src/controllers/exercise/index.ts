@@ -81,17 +81,32 @@ const mapExercises = (id) => {
 
 export const importExercises = async (request, response) => {
   try {
-  const { id } = request.params
-  const { link } = request.body
+    const { id } = request.params
+    const { link } = request.body
 
-  const exercisesSheet = await importSpreadSheet(link, mapExercises(id))
-  const exerciseRepository = getRepository(Exercise)
+    const exercisesSheet = await importSpreadSheet(link, mapExercises(id))
+    const exerciseRepository = getRepository(Exercise)
 
-  const exercises = await exerciseRepository.save(exercisesSheet)
+    const exercises = await exerciseRepository.save(exercisesSheet)
 
-  return httpResponseHandler.createSuccessResponse(message.SUCCESS, {id, exercises}, response)
+    return httpResponseHandler.createSuccessResponse(message.SUCCESS, { id, exercises }, response)
   } catch (error) {
     return httpResponseHandler.createErrorResponse(error, response)
   }
-  
+
+}
+
+
+export const getExerciseById = async (request, response) => {
+  try {
+    const exerciseRepository = getRepository(Exercise)
+    const exercise = await exerciseRepository.findOne(request.params.id)
+
+    if (!exercise) {
+      return response.status(404).json({ message: message.NOT_FOUND })
+    }
+    return response.status(200).json(exercise)
+  } catch (error) {
+    return response.status(500).json(error)
+  }
 }
