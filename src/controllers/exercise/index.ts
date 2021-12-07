@@ -109,3 +109,17 @@ export const getExerciseByHiringProcessId = async (req, res) => {
     return httpResponseHandler.createErrorResponse(error, res)
   }
 }
+
+export const getExerciseById = async (request, response) => {
+  try {
+    const exerciseRepository = getRepository(Exercise)
+    const exercise = await exerciseRepository.findOne(request.params.id)
+
+    if (!exercise) {
+      return response.status(404).json({ message: message.NOT_FOUND })
+    }
+    return response.status(200).json(exercise)
+  } catch (error) {
+    return response.status(500).json(error)
+  }
+}
