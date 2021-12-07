@@ -8,7 +8,7 @@ import {
 } from '@controllers/hiring-process'
 
 import { importCandidates } from '@controllers/candidate'
-import { createEvaluation, editEvaluation, deleteEvaluation, getExerciseById } from '@controllers/exercise'
+import { createEvaluation, editEvaluation, deleteEvaluation, getExerciseById, getAllExercises } from '@controllers/exercise'
 import { importExercises } from '@controllers/exercise'
 
 export const defineRoutes = (app) => {
@@ -26,6 +26,7 @@ export const defineRoutes = (app) => {
   app.post('/exercise', createEvaluation)
   app.patch('/exercise/:id', editEvaluation)
   app.get('/exercise/:id', getExerciseById)
+  app.get('/exercise', getAllExercises)
 
   app.post('/exercise/hiring_process/:id', importExercises)
 }

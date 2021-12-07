@@ -6,6 +6,7 @@ import { message } from "../../messages/languages/pt-br"
 import { Exercise } from "@models/entity/Exercise"
 import { getRepository } from "typeorm"
 import { importSpreadSheet } from "@service/google-spreadsheet"
+import { Console } from 'console'
 
 
 
@@ -96,18 +97,24 @@ export const importExercises = async (request, response) => {
 
 }
 
+export const getAllExercises = async (request, response) => {
+  const exerciseRepository = getRepository(Exercise)
+  const exercises = await exerciseRepository.find()
+
+  return response.json({ exercises, x: 0 })
+}
+
 
 export const getExerciseById = async (request, response) => {
-  //try {
-  const exerciseRepository = getRepository(Exercise)
-  const exercise = await exerciseRepository.findOne(request.params.id)
-  console.log({ exercise })
-  return response.json(exercise)
-  //   if (!exercise) {
-  //     return response.status(404).json({ message: message.NOT_FOUND })
-  //   }
-  //   return response.status(200).json(exercise)
-  // } catch (error) {
-  //   return response.status(500).json(error)
-  // }
+  try {
+    const exerciseRepository = getRepository(Exercise)
+    const exercise = await exerciseRepository.findOne(request.params.id)
+
+    if (!exercise) {
+      return response.status(404).json({ message: message.NOT_FOUND })
+    }
+    return response.status(200).json(exercise)
+  } catch (error) {
+    return response.status(500).json(error)
+  }
 }

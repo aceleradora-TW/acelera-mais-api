@@ -42,7 +42,7 @@ export class Exercise {
   haveInternet: string;
 
   @Column({ name: 'have_webcam', type: 'varchar', nullable: true })
-  have_Webcam: string;
+  haveWebcam: string;
 
   @Column({ name: 'can_use_webcam', type: 'varchar' })
   canUseWebcam: string;
