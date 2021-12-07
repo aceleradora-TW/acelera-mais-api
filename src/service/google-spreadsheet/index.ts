@@ -21,30 +21,32 @@ const timeoutConnect = () => {
   return setTimeout(() => new HttpError('Timeout ao carregar a planilha.:', HttpStatusCode.INTERNAL_SERVER), 40000);
 }
 
-  const getGoogleSheetRows = async (id) => {
-    if (!(process.env.GDRIVE_PRIVATE_KEY && process.env.GDRIVE_CLIENT_EMAIL)) {
-      throw new HttpError("variavel de ambiente GDRIVE_PRIVATE_KEY ou GDRIVE_CLIENT_EMAIL nao foi definida",
-        HttpStatusCode.INTERNAL_SERVER)
-    }
-    const private_key = process.env.GDRIVE_PRIVATE_KEY.replace(/\\n/g, '\n')
-    const client_email = process.env.GDRIVE_CLIENT_EMAIL
-    console.log(private_key)
-    console.log(client_email)
-    const sheet = new GoogleSpreadsheet(id)
-    await sheet.useServiceAccountAuth({
-      private_key,
-      client_email
-    })
-
-    await sheet.loadInfo()
-    return await sheet.sheetsByIndex[0].getRows()
+const getGoogleSheetRows = async (id) => {
+  const { GDRIVE_PRIVATE_KEY, GDRIVE_CLIENT_EMAIL } = process.env
+  console.log({ GDRIVE_PRIVATE_KEY, GDRIVE_CLIENT_EMAIL })
+  if (!(GDRIVE_PRIVATE_KEY && GDRIVE_CLIENT_EMAIL)) {
+    throw new HttpError("variavel de ambiente GDRIVE_PRIVATE_KEY ou GDRIVE_CLIENT_EMAIL nao foi definida",
+      HttpStatusCode.INTERNAL_SERVER)
   }
+  const private_key = process.env.GDRIVE_PRIVATE_KEY.replace(/\\n/g, '\n')
+  const client_email = process.env.GDRIVE_CLIENT_EMAIL
+  console.log(private_key)
+  console.log(client_email)
+  const sheet = new GoogleSpreadsheet(id)
+  await sheet.useServiceAccountAuth({
+    private_key,
+    client_email
+  })
 
-  export const importSpreadSheet = async (link, mappingCallback) => {
-    const id = getSheetId(link)
-    const timeout = timeoutConnect()
-    const rows = await getGoogleSheetRows(id)
-    clearTimeout(timeout)
-    return mappingCallback(rows)
-  }
+  await sheet.loadInfo()
+  return await sheet.sheetsByIndex[0].getRows()
+}
+
+export const importSpreadSheet = async (link, mappingCallback) => {
+  const id = getSheetId(link)
+  const timeout = timeoutConnect()
+  const rows = await getGoogleSheetRows(id)
+  clearTimeout(timeout)
+  return mappingCallback(rows)
+}
 
