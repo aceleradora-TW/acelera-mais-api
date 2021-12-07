@@ -1,5 +1,10 @@
 require('dotenv').config({ path: './env' })
-console.log({ gdrive_client_email: process.env.GDRIVE_CLIENT_EMAIL })
+
+console.log({
+  gdrive_client_email: process.env.GDRIVE_CLIENT_EMAIL,
+  gdrive_private_key: process.env.GDRIVE_PRIVATE_KEY
+})
+
 module.exports = {
   presets: [
     [
