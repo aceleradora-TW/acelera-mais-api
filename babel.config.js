@@ -12,11 +12,6 @@ module.exports = {
     ],
     '@babel/preset-typescript'
   ],
-  env: {
-    plugins: [["inline-dotenv", {
-      path: '.env'
-    }]]
-  },
   plugins: [
     ['module-resolver', {
       alias: {
