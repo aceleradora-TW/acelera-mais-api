@@ -1,5 +1,5 @@
 require('dotenv').config({ path: './env' })
-console.log({ gdrive_client_email: process.env.GDRIVE_CLIENT_EMAIL })
+
 module.exports = {
   presets: [
     [
@@ -12,11 +12,6 @@ module.exports = {
     ],
     '@babel/preset-typescript'
   ],
-  env: {
-    plugins: [["inline-dotenv", {
-      path: '.env'
-    }]]
-  },
   plugins: [
     ['module-resolver', {
       alias: {
