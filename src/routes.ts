@@ -15,18 +15,18 @@ import { importExercises } from '@controllers/exercise'
 export const defineRoutes = (app) => {
   app.get('/', itsWorks)
   app.post('/login', generateAccessToken)
-  app.patch('/hiring_process/:id', verifyAccessToken, editHiringProcess)
-  app.post('/hiring_process', verifyAccessToken, createHiringProcessEndpoint)
+
   app.get('/hiring_process', verifyAccessToken, getAllHiringProcesses)
+  app.post('/hiring_process', verifyAccessToken, createHiringProcessEndpoint)
+  app.patch('/hiring_process/:id', verifyAccessToken, editHiringProcess)
   app.delete('/hiring_process/:id', verifyAccessToken, delAllHiringProcesses)
 
-  app.delete('/exercise/:id', deleteEvaluation)
   app.post('/candidate/hiring_process/:id', importCandidates)
+
+  app.delete('/exercise/:id', deleteEvaluation)
   app.post('/exercise', createEvaluation)
   app.patch('/exercise/:id', editEvaluation)
-  app.post('/importspreadsheet', importSpreadSheet)
-  app.post('/exercise', createEvaluation)
-  app.patch('/exercise/:id', editEvaluation)
+  app.get('/exercise/:id', getExerciseById)
+
   app.post('/exercise/hiring_process/:id', importExercises)
-  app.get('/exercise/:id', getExerciseById) 
 }
