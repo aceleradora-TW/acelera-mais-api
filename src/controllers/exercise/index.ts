@@ -2,7 +2,7 @@ import { EvaluationRequest } from '@service/exercise/EvaluationRequest'
 import { EvaluationService } from '@service/exercise/EvaluationService'
 
 import { HttpResponseHandler } from "@controllers/HttpResponseHandler"
-import { message } from "../../messages/languages/pt-br"
+import { message } from "@messages/languages/pt-br"
 import { Exercise } from "@models/entity/Exercise"
 import { getRepository } from "typeorm"
 import { importSpreadSheet } from "@service/google-spreadsheet"
@@ -84,27 +84,27 @@ const mapExercises = (id) => {
 
 export const importExercises = async (request, response) => {
   try {
-   const { id } = request.params
-   const { link } = request.body
+    const { id } = request.params
+    const { link } = request.body
 
-   const exercisesSheet = await importSpreadSheet(link, mapExercises(id))
-   const exerciseRepository = getRepository(Exercise)
+    const exercisesSheet = await importSpreadSheet(link, mapExercises(id))
+    const exerciseRepository = getRepository(Exercise)
 
-   const exercises = await exerciseRepository.save(exercisesSheet)
+    const exercises = await exerciseRepository.save(exercisesSheet)
 
-   return httpResponseHandler.createSuccessResponse(message.SUCCESS, { id, exercises }, response)
+    return httpResponseHandler.createSuccessResponse(message.SUCCESS, { id, exercises }, response)
   } catch (error) {
     return httpResponseHandler.createErrorResponse(error, response)
   }
-  
+
 }
 
 export const getExerciseByHiringProcessId = async (req, res) => {
-  const {page, count, hiringProcessId} = req.query
+  const { page, count, hiringProcessId } = req.query
   try {
     const result = await exerciseService.getAllExercisesService(page, count, hiringProcessId)
     return httpResponseHandler.createSuccessResponse(message.FOUND, { hiringProcessId, result }, res)
-  } 
+  }
   catch (error) {
     return httpResponseHandler.createErrorResponse(error, res)
   }
