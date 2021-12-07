@@ -18,7 +18,7 @@ export const createEvaluation = async (request, response) => {
   try {
     const evaluationRequest = EvaluationRequest.convertFromHttpBody(request.body)
     const result = await evaluationService.createEvaluationService(evaluationRequest)
-    return httpResponseHandler.createSuccessResponse(message.SUCCESS, result, response)
+    return httpResponseHandler.createSuccessResponse(message.FOUND, result, response)
   } catch (error) {
     return httpResponseHandler.createErrorResponse(error, response)
   }
