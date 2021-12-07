@@ -1,3 +1,5 @@
+require('dotenv').config()
+console.log({ gdrive_private_key: process.env.GDRIVE_PRIVATE_KEY })
 module.exports = {
   presets: [
     [
@@ -16,7 +18,7 @@ module.exports = {
         '@controllers': './src/controllers',
         '@models': './src/models',
         '@messages': './src/messages',
-        '@service':  './src/service',
+        '@service': './src/service',
       }
     }],
     ['@babel/plugin-proposal-decorators', { legacy: true }],
