@@ -9,6 +9,8 @@ import { importSpreadSheet } from "@service/google-spreadsheet"
 
 
 
+
+
 const evaluationService = new EvaluationService()
 const httpResponseHandler = new HttpResponseHandler()
 
@@ -58,7 +60,7 @@ const mapExercises = (id) => {
   return (rows) => {
     return rows.map(r => {
 
-      const timeStamp = normaliseDate(r['Carimbo de data/hora'])
+      const timeStamp = (r['Carimbo de data/hora'])
 
       return {
         timeStamp,
@@ -73,7 +75,8 @@ const mapExercises = (id) => {
         haveInternet: r['Você possui acesso a internet em casa?'],
         haveWebcam: r['Voce Possui Webcam?'],
         canUseWebcam: r['Você se incomodaria em abrir sua Webcam durante as interações quanto a Aceleradora Ágil?'],
-        cityState: r['Qual a sua cidade/estado?']
+        cityState: r['Qual a sua cidade/estado?'],
+        exerciseType: 'not defined'
       }
     })
   }
@@ -81,17 +84,33 @@ const mapExercises = (id) => {
 
 export const importExercises = async (request, response) => {
   try {
-  const { id } = request.params
-  const { link } = request.body
+    const { id } = request.params
+    const { link } = request.body
 
-  const exercisesSheet = await importSpreadSheet(link, mapExercises(id))
-  const exerciseRepository = getRepository(Exercise)
+    const exercisesSheet = await importSpreadSheet(link, mapExercises(id))
+    const exerciseRepository = getRepository(Exercise)
 
-  const exercises = await exerciseRepository.save(exercisesSheet)
+    const exercises = await exerciseRepository.save(exercisesSheet)
 
-  return httpResponseHandler.createSuccessResponse(message.SUCCESS, {id, exercises}, response)
+    return httpResponseHandler.createSuccessResponse(message.SUCCESS, { id, exercises }, response)
   } catch (error) {
     return httpResponseHandler.createErrorResponse(error, response)
   }
-  
+
+}
+
+export const searchExercise = async (request, response) => {
+  const { type } = request.query
+  console.log(type.exerciseType)
+  const { evaluation } = request.query
+  const exerciseRepository = getRepository(Exercise)
+  console.log(exerciseRepository)
+  try {
+    const result = type
+      ? exerciseRepository.find({})
+      : exerciseRepository
+
+  } catch {
+
+  }
 }

@@ -44,8 +44,8 @@ export class EvaluationService {
     const evaluationUpdated = await evaluationRepository.findOne(id)
     return evaluationUpdated
   }
-  
-    public async deleteEvaluation (id) {
+
+  public async deleteEvaluation(id) {
     const evaluationRepository = getRepository(Evaluation)
     const evaluationDeleted = await evaluationRepository.delete(id)
 
@@ -53,5 +53,20 @@ export class EvaluationService {
       throw new HttpError('Evaluation not found with: ' + id, HttpStatusCode.NOT_FOUND)
     }
     return evaluationDeleted
+  }
+}
+
+export const searchExercise = async (request, response) => {
+  const { type } = request.query
+  const { evaluation } = request.query
+  const exerciseRepository = getRepository(Evaluation)
+  console.log(exerciseRepository)
+  try {
+    const result = type
+      ? exerciseRepository.find({})
+      : exerciseRepository
+
+  } catch {
+
   }
 }

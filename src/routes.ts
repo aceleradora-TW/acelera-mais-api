@@ -8,8 +8,7 @@ import {
 } from '@controllers/hiring-process'
 
 import { importCandidates } from '@controllers/candidate'
-import { createEvaluation, editEvaluation, deleteEvaluation } from '@controllers/exercise'
-import { importSpreadSheet } from '@service/google-spreadsheet'
+import { createEvaluation, editEvaluation, deleteEvaluation, searchExercise } from '@controllers/exercise'
 import { importExercises } from '@controllers/exercise'
 
 export const defineRoutes = (app) => {
@@ -17,15 +16,15 @@ export const defineRoutes = (app) => {
   app.post('/login', generateAccessToken)
   app.patch('/hiring_process/:id', verifyAccessToken, editHiringProcess)
   app.post('/hiring_process', verifyAccessToken, createHiringProcessEndpoint)
-  app.get('/hiring_process', verifyAccessToken, getAllHiringProcesses)
+  app.get('/hiring_process', getAllHiringProcesses)
   app.delete('/hiring_process/:id', verifyAccessToken, delAllHiringProcesses)
 
   app.delete('/exercise/:id', deleteEvaluation)
   app.post('/candidate/hiring_process/:id', importCandidates)
   app.post('/exercise', createEvaluation)
   app.patch('/exercise/:id', editEvaluation)
-  app.post('/importspreadsheet', importSpreadSheet)
   app.post('/exercise', createEvaluation)
   app.patch('/exercise/:id', editEvaluation)
   app.post('/exercise/hiring_process/:id', importExercises)
+  app.get('/exercise', searchExercise)
 }

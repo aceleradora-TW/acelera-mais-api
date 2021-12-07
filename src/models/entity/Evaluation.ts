@@ -18,6 +18,8 @@ export class Evaluation {
   @IsNotEmpty()
   score: number;
 
+
+
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamptz',
