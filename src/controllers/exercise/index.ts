@@ -60,8 +60,7 @@ const mapExercises = (id) => {
   return (rows) => {
     return rows.map(r => {
 
-      //const timeStamp = normaliseDate(r['Carimbo de data/hora'])
-      const timeStamp = (r['Carimbo de data/hora'])
+      const timeStamp = normaliseDate(r['Carimbo de data/hora'])
 
       return {
         timeStamp,
@@ -105,10 +104,9 @@ export const getExerciseByHiringProcessId = async (req, res) => {
   const {page, count} = req.query
   try {
     const result = await exerciseService.getAllExercisesService(page, count, hiringProcessId)
-    return httpResponseHandler.createSuccessResponse(message.SUCCESS, { hiringProcessId, result }, response)
-    //return res.json({ hiringProcessId, result })
+    return httpResponseHandler.createSuccessResponse(message.SUCCESS, { hiringProcessId, result }, res)
   } 
   catch (error) {
-    return httpResponseHandler.createErrorResponse(error, response)
+    return httpResponseHandler.createErrorResponse(error, res)
   }
 }
