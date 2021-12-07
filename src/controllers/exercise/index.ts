@@ -7,12 +7,12 @@ import { Exercise } from "@models/entity/Exercise"
 import { getRepository } from "typeorm"
 import { importSpreadSheet } from "@service/google-spreadsheet"
 import { response } from 'express'
-import { ExerciseService } from "@service/exercise/ExerciseService"
+//import { ExerciseService } from "@service/exercise/ExerciseService"
 
 
 const evaluationService = new EvaluationService()
 const httpResponseHandler = new HttpResponseHandler()
-const exerciseService = new ExerciseService()
+//const exerciseService = new ExerciseService()
 
 export const createEvaluation = async (request, response) => {
   try {
@@ -76,7 +76,8 @@ const mapExercises = (id) => {
         haveInternet: r['Você possui acesso a internet em casa?'],
         haveWebcam: r['Voce Possui Webcam?'],
         canUseWebcam: r['Você se incomodaria em abrir sua Webcam durante as interações quanto a Aceleradora Ágil?'],
-        cityState: r['Qual a sua cidade/estado?']
+        cityState: r['Qual a sua cidade/estado?'],
+        hiringProcess: { id }
       }
     })
   }
@@ -84,29 +85,40 @@ const mapExercises = (id) => {
 
 export const importExercises = async (request, response) => {
   try {
-  const { id } = request.params
-  const { link } = request.body
+   const { id } = request.params
+   const { link } = request.body
 
-  const exercisesSheet = await importSpreadSheet(link, mapExercises(id))
-  const exerciseRepository = getRepository(Exercise)
+   const exercisesSheet = await importSpreadSheet(link, mapExercises(id))
+   const exerciseRepository = getRepository(Exercise)
 
-  const exercises = await exerciseRepository.save(exercisesSheet)
+   const exercises = await exerciseRepository.save(exercisesSheet)
 
-  return httpResponseHandler.createSuccessResponse(message.SUCCESS, {id, exercises}, response)
+   return httpResponseHandler.createSuccessResponse(message.SUCCESS, { id, exercises }, response)
   } catch (error) {
     return httpResponseHandler.createErrorResponse(error, response)
   }
   
 }
 
-export const getAllExercises = async (request, response) => {
-  try {
-    const {page, count} = request.query
-    const id = request.params.id
-    const exercises = await exerciseService.getAllExercisesService(page, count, id)
-    return httpResponseHandler.createSuccessResponse(message.FOUND, exercises, response)
-  }
-  catch (error) {
-    return httpResponseHandler.createErrorResponse(error, response)
-  }
+// export const getAllExercises = async (request, response) => {
+//   try {
+//     const {page, count} = request.query
+//     const id = request.params.id
+//     const exercises = await exerciseService.getAllExercisesService(page, count, id)
+//     return httpResponseHandler.createSuccessResponse(message.FOUND, exercises, response)
+//   }
+//   catch (error) {
+//     return httpResponseHandler.createErrorResponse(error, response)
+//   }
+// }
+export const getExerciseByHiringProcessId = async (req, res) => {
+  const { hiringProcessId } = req.query
+  const exerciseRepository = getRepository(Exercise)
+  const result = await exerciseRepository.createQueryBuilder()
+    .select("exercise")
+    .from(Exercise, "exercise")
+    .leftJoinAndSelect("exercise.hiringProcess", "hiringProcess")
+    .getMany()
+  // .where("exercise.hiring_process_id = :id", { id: hiringProcessId })
+  return res.json({ hiringProcessId, result })
 }
