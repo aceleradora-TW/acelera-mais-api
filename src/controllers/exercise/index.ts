@@ -18,7 +18,7 @@ export const createEvaluation = async (request, response) => {
   try {
     const evaluationRequest = EvaluationRequest.convertFromHttpBody(request.body)
     const result = await evaluationService.createEvaluationService(evaluationRequest)
-    return httpResponseHandler.createSuccessResponse(message.FOUND, result, response)
+    return httpResponseHandler.createSuccessResponse(message.SUCCESS, result, response)
   } catch (error) {
     return httpResponseHandler.createErrorResponse(error, response)
   }
@@ -104,7 +104,7 @@ export const getExerciseByHiringProcessId = async (req, res) => {
   const {page, count} = req.query
   try {
     const result = await exerciseService.getAllExercisesService(page, count, hiringProcessId)
-    return httpResponseHandler.createSuccessResponse(message.SUCCESS, { hiringProcessId, result }, res)
+    return httpResponseHandler.createSuccessResponse(message.FOUND, { hiringProcessId, result }, res)
   } 
   catch (error) {
     return httpResponseHandler.createErrorResponse(error, res)
