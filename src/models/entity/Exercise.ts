@@ -1,5 +1,5 @@
 import { IsDate } from "class-validator";
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { HiringProcess } from "./HiringProcess";
 
 @Entity()
@@ -7,7 +7,8 @@ export class Exercise {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(type => Exercise, hiring_process => HiringProcess)
+  @JoinColumn({ name: 'hiring_process_id' })
+  @ManyToOne(() => HiringProcess, hiringProcess => hiringProcess.exercises)
   hiringProcess: HiringProcess
 
   @Column({ name: 'time_stamp', type: 'timestamptz' })
@@ -42,7 +43,7 @@ export class Exercise {
   haveInternet: string;
 
   @Column({ name: 'have_webcam', type: 'varchar', nullable: true })
-  have_Webcam: string;
+  haveWebcam: string;
 
   @Column({ name: 'can_use_webcam', type: 'varchar' })
   canUseWebcam: string;
