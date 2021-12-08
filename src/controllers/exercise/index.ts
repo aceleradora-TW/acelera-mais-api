@@ -100,9 +100,11 @@ export const importExercises = async (request, response) => {
 }
 
 export const getExerciseByHiringProcessId = async (req, res) => {
-  const { page, count, hiringProcessId } = req.query
+  const { page, count, hiringProcessId, type, feedback } = req.query
+  console.log(type)
+  console.log(feedback)
   try {
-    const result = await exerciseService.getAllExercisesService(page, count, hiringProcessId)
+    const result = await exerciseService.getAllExercisesService(page, count, hiringProcessId, type, feedback)
     return httpResponseHandler.createSuccessResponse(message.FOUND, { hiringProcessId, result }, res)
   }
   catch (error) {

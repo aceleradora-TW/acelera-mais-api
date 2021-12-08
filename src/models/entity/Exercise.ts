@@ -10,7 +10,7 @@ export class Exercise {
   @JoinColumn({ name: 'hiring_process_id' })
   @ManyToOne(() => HiringProcess, hiringProcess => hiringProcess.exercises)
   hiringProcess: HiringProcess
-  
+
   @Column({ name: 'time_stamp', type: 'timestamptz' })
   @IsDate()
   timeStamp: Date;
@@ -50,6 +50,9 @@ export class Exercise {
 
   @Column({ name: 'city_state', type: 'varchar' })
   cityState: string;
+
+  @Column({ name: 'type', type: 'varchar' })
+  type: string;
 
   @CreateDateColumn({
     name: 'created_at',

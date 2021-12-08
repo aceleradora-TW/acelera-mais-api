@@ -16,7 +16,7 @@ export const defineRoutes = (app) => {
   app.get('/', itsWorks)
   app.post('/login', generateAccessToken)
   app.patch('/hiring_process/:id', verifyAccessToken, editHiringProcess)
-  app.post('/hiring_process', verifyAccessToken, createHiringProcessEndpoint)
+  app.post('/hiring_process', createHiringProcessEndpoint)
   app.get('/hiring_process', getAllHiringProcesses)
   app.delete('/hiring_process/:id', verifyAccessToken, delAllHiringProcesses)
 
