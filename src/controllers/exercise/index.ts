@@ -2,15 +2,17 @@ import { EvaluationRequest } from '@service/exercise/EvaluationRequest'
 import { EvaluationService } from '@service/exercise/EvaluationService'
 
 import { HttpResponseHandler } from "@controllers/HttpResponseHandler"
-import { message } from "../../messages/languages/pt-br"
+import { message } from "@messages/languages/pt-br"
 import { Exercise } from "@models/entity/Exercise"
 import { getRepository } from "typeorm"
 import { importSpreadSheet } from "@service/google-spreadsheet"
-
+import { response } from 'express'
+import { ExerciseService } from "@service/exercise/ExerciseService"
 
 
 const evaluationService = new EvaluationService()
 const httpResponseHandler = new HttpResponseHandler()
+const exerciseService = new ExerciseService()
 
 export const createEvaluation = async (request, response) => {
   try {
@@ -73,7 +75,8 @@ const mapExercises = (id) => {
         haveInternet: r['Você possui acesso a internet em casa?'],
         haveWebcam: r['Voce Possui Webcam?'],
         canUseWebcam: r['Você se incomodaria em abrir sua Webcam durante as interações quanto a Aceleradora Ágil?'],
-        cityState: r['Qual a sua cidade/estado?']
+        cityState: r['Qual a sua cidade/estado?'],
+        hiringProcess: { id }
       }
     })
   }
@@ -96,6 +99,16 @@ export const importExercises = async (request, response) => {
 
 }
 
+export const getExerciseByHiringProcessId = async (req, res) => {
+  const { page, count, hiringProcessId } = req.query
+  try {
+    const result = await exerciseService.getAllExercisesService(page, count, hiringProcessId)
+    return httpResponseHandler.createSuccessResponse(message.FOUND, { hiringProcessId, result }, res)
+  }
+  catch (error) {
+    return httpResponseHandler.createErrorResponse(error, res)
+  }
+}
 
 export const getExerciseById = async (request, response) => {
   try {
@@ -110,3 +123,4 @@ export const getExerciseById = async (request, response) => {
     return response.status(500).json(error)
   }
 }
+
