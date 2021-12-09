@@ -3,13 +3,13 @@ import { HttpError, HttpStatusCode } from '../HttpError'
 const jwt = require('jsonwebtoken')
 
 export const createAccessToken = (emailUser, passwordUser) => {
-  const { EMAIL_ADMIN, PASSWORD_ADMIN, NAME_ADMIN, SECRET } = process.env
-
-  if (emailUser !== EMAIL_ADMIN || passwordUser !== PASSWORD_ADMIN) {
-    throw new HttpError('Unauthorized', HttpStatusCode.UNAUTHORIZED)
-  }
-
-  const payload = { name: NAME_ADMIN, email: EMAIL_ADMIN }
+const { USERS, SECRET } = process.env
+const listUsers = JSON.parse(USERS)
+const emailFound = listUsers.filter(users => users.email == emailUser)
+if (emailFound.length === 0 || emailFound[0].password !== passwordUser){
+  throw new HttpError('Unauthorized', HttpStatusCode.UNAUTHORIZED)
+}
+  const payload = { name: emailFound[0].name, email: emailFound[0].email, role: emailFound[0].role }
   const accessToken = jwt.sign(payload, SECRET)
 
   return {
