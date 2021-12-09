@@ -76,6 +76,7 @@ const mapExercises = (id) => {
         haveWebcam: r['Voce Possui Webcam?'],
         canUseWebcam: r['Você se incomodaria em abrir sua Webcam durante as interações quanto a Aceleradora Ágil?'],
         cityState: r['Qual a sua cidade/estado?'],
+        type: '',
         hiringProcess: { id }
       }
     })
