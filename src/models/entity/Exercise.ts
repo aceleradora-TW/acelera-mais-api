@@ -1,5 +1,6 @@
 import { IsDate } from "class-validator";
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Candidate } from "./Candidate";
 import { HiringProcess } from "./HiringProcess";
 
 @Entity()
@@ -10,6 +11,10 @@ export class Exercise {
   @JoinColumn({ name: 'hiring_process_id' })
   @ManyToOne(() => HiringProcess, hiringProcess => hiringProcess.exercises)
   hiringProcess: HiringProcess
+
+  @JoinColumn({ name: 'candidate_id' })
+  @ManyToOne(() => Candidate, candidate => candidate.exercises)
+  candidate: Candidate
   
   @Column({ name: 'time_stamp', type: 'timestamptz' })
   @IsDate()
