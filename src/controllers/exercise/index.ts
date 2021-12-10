@@ -60,7 +60,7 @@ const mapExercises = (id) => {
   return (rows) => {
     return rows.map(r => {
 
-      const timeStamp = (r['Carimbo de data/hora'])
+      const timeStamp = normaliseDate(r['Carimbo de data/hora'])
 
       return {
         timeStamp,
