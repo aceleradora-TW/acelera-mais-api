@@ -124,22 +124,18 @@ export const getExerciseById = async (request, response) => {
   }
 }
 
-
 export const editTypeExercise = async (request, response) => {
   try {
     const exerciseRepository = getRepository(Exercise)
     const exercise = await exerciseRepository.findOne(request.params.id)
-
 
     if (!exercise) {
       return response.status(404).json({ message: message.NOT_FOUND })
     }
 
     if (request.body.type) {
-      exercise.type = request.body.type //banco altero so o type
-    }//else{
-    //   return response.json({ message: message.NOT_FOUND })
-    //}
+      exercise.type = request.body.type 
+    }
 
     await exerciseRepository.save(exercise)
     return response.json({ message: message.UPDATED, exercise })
