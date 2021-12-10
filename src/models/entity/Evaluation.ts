@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne } from 'typeorm'
 import { IsNotEmpty } from 'class-validator'
+import { Exercise } from './Exercise';
 
 @Entity()
 export class Evaluation {
@@ -32,4 +33,7 @@ export class Evaluation {
     onUpdate: 'CURRENT_TIMESTAMP(6)'
   })
   updatedAt: Date;
+
+  @OneToOne(() => Exercise, (exercise: Exercise) => exercise.evaluation)
+  public exercise: Exercise;
 }

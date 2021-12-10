@@ -1,6 +1,7 @@
 import { IsDate } from "class-validator";
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn, OneToOne } from "typeorm";
 import { HiringProcess } from "./HiringProcess";
+import { Evaluation } from './Evaluation';
 
 @Entity()
 export class Exercise {
@@ -10,6 +11,13 @@ export class Exercise {
   @JoinColumn({ name: 'hiring_process_id' })
   @ManyToOne(() => HiringProcess, hiringProcess => hiringProcess.exercises)
   hiringProcess: HiringProcess
+
+  @OneToOne(() => Evaluation, {
+    eager: true
+  })
+  
+  @JoinColumn()
+  evaluation: Evaluation;
 
   @Column({ name: 'time_stamp', type: 'timestamptz' })
   @IsDate()

@@ -22,7 +22,7 @@ export const defineRoutes = (app) => {
 
   app.delete('/exercise/:id', deleteEvaluation)
   app.post('/candidate/hiring_process/:id', importCandidates)
-  app.post('/exercise', createEvaluation)
+  app.post('/evaluation/exercise/:id', createEvaluation)
   app.patch('/exercise/:id', editEvaluation)
   app.post('/importspreadsheet', importSpreadSheet)
   app.post('/exercise', createEvaluation)

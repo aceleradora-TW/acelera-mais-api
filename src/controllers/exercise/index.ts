@@ -105,7 +105,7 @@ export const getExerciseByHiringProcessId = async (req, res) => {
   console.log(type)
   console.log(feedback)
   try {
-    const result = await exerciseService.getAllExercisesService(page, count, hiringProcessId, type, feedback)
+    const result = await exerciseService.getAllExercises({ page, count, hiringProcessId, type, feedback })
     return httpResponseHandler.createSuccessResponse(message.FOUND, { hiringProcessId, result }, res)
   }
   catch (error) {
