@@ -1,10 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from 'typeorm'
 import { IsNotEmpty } from 'class-validator'
+import { Exercise } from './Exercise';
 
 @Entity()
 export class Evaluation {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @JoinColumn({ name: 'exercise_id' })
+  @OneToOne(() => Exercise, exercise => exercise.evaluation)
+  exercise: Exercise
 
   @Column({ name: 'mentor_name', type: 'varchar', nullable: false })
   @IsNotEmpty()
