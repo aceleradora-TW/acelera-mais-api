@@ -8,7 +8,7 @@ import {
 } from '@controllers/hiring-process'
 
 import { importCandidates } from '@controllers/candidate'
-import { createEvaluation, editEvaluation, deleteEvaluation, getExerciseById, getExerciseByHiringProcessId } from '@controllers/exercise'
+import { createEvaluation, editEvaluation, deleteEvaluation, getExerciseById, getExerciseByHiringProcessId, editTypeExercise } from '@controllers/exercise'
 import { importSpreadSheet } from '@service/google-spreadsheet'
 import { importExercises } from '@controllers/exercise'
 
@@ -23,11 +23,12 @@ export const defineRoutes = (app) => {
   app.delete('/exercise/:id', deleteEvaluation)
   app.post('/candidate/hiring_process/:id', importCandidates)
   app.post('/exercise', createEvaluation)
-  app.patch('/exercise/:id', editEvaluation)
+  app.patch('/evaluation/:id', editEvaluation)
   app.post('/importspreadsheet', importSpreadSheet)
   app.post('/exercise', createEvaluation)
-  app.patch('/exercise/:id', editEvaluation)
   app.post('/exercise/hiring_process/:id', importExercises)
   app.get('/exercise', getExerciseByHiringProcessId)
   app.get('/exercise/:id', getExerciseById)
+  app.patch('/exercise/:id', editTypeExercise)
+
 }
