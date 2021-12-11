@@ -8,6 +8,8 @@ import { getRepository } from "typeorm"
 import { importSpreadSheet } from "@service/google-spreadsheet"
 import { response } from 'express'
 import { ExerciseService } from "@service/exercise/ExerciseService"
+import { Candidate } from '@models/entity/Candidate'
+import { Evaluation } from '@models/entity/Evaluation'
 
 
 const evaluationService = new EvaluationService()
@@ -76,7 +78,8 @@ const mapExercises = (id) => {
         haveWebcam: r['Voce Possui Webcam?'],
         canUseWebcam: r['Você se incomodaria em abrir sua Webcam durante as interações quanto a Aceleradora Ágil?'],
         cityState: r['Qual a sua cidade/estado?'],
-        hiringProcess: { id }
+        hiringProcess: { id },
+        evaluation: new Evaluation()
       }
     })
   }
@@ -97,6 +100,46 @@ export const importExercises = async (request, response) => {
     return httpResponseHandler.createErrorResponse(error, response)
   }
 
+}
+
+export const exportHiringProcessResume = async (req, res) => {
+  const { id } = req.params
+
+  // const candidateRepository = getRepository(Candidate)
+  // const candidates = await candidateRepository.find({
+  //   where: {
+  //     hiringProcess: id
+  //   }
+  // })
+
+  // const exerciseRepository = getRepository(Exercise)
+  // const exercises = await exerciseRepository.find({
+  //   where: {
+  //     hiringProcess: id
+  //   }
+  // })
+
+  // const evaluationRepository = getRepository(Evaluation)
+  // const evaluations = await evaluationRepository.find({
+  //   where: {
+  //     exercise: exerciseId
+  //   }
+  // })
+
+  // const findExerciseBy = (email) => {
+  //   return exercises.find(exercise => exercise.addressEmail === email)
+  // }
+
+  // const findEvaluationBy = (id) => {
+  //   return evaluations.find(evaluation => evaluation.exercise === id)
+  // }
+
+  // const result = candidates.map(candidate => ({
+  //   ...candidate,
+  //   exercise: findExerciseBy(candidate.email)
+  // }))
+
+  return res.json({ result })
 }
 
 export const getExerciseByHiringProcessId = async (req, res) => {

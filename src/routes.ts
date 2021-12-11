@@ -6,14 +6,14 @@ import {
   editHiringProcess,
   getAllHiringProcesses
 } from '@controllers/hiring-process'
-
 import { getCandidate, getCandidates, importCandidates } from '@controllers/candidate'
 import {
   createEvaluation,
   editEvaluation,
   deleteEvaluation,
   getExerciseById,
-  getExerciseByHiringProcessId
+  getExerciseByHiringProcessId,
+  exportHiringProcessResume
 } from '@controllers/exercise'
 import { importExercises } from '@controllers/exercise'
 import { getEvaluation, getEvaluations } from '@controllers/evaluation'
@@ -29,6 +29,7 @@ export const defineRoutes = (app) => {
 
   app.get('/candidate', getCandidates)
   app.get('/candidate/:id', getCandidate)
+  app.get('/candidate/exercise/hiring_process/:id', exportHiringProcessResume)
   app.post('/candidate/hiring_process/:id', importCandidates)
 
   app.get('/evaluation', getEvaluations)
