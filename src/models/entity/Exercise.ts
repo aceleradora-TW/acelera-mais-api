@@ -17,10 +17,11 @@ export class Exercise {
   @ManyToOne(() => Candidate, candidate => candidate.exercises)
   candidate: Candidate
 
+  @OneToOne(() => Evaluation, evaluation => evaluation.exercise, {
+    cascade: true
+  })
   @JoinColumn({ name: 'exercise_id' })
-  @OneToOne(() => Evaluation, evaluation => evaluation.exercise)
   evaluation: Evaluation
-
 
   @Column({ name: 'time_stamp', type: 'timestamptz' })
   @IsDate()

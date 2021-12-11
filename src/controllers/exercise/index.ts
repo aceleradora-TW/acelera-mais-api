@@ -78,7 +78,8 @@ const mapExercises = (id) => {
         haveWebcam: r['Voce Possui Webcam?'],
         canUseWebcam: r['Você se incomodaria em abrir sua Webcam durante as interações quanto a Aceleradora Ágil?'],
         cityState: r['Qual a sua cidade/estado?'],
-        hiringProcess: { id }
+        hiringProcess: { id },
+        evaluation: new Evaluation()
       }
     })
   }
@@ -102,20 +103,21 @@ export const importExercises = async (request, response) => {
 }
 
 export const exportHiringProcessResume = async (req, res) => {
-  const { id, exerciseId } = req.params
-  const candidateRepository = getRepository(Candidate)
-  const candidates = await candidateRepository.find({
-    where: {
-      hiringProcess: id
-    }
-  })
+  const { id } = req.params
 
-  const exerciseRepository = getRepository(Exercise)
-  const exercises = await exerciseRepository.find({
-    where: {
-      hiringProcess: id
-    }
-  })
+  // const candidateRepository = getRepository(Candidate)
+  // const candidates = await candidateRepository.find({
+  //   where: {
+  //     hiringProcess: id
+  //   }
+  // })
+
+  // const exerciseRepository = getRepository(Exercise)
+  // const exercises = await exerciseRepository.find({
+  //   where: {
+  //     hiringProcess: id
+  //   }
+  // })
 
   // const evaluationRepository = getRepository(Evaluation)
   // const evaluations = await evaluationRepository.find({
@@ -124,18 +126,18 @@ export const exportHiringProcessResume = async (req, res) => {
   //   }
   // })
 
-  const findExerciseBy = (email) => {
-    return exercises.find(exercise => exercise.addressEmail === email)
-  }
+  // const findExerciseBy = (email) => {
+  //   return exercises.find(exercise => exercise.addressEmail === email)
+  // }
 
   // const findEvaluationBy = (id) => {
   //   return evaluations.find(evaluation => evaluation.exercise === id)
   // }
 
-  const result = candidates.map(candidate => ({
-    ...candidate,
-    exercise: findExerciseBy(candidate.email)
-  }))
+  // const result = candidates.map(candidate => ({
+  //   ...candidate,
+  //   exercise: findExerciseBy(candidate.email)
+  // }))
 
   return res.json({ result })
 }

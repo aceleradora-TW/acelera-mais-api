@@ -7,9 +7,8 @@ export class Evaluation {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @JoinColumn({ name: 'exercise_id' })
   @OneToOne(() => Exercise, exercise => exercise.evaluation)
-  exercise: Exercise
+  exercise: Exercise;
 
   @Column({ name: 'mentor_name', type: 'varchar', nullable: false })
   @IsNotEmpty()
