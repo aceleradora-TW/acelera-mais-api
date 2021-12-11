@@ -61,3 +61,17 @@ export const importCandidates = async (request, response) => {
   }
 
 }
+
+export const getCandidates = async (request, response) => {
+  const { page = 0, count = 50 } = request.query
+  const candidateRepository = getRepository(Candidate)
+  const candidates = await candidateRepository.find({ skip: page, take: count })
+  return response.json({ candidates })
+}
+
+export const getCandidate = async (request, response) => {
+  const { id } = request.params
+  const candidateRepository = getRepository(Candidate)
+  const candidate = await candidateRepository.findOne(id)
+  return response.json({ candidate })
+}
