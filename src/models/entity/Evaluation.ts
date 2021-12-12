@@ -10,15 +10,15 @@ export class Evaluation {
   @OneToOne(() => Exercise, exercise => exercise.evaluation)
   exercise: Exercise;
 
-  @Column({ name: 'mentor_name', type: 'varchar', nullable: false })
+  @Column({ name: 'mentor_name', type: 'varchar', nullable: true })
   @IsNotEmpty()
   mentorName: string;
 
-  @Column({ name: 'feedback', type: 'varchar', nullable: false })
+  @Column({ name: 'feedback', type: 'varchar', nullable: true })
   @IsNotEmpty()
   feedback: string;
 
-  @Column({ name: 'score', type: 'int', nullable: false })
+  @Column({ name: 'score', type: 'int', nullable: true })
   @IsNotEmpty()
   score: number;
 
