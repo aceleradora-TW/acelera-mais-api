@@ -128,42 +128,7 @@ export const importExercises = async (request, response) => {
 
 export const exportHiringProcessResume = async (req, res) => {
   const { id } = req.params
-
-  // const candidateRepository = getRepository(Candidate)
-  // const candidates = await candidateRepository.find({
-  //   where: {
-  //     hiringProcess: id
-  //   }
-  // })
-
-  // const exerciseRepository = getRepository(Exercise)
-  // const exercises = await exerciseRepository.find({
-  //   where: {
-  //     hiringProcess: id
-  //   }
-  // })
-
-  // const evaluationRepository = getRepository(Evaluation)
-  // const evaluations = await evaluationRepository.find({
-  //   where: {
-  //     exercise: exerciseId
-  //   }
-  // })
-
-  // const findExerciseBy = (email) => {
-  //   return exercises.find(exercise => exercise.addressEmail === email)
-  // }
-
-  // const findEvaluationBy = (id) => {
-  //   return evaluations.find(evaluation => evaluation.exercise === id)
-  // }
-
-  // const result = candidates.map(candidate => ({
-  //   ...candidate,
-  //   exercise: findExerciseBy(candidate.email)
-  // }))
-
-  return res.json({ result })
+  return res.json({ id })
 }
 
 export const getExerciseByHiringProcessId = async (req, res) => {
