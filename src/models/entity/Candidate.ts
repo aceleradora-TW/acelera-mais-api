@@ -5,19 +5,35 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
-  JoinColumn
+  JoinColumn,
+  OneToMany,
+  OneToOne
 } from 'typeorm'
 import { IsDate } from 'class-validator'
 import { HiringProcess } from './HiringProcess'
+import { Exercise } from './Exercise';
 
 @Entity()
 export class Candidate {
   @PrimaryGeneratedColumn()
   id: number;
 
+
   @JoinColumn({ name: 'hiring_process_id' })
   @ManyToOne(() => HiringProcess, hiringProcess => hiringProcess.candidates)
   hiringProcess: HiringProcess
+
+  @OneToOne(() => Exercise, exercise => exercise.candidate, {
+    cascade: true
+  })
+  @JoinColumn({ name: 'exercise_id' })
+  exercise: Exercise;
+
+
+  @Column({ name: 'email', type: 'varchar' })
+  email: string;
+
+
 
   @Column({ name: 'time_stamp', type: 'timestamptz' })
   @IsDate()
@@ -29,8 +45,6 @@ export class Candidate {
   @Column({ name: 'name', type: 'varchar' })
   name: string;
 
-  @Column({ name: 'email', type: 'varchar' })
-  email: string;
 
   @Column({ name: 'phone', type: 'varchar' })
   phone: string;
