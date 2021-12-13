@@ -50,6 +50,9 @@ export class Exercise {
   @Column({ name: 'city_state', type: 'varchar' })
   cityState: string;
 
+  @Column({ name: 'type' })
+  type: string;
+
 
 
   @CreateDateColumn({

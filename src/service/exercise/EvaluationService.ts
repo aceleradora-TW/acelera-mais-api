@@ -2,6 +2,7 @@ import { getRepository } from 'typeorm'
 import { validate } from 'class-validator'
 import { Evaluation } from '@models/entity/Evaluation'
 import { HttpError, HttpStatusCode } from '../HttpError'
+import { Exercise } from '@models/entity/Exercise'
 
 export class EvaluationService {
   public async createEvaluationService(evaluationRequest: any) {
@@ -58,13 +59,15 @@ export class EvaluationService {
 
 export const searchExercise = async (request, response) => {
   const { type } = request.query
-  const { evaluation } = request.query
-  const exerciseRepository = getRepository(Evaluation)
-  console.log(exerciseRepository)
+  const { feedBack } = request.query
+  const exerciseRepository = getRepository(Exercise)
+
   try {
-    const result = type
-      ? exerciseRepository.find({})
-      : exerciseRepository
+    const result =
+      exerciseRepository.find()
+    console.log(result)
+    return response.body
+
 
   } catch {
 
