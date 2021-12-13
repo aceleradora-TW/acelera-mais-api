@@ -2,17 +2,19 @@ import { EvaluationRequest } from '@service/exercise/EvaluationRequest'
 import { EvaluationService } from '@service/exercise/EvaluationService'
 
 import { HttpResponseHandler } from "@controllers/HttpResponseHandler"
-import { message } from "../../messages/languages/pt-br"
+import { message } from "@messages/languages/pt-br"
 import { Exercise } from "@models/entity/Exercise"
 import { getRepository } from "typeorm"
 import { importSpreadSheet } from "@service/google-spreadsheet"
-
+import { response } from 'express'
+import { ExerciseService } from "@service/exercise/ExerciseService"
 
 
 
 
 const evaluationService = new EvaluationService()
 const httpResponseHandler = new HttpResponseHandler()
+const exerciseService = new ExerciseService()
 
 export const createEvaluation = async (request, response) => {
   try {
@@ -76,7 +78,11 @@ const mapExercises = (id) => {
         haveWebcam: r['Voce Possui Webcam?'],
         canUseWebcam: r['Você se incomodaria em abrir sua Webcam durante as interações quanto a Aceleradora Ágil?'],
         cityState: r['Qual a sua cidade/estado?'],
+<<<<<<< HEAD
         exerciseType: 'not defined'
+=======
+        hiringProcess: { id }
+>>>>>>> 5843ef1bf6220080d0c4f3a4804c2b2408c3f4b0
       }
     })
   }
@@ -99,6 +105,7 @@ export const importExercises = async (request, response) => {
 
 }
 
+<<<<<<< HEAD
 export const searchExercise = async (request, response) => {
   const { type } = request.query
   console.log(type.exerciseType)
@@ -114,3 +121,30 @@ export const searchExercise = async (request, response) => {
 
   }
 }
+=======
+export const getExerciseByHiringProcessId = async (req, res) => {
+  const { page, count, hiringProcessId } = req.query
+  try {
+    const result = await exerciseService.getAllExercisesService(page, count, hiringProcessId)
+    return httpResponseHandler.createSuccessResponse(message.FOUND, { hiringProcessId, result }, res)
+  }
+  catch (error) {
+    return httpResponseHandler.createErrorResponse(error, res)
+  }
+}
+
+export const getExerciseById = async (request, response) => {
+  try {
+    const exerciseRepository = getRepository(Exercise)
+    const exercise = await exerciseRepository.findOne(request.params.id)
+
+    if (!exercise) {
+      return response.status(404).json({ message: message.NOT_FOUND })
+    }
+    return response.status(200).json(exercise)
+  } catch (error) {
+    return response.status(500).json(error)
+  }
+}
+
+>>>>>>> 5843ef1bf6220080d0c4f3a4804c2b2408c3f4b0
