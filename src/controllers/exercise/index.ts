@@ -132,9 +132,8 @@ export const exportHiringProcessResume = async (req, res) => {
 export const getExerciseByHiringProcessId = async (req, res) => {
   const { page, count, hiringProcessId, type, feedback } = req.query
   console.log(type)
-  console.log(feedback)
   try {
-    const result = await exerciseService.getAllExercises({ page, count, hiringProcessId, type, feedback })
+    const result = await exerciseService.getAllExercises({ page, count, hiringProcessId, type })
     return httpResponseHandler.createSuccessResponse(message.FOUND, { hiringProcessId, result }, res)
   }
   catch (error) {
@@ -154,5 +153,17 @@ export const getExerciseById = async (request, response) => {
   } catch (error) {
     return response.status(500).json(error)
   }
+}
+
+export const patchExercise = async (request, response) => {
+  const { id } = request.params
+  const { type } = request.body
+
+  const exerciseRepository = getRepository(Exercise)
+  const exercise = await exerciseRepository.findOne(id)
+  exercise.type = type
+  const result = await exerciseRepository.save(exercise)
+
+  return response.json({ result })
 }
 

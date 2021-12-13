@@ -66,7 +66,7 @@ export class Exercise {
   @Column({ name: 'city_state', nullable: true, type: 'varchar' })
   cityState: string;
 
-  @Column({ name: 'type', type: 'varchar' })
+  @Column({ name: 'type', type: 'varchar', nullable: true })
   type: string;
 
   @CreateDateColumn({
