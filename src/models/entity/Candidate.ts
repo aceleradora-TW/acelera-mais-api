@@ -26,7 +26,7 @@ export class Candidate {
   @OneToOne(() => Exercise, exercise => exercise.candidate, {
     cascade: true
   })
-  @JoinColumn({ name: 'exericse_id' })
+  @JoinColumn({ name: 'exercise_id' })
   exercise: Exercise;
 
 
