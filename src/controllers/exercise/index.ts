@@ -126,20 +126,11 @@ export const getExerciseById = async (request, response) => {
 
 export const editTypeExercise = async (request, response) => {
   try {
-    const exerciseRepository = getRepository(Exercise)
-    const exercise = await exerciseRepository.findOne(request.params.id)
-
-    if (!exercise) {
-      return response.status(404).json({ message: message.NOT_FOUND })
-    }
-
-    if (request.body.type) {
-      exercise.type = request.body.type 
-    }
-
-    await exerciseRepository.save(exercise)
-    return response.json({ message: message.UPDATED, exercise })
+    const { id } = request.params
+    const { type } = request.body
+    const exerciseUpdated = await exerciseService.editType(id, type)
+    return httpResponseHandler.createSuccessResponse(message.UPDATED, exerciseUpdated, response)
   } catch (error) {
-    return response.status(500).json(error)
+    return httpResponseHandler.createErrorResponse(error, response)
   }
 }
