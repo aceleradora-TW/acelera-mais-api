@@ -4,13 +4,12 @@ import { HttpError, HttpStatusCode } from "@service/HttpError"
 import { getRepository } from "typeorm"
 
 export class ExerciseService {
-  public async getAllExercises({ page, count, hiringProcessId, type = 'none' }) {
+  public async getAllExercises({ page, count, hiringProcessId, type }) {
+    let where = { hiringProcess: hiringProcessId }
+    if (type) { where = { ...where, type } }
     const exerciseRepository = getRepository(Exercise)
     const result = await exerciseRepository.find({
-      where: {
-        hiringProcess: hiringProcessId,
-        type: type
-      },
+      where,
       skip: page,
       take: count
     })
