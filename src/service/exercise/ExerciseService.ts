@@ -1,10 +1,10 @@
 import { message } from "@messages/languages/pt-br"
 import { Exercise } from "@models/entity/Exercise"
 import { HttpError, HttpStatusCode } from "@service/HttpError"
-import { Brackets, getRepository } from "typeorm"
+import { getRepository } from "typeorm"
 
 export class ExerciseService {
-  public async getAllExercises({ page, count, hiringProcessId, type }) {
+  public async getAllExercises({ page, count, hiringProcessId, type = 'none' }) {
     const exerciseRepository = getRepository(Exercise)
     const result = await exerciseRepository.find({
       where: {
