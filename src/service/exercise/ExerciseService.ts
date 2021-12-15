@@ -4,16 +4,15 @@ import { HttpError, HttpStatusCode } from "@service/HttpError"
 import { getRepository } from "typeorm"
 
 export class ExerciseService {
-  public async getAllExercisesService(page, count, hiringProcessId) {
+  public async getAllExercises({ page, count, hiringProcessId, type }) {
+    let where = { hiringProcess: hiringProcessId }
+    if (type) { where = { ...where, type } }
     const exerciseRepository = getRepository(Exercise)
-    const result = await exerciseRepository.createQueryBuilder()
-      .select("exercise")
-      .from(Exercise, "exercise")
-      .where("exercise.hiringProcess = :id", { id: hiringProcessId })
-      .leftJoinAndSelect("exercise.hiringProcess", "hiringProcess")
-      .skip(page)
-      .take(count)
-      .getMany()
+    const result = await exerciseRepository.find({
+      where,
+      skip: page,
+      take: count
+    })
     if (result.length === 0) {
       throw new HttpError(message.NOT_FOUND, HttpStatusCode.NOT_FOUND)
     }
