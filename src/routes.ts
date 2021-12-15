@@ -7,8 +7,8 @@ import {
   getAllHiringProcesses
 } from '@controllers/hiring-process'
 
-import { importCandidates } from '@controllers/candidate'
-import { createEvaluation, editEvaluation, deleteEvaluation, getExerciseById, getExerciseByHiringProcessId, editTypeExercise } from '@controllers/exercise'
+import { getCandidate, getCandidates, importCandidates } from '@controllers/candidate'
+import { createEvaluation, editEvaluation, deleteEvaluation, getExerciseById, getExerciseByHiringProcessId, editTypeExercise, exportHiringProcessResume, patchExercise } from '@controllers/exercise'
 import { importSpreadSheet } from '@service/google-spreadsheet'
 import { importExercises } from '@controllers/exercise'
 import { getEvaluation, getEvaluations } from '@controllers/evaluation'
