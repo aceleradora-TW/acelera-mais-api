@@ -165,7 +165,10 @@ export const editTypeExercise = async (request, response) => {
     return httpResponseHandler.createErrorResponse(error, response)
   }
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 758f89ef90d1ca4468abf5154d50b55b60391dc9
 export const patchExercise = async (request, response) => {
   const { id } = request.params
   const { type } = request.body
