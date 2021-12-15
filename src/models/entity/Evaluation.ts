@@ -1,20 +1,24 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne } from 'typeorm'
 import { IsNotEmpty } from 'class-validator'
+import { Exercise } from './Exercise';
 
 @Entity()
 export class Evaluation {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ name: 'mentor_name', type: 'varchar', nullable: false })
+  @OneToOne(() => Exercise, exercise => exercise.evaluation)
+  exercise: Exercise;
+
+  @Column({ name: 'mentor_name', type: 'varchar', nullable: true })
   @IsNotEmpty()
   mentorName: string;
 
-  @Column({ name: 'feedback', type: 'varchar', nullable: false })
+  @Column({ name: 'feedback', type: 'varchar', nullable: true })
   @IsNotEmpty()
   feedback: string;
 
-  @Column({ name: 'score', type: 'int', nullable: false })
+  @Column({ name: 'score', type: 'int', nullable: true })
   @IsNotEmpty()
   score: number;
 

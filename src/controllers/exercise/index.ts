@@ -1,13 +1,12 @@
 import { EvaluationRequest } from '@service/exercise/EvaluationRequest'
 import { EvaluationService } from '@service/exercise/EvaluationService'
-
 import { HttpResponseHandler } from "@controllers/HttpResponseHandler"
 import { message } from "@messages/languages/pt-br"
 import { Exercise } from "@models/entity/Exercise"
 import { getRepository } from "typeorm"
 import { importSpreadSheet } from "@service/google-spreadsheet"
-import { response } from 'express'
 import { ExerciseService } from "@service/exercise/ExerciseService"
+import { Evaluation } from '@models/entity/Evaluation'
 
 
 const evaluationService = new EvaluationService()
@@ -69,14 +68,16 @@ const mapExercises = (id) => {
         phone: r['Informe o número de um telefone para contato:'],
         exercise: r['Informe qual o exercício que você escolheu:'],
         fileType: r['O que você prefere nos enviar?'],
-        fileZip: r['Arquivo . ZIP'],
-        fileGithub: r['Nos informe o link completo do seu repositório no GitHub com a solução do exercício.'],
+        zip: r['Arquivo . ZIP'],
+        github: r['Nos informe o link completo do seu repositório no GitHub com a solução do exercício.'],
         haveComputer: r['Você possui computador em casa ?'],
         haveInternet: r['Você possui acesso a internet em casa?'],
         haveWebcam: r['Voce Possui Webcam?'],
         canUseWebcam: r['Você se incomodaria em abrir sua Webcam durante as interações quanto a Aceleradora Ágil?'],
         cityState: r['Qual a sua cidade/estado?'],
-        hiringProcess: { id }
+        type: '',
+        hiringProcess: { id },
+        evaluation: new Evaluation()
       }
     })
   }
@@ -90,7 +91,31 @@ export const importExercises = async (request, response) => {
     const exercisesSheet = await importSpreadSheet(link, mapExercises(id))
     const exerciseRepository = getRepository(Exercise)
 
-    const exercises = await exerciseRepository.save(exercisesSheet)
+    const exercises = exercisesSheet.map(async data => {
+      const {
+        timeStamp, addressEmail, name, phone, exercise,
+        fileType, zip, github, haveComputer, haveInternet,
+        haveWebcam, canUseWebcam, cityState, hiringProcess,
+        evaluation
+      } = data
+      const result = await exerciseRepository.findOne({ addressEmail, hiringProcess })
+      result.timeStamp = timeStamp
+      result.name = name
+      result.phone = phone
+      result.exercise = exercise
+      result.github = github
+      result.fileType = fileType
+      result.zip = zip
+      result.haveComputer = haveComputer
+      result.haveInternet = haveInternet
+      result.haveWebcam = haveWebcam
+      result.canUseWebcam = canUseWebcam
+      result.cityState = cityState
+      result.hiringProcess = hiringProcess
+      result.evaluation = evaluation
+      await exerciseRepository.save(result)
+      return result
+    })
 
     return httpResponseHandler.createSuccessResponse(message.SUCCESS, { id, exercises }, response)
   } catch (error) {
@@ -99,10 +124,16 @@ export const importExercises = async (request, response) => {
 
 }
 
+export const exportHiringProcessResume = async (req, res) => {
+  const { id } = req.params
+  return res.json({ id })
+}
+
 export const getExerciseByHiringProcessId = async (req, res) => {
-  const { page, count, hiringProcessId } = req.query
+  const { page, count, hiringProcessId, type, feedback } = req.query
+  console.log(type)
   try {
-    const result = await exerciseService.getAllExercisesService(page, count, hiringProcessId)
+    const result = await exerciseService.getAllExercises({ page, count, hiringProcessId, type })
     return httpResponseHandler.createSuccessResponse(message.FOUND, { hiringProcessId, result }, res)
   }
   catch (error) {
@@ -134,3 +165,16 @@ export const editTypeExercise = async (request, response) => {
     return httpResponseHandler.createErrorResponse(error, response)
   }
 }
+
+export const patchExercise = async (request, response) => {
+  const { id } = request.params
+  const { type } = request.body
+
+  const exerciseRepository = getRepository(Exercise)
+  const exercise = await exerciseRepository.findOne(id)
+  exercise.type = type
+  const result = await exerciseRepository.save(exercise)
+
+  return response.json({ result })
+}
+

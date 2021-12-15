@@ -3,6 +3,7 @@ import { message } from '../../messages/languages/pt-br'
 import { Candidate } from '@models/entity/Candidate'
 import { importSpreadSheet } from '@service/google-spreadsheet'
 import { getRepository } from 'typeorm'
+import { Exercise } from '@models/entity/Exercise'
 
 const mapCandidates = (id) => {
 
@@ -17,13 +18,18 @@ const mapCandidates = (id) => {
 
       const timeStamp = normaliseDate(r['Carimbo de data/hora'])
       const birthDate = normaliseDate(r['Data de Nascimento:'])
+      const email = r['E-mail:']
+      const exercise = new Exercise()
+      exercise.hiringProcess = id
+      exercise.addressEmail = email
 
       return {
         hiringProcess: { id: parseInt(id) },
+        exercise,
         timeStamp,
         addressEmail: r['Endereço de e-mail'],
         name: r['Nome Completo:'],
-        email: r['E-mail:'],
+        email,
         phone: r['Número de telefone com (DDD):'],
         birthDate,
         genre: r['Qual é sua identidade de gênero?'],
@@ -60,4 +66,18 @@ export const importCandidates = async (request, response) => {
     return responseHandle.createErrorResponse(error, response)
   }
 
+}
+
+export const getCandidates = async (request, response) => {
+  const { page = 0, count = 50 } = request.query
+  const candidateRepository = getRepository(Candidate)
+  const candidates = await candidateRepository.find({ skip: page, take: count })
+  return response.json({ candidates })
+}
+
+export const getCandidate = async (request, response) => {
+  const { id } = request.params
+  const candidateRepository = getRepository(Candidate)
+  const candidate = await candidateRepository.findOne(id)
+  return response.json({ candidate })
 }
