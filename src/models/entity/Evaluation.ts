@@ -1,5 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne } from 'typeorm'
-import { IsNotEmpty } from 'class-validator'
 import { Exercise } from './Exercise';
 
 @Entity()
@@ -11,15 +10,12 @@ export class Evaluation {
   exercise: Exercise;
 
   @Column({ name: 'mentor_name', type: 'varchar', nullable: true })
-  @IsNotEmpty()
   mentorName: string;
 
   @Column({ name: 'feedback', type: 'varchar', nullable: true })
-  @IsNotEmpty()
   feedback: string;
 
   @Column({ name: 'score', type: 'int', nullable: true })
-  @IsNotEmpty()
   score: number;
 
   @CreateDateColumn({
