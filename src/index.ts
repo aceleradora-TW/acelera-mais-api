@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config({ path: '../.env' })
 
 import express from 'express'
 import { connect } from './db-connection'
