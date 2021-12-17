@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 
 export const createAccessToken = (emailUser, passwordUser) => {
   const { USERS, SECRET } = process.env
+  console.log({ USERS })
   const listUsers = JSON.parse(USERS)
   const emailFound = listUsers.filter(users => users.email == emailUser)
 
