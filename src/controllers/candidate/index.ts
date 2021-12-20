@@ -59,11 +59,17 @@ export const importCandidates = async (request, response) => {
     console.log(candidatesSheet)
     const candidateRepository = getRepository(Candidate)
 
-    const candidates = await candidateRepository.save(candidatesSheet)
-    
-    const numero = 0;
 
-    return responseHandle.createSuccessResponse( `${message.SUCCESS} Canditadas importadas: ${numero}`, { id, candidates }, response)
+    const candidates = await candidateRepository.save(candidatesSheet)
+
+    let i;
+    let numero = 0;
+    for (i = 0; i < candidatesSheet.lenght; i++) {
+      numero = numero + candidatesSheet[i]
+    }
+
+    console.log(numero)
+    return responseHandle.createSuccessResponse(`${message.SUCCESS} Canditadas importadas: ${numero}`, { id, candidates }, response)
 
   } catch (error) {
     return responseHandle.createErrorResponse(error, response)
