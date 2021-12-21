@@ -10,7 +10,7 @@ export class Exercise {
   id: number;
 
   @JoinColumn({ name: 'hiring_process_id' })
-  @ManyToOne(() => HiringProcess, hiringProcess => hiringProcess.exercises)
+  @ManyToOne(() => HiringProcess, hiringProcess => hiringProcess.exercises, { onDelete: 'CASCADE' })
   hiringProcess: HiringProcess
 
   @OneToOne(() => Candidate, candidate => candidate.exercise, { eager: true })
@@ -18,7 +18,8 @@ export class Exercise {
 
   @OneToOne(() => Evaluation, evaluation => evaluation.exercise, {
     eager: true,
-    cascade: true
+    cascade: true,
+    onDelete: 'CASCADE'
   })
   @JoinColumn({ name: 'exercise_id' })
   evaluation: Evaluation
