@@ -8,6 +8,7 @@ import { Exercise } from '@models/entity/Exercise'
 const mapCandidates = (id) => {
 
   const normaliseDate = (date) => {
+    return date
     const newDate = date.split("/")
     return `${newDate[1]}/${newDate[0]}/${newDate[2]}`
   }
@@ -56,20 +57,12 @@ export const importCandidates = async (request, response) => {
     const { link } = request.body
 
     const candidatesSheet = await importSpreadSheet(link, mapCandidates(id))
-    console.log(candidatesSheet)
     const candidateRepository = getRepository(Candidate)
 
 
     const candidates = await candidateRepository.save(candidatesSheet)
 
-    let i;
-    let numero = 0;
-    for (i = 0; i < candidatesSheet.lenght; i++) {
-      numero = numero + candidatesSheet[i]
-    }
-
-    console.log(numero)
-    return responseHandle.createSuccessResponse(`${message.SUCCESS} Canditadas importadas: ${numero}`, { id, candidates }, response)
+    return responseHandle.createSuccessResponse(message.SUCCESS, { id, candidates, count:candidatesSheet.length }, response)
 
   } catch (error) {
     return responseHandle.createErrorResponse(error, response)

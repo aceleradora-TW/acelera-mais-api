@@ -1,5 +1,5 @@
 export const message = {
-  SUCCESS: 'asdasdasds!',
+  SUCCESS: 'Salvo com sucesso!',
   REMOVED: 'Removido com sucesso!',
   NOT_REMOVED: 'Recurso não pode ser removido.',
   UPDATED: 'Atualizado com sucesso!',

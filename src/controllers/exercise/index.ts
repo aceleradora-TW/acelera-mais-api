@@ -51,6 +51,7 @@ export const deleteEvaluation = async (request, response) => {
 const mapExercises = (id) => {
 
   const normaliseDate = (date) => {
+    return date
     const newDate = date.split('/')
 
     return `${newDate[1]}/${newDate[0]}/${newDate[2]}`
@@ -92,14 +93,6 @@ export const importExercises = async (request, response) => {
     console.log(exercisesSheet)
     const exerciseRepository = getRepository(Exercise)
 
-    let i;
-    let numero = 0;
-    for (i = 0; i < exercisesSheet.lenght; i++) {
-      numero = numero + exercisesSheet[i]
-    }
-
-    console.log(numero)
-
     const exercises = exercisesSheet.map(async data => {
       const {
         timeStamp, addressEmail, name, phone, exercise,
@@ -126,7 +119,7 @@ export const importExercises = async (request, response) => {
       return result
     })
 
-    return httpResponseHandler.createSuccessResponse(`${message.SUCCESS} Canditadas importadas: ${numero}`, { id, exercises }, response)
+    return httpResponseHandler.createSuccessResponse(message.SUCCESS, { id, exercises, count:exercisesSheet.length  }, response)
   } catch (error) {
     return httpResponseHandler.createErrorResponse(error, response)
   }
