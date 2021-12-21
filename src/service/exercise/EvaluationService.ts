@@ -22,7 +22,6 @@ export class EvaluationService {
   public async editEvaluation(id, mentorName, score, feedback) {
     const evaluationRepository = getRepository(Evaluation)
     const evaluation = await evaluationRepository.findOne(id)
-
     if (!evaluation) {
       throw new HttpError('Evaluation not found with: ' + id, HttpStatusCode.BAD_REQUEST)
     }
@@ -40,12 +39,11 @@ export class EvaluationService {
     }
 
     this.validateEvaluation(evaluation)
-    await evaluationRepository.update(id, evaluation)
-    const evaluationUpdated = await evaluationRepository.findOne(id)
-    return evaluationUpdated
+    const result = await evaluationRepository.save(evaluation)
+    return result
   }
-  
-    public async deleteEvaluation (id) {
+
+  public async deleteEvaluation(id) {
     const evaluationRepository = getRepository(Evaluation)
     const evaluationDeleted = await evaluationRepository.delete(id)
 
