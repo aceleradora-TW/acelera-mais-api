@@ -20,7 +20,7 @@ export class Candidate {
 
 
   @JoinColumn({ name: 'hiring_process_id' })
-  @ManyToOne(() => HiringProcess, hiringProcess => hiringProcess.candidates)
+  @ManyToOne(() => HiringProcess, hiringProcess => hiringProcess.candidates, { cascade: true })
   hiringProcess: HiringProcess
 
   @OneToOne(() => Exercise, exercise => exercise.candidate, {
@@ -42,7 +42,7 @@ export class Candidate {
   @Column({ name: 'address_email', type: 'varchar' })
   addressEmail: string;
 
-  @Column({ name: 'name', type: 'varchar' })
+  @Column({ name: 'name', type: 'varchar', nullable: true })
   name: string;
 
 
