@@ -10,7 +10,7 @@ export class Evaluation {
   exercise: Exercise;
 
   @Column({ name: 'mentor_name', type: 'varchar', nullable: true })
-  mentorName: string | null;
+  mentorName: string;
 
   @Column({ name: 'feedback', type: 'varchar', nullable: true })
   feedback: string;
