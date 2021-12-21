@@ -89,7 +89,6 @@ export const importExercises = async (request, response) => {
     const { link } = request.body
 
     const exercisesSheet = await importSpreadSheet(link, mapExercises(id))
-    console.log(exercisesSheet)
     const exerciseRepository = getRepository(Exercise)
 
     const exercises = exercisesSheet.map(async data => {
