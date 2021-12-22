@@ -5,4 +5,5 @@ export const message = {
   UPDATED: 'Atualizado com sucesso!',
   NOT_FOUND: 'Não foram encontradas informações.',
   FOUND: 'Informações encontradas com sucesso.'
+
 }

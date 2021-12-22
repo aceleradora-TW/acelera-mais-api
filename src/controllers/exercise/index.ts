@@ -117,7 +117,7 @@ export const importExercises = async (request, response) => {
       return result
     })
 
-    return httpResponseHandler.createSuccessResponse(message.SUCCESS, { id, exercises }, response)
+    return httpResponseHandler.createSuccessResponse(message.SUCCESS, { id, exercises, count:exercisesSheet.length  }, response)
   } catch (error) {
     return httpResponseHandler.createErrorResponse(error, response)
   }

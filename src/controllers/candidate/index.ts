@@ -58,9 +58,10 @@ export const importCandidates = async (request, response) => {
     const candidatesSheet = await importSpreadSheet(link, mapCandidates(id))
     const candidateRepository = getRepository(Candidate)
 
+
     const candidates = await candidateRepository.save(candidatesSheet)
 
-    return responseHandle.createSuccessResponse(message.SUCCESS, { id, candidates }, response)
+    return responseHandle.createSuccessResponse(message.SUCCESS, { id, candidates, count:candidatesSheet.length }, response)
 
   } catch (error) {
     return responseHandle.createErrorResponse(error, response)
