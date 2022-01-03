@@ -6,7 +6,7 @@ import {
   editHiringProcess,
   getAllHiringProcesses
 } from '@controllers/hiring-process'
-import { getCandidate, getCandidates, importCandidates } from '@controllers/candidate'
+import { getCandidate, getAllCandidate, importAllCandidate } from '@controllers/candidate'
 import {
   createEvaluation,
   editEvaluation,
@@ -27,10 +27,10 @@ export const defineRoutes = (app) => {
   app.patch('/hiring_process/:id', verifyAccessToken, editHiringProcess)
   app.delete('/hiring_process/:id', verifyAccessToken, delAllHiringProcesses)
 
-  app.get('/candidate', getCandidates)
+  app.get('/candidate', getAllCandidate)
   app.get('/candidate/:id', getCandidate)
   app.get('/candidate/exercise/hiring_process/:id', exportHiringProcessResume)
-  app.post('/candidate/hiring_process/:id', importCandidates)
+  app.post('/candidate/hiring_process/:id', importAllCandidate)
 
   app.get('/evaluation', getEvaluations)
   app.get('/evaluation/:id', getEvaluation)

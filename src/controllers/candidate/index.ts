@@ -49,7 +49,7 @@ const mapCandidates = (id) => {
 
 const responseHandle = new HttpResponseHandler()
 
-export const importCandidates = async (request, response) => {
+export const importAllCandidate = async (request, response) => {
 
   try {
     const { id } = request.params
@@ -61,7 +61,7 @@ export const importCandidates = async (request, response) => {
 
     const candidates = await candidateRepository.save(candidatesSheet)
 
-    return responseHandle.createSuccessResponse(message.SUCCESS, { id, candidates, count:candidatesSheet.length }, response)
+    return responseHandle.createSuccessResponse(message.SUCCESS, { id, candidates, count: candidatesSheet.length }, response)
 
   } catch (error) {
     return responseHandle.createErrorResponse(error, response)
@@ -69,7 +69,7 @@ export const importCandidates = async (request, response) => {
 
 }
 
-export const getCandidates = async (request, response) => {
+export const getAllCandidate = async (request, response) => {
   const { page = 0, count = 50 } = request.query
   const candidateRepository = getRepository(Candidate)
   const candidates = await candidateRepository.find({ skip: page, take: count })
