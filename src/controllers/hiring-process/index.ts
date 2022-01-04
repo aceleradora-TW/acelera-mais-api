@@ -2,8 +2,8 @@ import { getRepository } from 'typeorm'
 import { validate } from 'class-validator'
 import { HiringProcess } from '@models/entity/HiringProcess'
 import { message } from '../../messages/languages/pt-br'
-import { HiringProcessRequest } from '../../service/hiring-process/HiringProcessRequest'
-import { HiringProcessService } from '../../service/hiring-process/HiringProcessService'
+import { HiringProcessRequest } from '@service/hiring-process/HiringProcessRequest'
+import { HiringProcessService } from '@service/hiring-process/HiringProcessService'
 import { HttpResponseHandler } from '@controllers/HttpResponseHandler'
 
 const hiringService = new HiringProcessService()
@@ -64,7 +64,7 @@ export const updateHiringProcess = async (request, response) => {
     if (errors.length > 0) {
       return response.status(400).json(errors)
     }
-    await hiringProcessRepository.update(request.params.id, hiringProcess)
+    await hiringProcessRepository.save(hiringProcess)
     return response.json({ message: message.UPDATED, hiringProcess })
   } catch (error) {
     return response.status(500).json(error)
@@ -74,7 +74,7 @@ export const updateHiringProcess = async (request, response) => {
 export const getAllHiringProcess = async (request, response) => {
   try {
     const hiringProcessRepository = getRepository(HiringProcess)
-    let hiringProcesses = await hiringProcessRepository.find({})
+    let hiringProcesses = await hiringProcessRepository.find({ order: { startDate: 'DESC' } })
 
     hiringProcesses = hiringProcesses.map(process => ({ ...process, status: getStatus(process.startDate, process.endDate) }))
 

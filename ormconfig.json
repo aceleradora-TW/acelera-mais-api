@@ -1,0 +1,20 @@
+{
+  "type": "postgres",
+  "name": "default",
+  "url": "postgres://postgres:1234@localhost:5432/aceleradora_agil",
+  "synchronize": true,
+  "entities": [
+    "**/models/**/*{.ts,.js}"
+  ],
+  "migrations": [
+    "src/models/migration/**/*.ts"
+  ],
+  "subscribers": [
+    "src/models/subscriber/**/*.ts"
+  ],
+  "cli": {
+    "entitiesDir": "src/models/entity",
+    "migrationsDir": "src/models/migration",
+    "subscribersDir": "src/models/subscriber"
+  }
+}

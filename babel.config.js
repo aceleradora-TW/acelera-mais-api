@@ -1,3 +1,5 @@
+require('dotenv').config({ path: './.env' })
+
 module.exports = {
   presets: [
     [
@@ -15,7 +17,8 @@ module.exports = {
       alias: {
         '@controllers': './src/controllers',
         '@models': './src/models',
-        '@message': './src/messages'
+        '@messages': './src/messages',
+        '@service': './src/service',
       }
     }],
     ['@babel/plugin-proposal-decorators', { legacy: true }],
