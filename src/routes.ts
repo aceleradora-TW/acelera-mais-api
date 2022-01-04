@@ -1,10 +1,10 @@
 import { itsWorks } from '@controllers/index'
 import { login } from '@controllers/auth'
 import {
-  createHiringProcessEndpoint,
-  delAllHiringProcesses,
-  editHiringProcess,
-  getAllHiringProcesses
+  createHiringProcess,
+  deleteHiringProcess,
+  updateHiringProcess,
+  getAllHiringProcess
 } from '@controllers/hiring-process'
 import { importSpreadSheet } from '@controllers/spreadsheet'
 import { createEvaluation, editEvaluation, deleteEvaluation } from '@controllers/exercise'
@@ -12,10 +12,10 @@ import { createEvaluation, editEvaluation, deleteEvaluation } from '@controllers
 export const defineRoutes = (app) => {
   app.get('/', itsWorks)
   app.post('/login', login)
-  app.patch('/hiring_process/:id', editHiringProcess)
-  app.post('/hiring_process', createHiringProcessEndpoint)
-  app.get('/hiring_process', getAllHiringProcesses)
-  app.delete('/hiring_process/:id', delAllHiringProcesses)
+  app.patch('/hiring_process/:id', updateHiringProcess)
+  app.post('/hiring_process', createHiringProcess)
+  app.get('/hiring_process', getAllHiringProcess)
+  app.delete('/hiring_process/:id', deleteHiringProcess)
 
   app.post('/importspreadsheet', importSpreadSheet)
   app.post('/exercise', createEvaluation)
