@@ -1,10 +1,10 @@
 import { itsWorks } from '@controllers/index'
 import { generateAccessToken, verifyAccessToken } from '@controllers/auth'
 import {
-  createHiringProcessEndpoint,
-  delAllHiringProcesses,
-  editHiringProcess,
-  getAllHiringProcesses
+  createHiringProcess,
+  deleteHiringProcess,
+  updateHiringProcess,
+  getAllHiringProcess
 } from '@controllers/hiring-process'
 import { getCandidate, getAllCandidate, importAllCandidate } from '@controllers/candidate'
 import {
@@ -22,10 +22,10 @@ import { getEvaluation, getAllEvaluation } from '@controllers/evaluation'
 export const defineRoutes = (app) => {
   app.get('/', itsWorks)
   app.post('/login', generateAccessToken)
-  app.get('/hiring_process', getAllHiringProcesses)
-  app.post('/hiring_process', verifyAccessToken, createHiringProcessEndpoint)
-  app.patch('/hiring_process/:id', verifyAccessToken, editHiringProcess)
-  app.delete('/hiring_process/:id', verifyAccessToken, delAllHiringProcesses)
+  app.get('/hiring_process', getAllHiringProcess)
+  app.post('/hiring_process', verifyAccessToken, createHiringProcess)
+  app.patch('/hiring_process/:id', verifyAccessToken, updateHiringProcess)
+  app.delete('/hiring_process/:id', verifyAccessToken, deleteHiringProcess)
 
   app.get('/candidate', getAllCandidate)
   app.get('/candidate/:id', getCandidate)
