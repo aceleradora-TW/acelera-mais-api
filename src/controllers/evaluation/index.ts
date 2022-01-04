@@ -1,7 +1,7 @@
 import { Evaluation } from "@models/entity/Evaluation"
 import { getRepository } from "typeorm"
 
-export const getEvaluations = async (request, response) => {
+export const getAllEvaluation = async (request, response) => {
   const { page = 0, count = 50 } = request.query
   const evaluationRepository = getRepository(Evaluation)
   const evaluations = await evaluationRepository.find({ skip: page, take: count })

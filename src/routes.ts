@@ -17,7 +17,7 @@ import {
   patchExercise
 } from '@controllers/exercise'
 import { importExercises } from '@controllers/exercise'
-import { getEvaluation, getEvaluations } from '@controllers/evaluation'
+import { getEvaluation, getAllEvaluation } from '@controllers/evaluation'
 
 export const defineRoutes = (app) => {
   app.get('/', itsWorks)
@@ -32,7 +32,7 @@ export const defineRoutes = (app) => {
   app.get('/candidate/exercise/hiring_process/:id', exportHiringProcessResume)
   app.post('/candidate/hiring_process/:id', importAllCandidate)
 
-  app.get('/evaluation', getEvaluations)
+  app.get('/evaluation', getAllEvaluation)
   app.get('/evaluation/:id', getEvaluation)
 
   app.get('/exercise', getExerciseByHiringProcessId)
