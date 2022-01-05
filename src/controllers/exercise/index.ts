@@ -1,5 +1,3 @@
-import { EvaluationRequest } from '@service/exercise/EvaluationRequest'
-import { EvaluationService } from '@service/exercise/EvaluationService'
 import { HttpResponseHandler } from "@controllers/HttpResponseHandler"
 import { message } from "@messages/languages/pt-br"
 import { Exercise } from "@models/entity/Exercise"
@@ -9,44 +7,9 @@ import { ExerciseService } from "@service/exercise/ExerciseService"
 import { Evaluation } from '@models/entity/Evaluation'
 
 
-const evaluationService = new EvaluationService()
+
 const httpResponseHandler = new HttpResponseHandler()
 const exerciseService = new ExerciseService()
-
-export const createEvaluation = async (request, response) => {
-  try {
-    const evaluationRequest = EvaluationRequest.convertFromHttpBody(request.body)
-    const result = await evaluationService.createEvaluationService(evaluationRequest)
-    return httpResponseHandler.createSuccessResponse(message.SUCCESS, result, response)
-  } catch (error) {
-    return httpResponseHandler.createErrorResponse(error, response)
-  }
-}
-
-export const updateEvaluation = async (request, response) => {
-  try {
-    const { mentorName, score, feedback } = request.body
-    const { id } = request.params
-    const evaluationUpdated = await evaluationService.editEvaluation(
-      id,
-      mentorName,
-      score,
-      feedback)
-    return httpResponseHandler.createSuccessResponse(message.UPDATED, evaluationUpdated, response)
-  } catch (error) {
-    console.log(error)
-    return httpResponseHandler.createErrorResponse(error, response)
-  }
-}
-
-export const deleteEvaluation = async (request, response) => {
-  try {
-    const result = await evaluationService.deleteEvaluation(request.params.id)
-    return httpResponseHandler.createSuccessResponse(message.REMOVED, result, response)
-  } catch (error) {
-    return httpResponseHandler.createErrorResponse(error, response)
-  }
-}
 
 const mapExercises = (id) => {
 
