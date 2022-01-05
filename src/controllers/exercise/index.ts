@@ -1,5 +1,5 @@
-import { EvaluationRequest } from '@service/exercise/EvaluationRequest'
-import { EvaluationService } from '@service/exercise/EvaluationService'
+import { EvaluationRequest } from '@service/evaluation/EvaluationRequest'
+import { EvaluationService } from '@service/evaluation/EvaluationService'
 import { HttpResponseHandler } from "@controllers/HttpResponseHandler"
 import { message } from "@messages/languages/pt-br"
 import { Exercise } from "@models/entity/Exercise"
