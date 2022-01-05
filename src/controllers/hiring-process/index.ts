@@ -25,7 +25,7 @@ const getStatus = (startDate, endDate) => {
   return 'status-closed'
 }
 
-export const createHiringProcessEndpoint = async (request, response) => {
+export const createHiringProcess = async (request, response) => {
   try {
     const hiringProcessRequest = HiringProcessRequest.convertFromHttpBody(request.body)
     const result = await hiringService.createHiringProcessService(hiringProcessRequest)
@@ -35,7 +35,7 @@ export const createHiringProcessEndpoint = async (request, response) => {
   }
 }
 
-export const editHiringProcess = async (request, response) => {
+export const updateHiringProcess = async (request, response) => {
   try {
     const hiringProcessRepository = getRepository(HiringProcess)
     const hiringProcess = await hiringProcessRepository.findOne(request.params.id)
@@ -71,7 +71,7 @@ export const editHiringProcess = async (request, response) => {
   }
 }
 
-export const getAllHiringProcesses = async (request, response) => {
+export const getAllHiringProcess = async (request, response) => {
   try {
     const hiringProcessRepository = getRepository(HiringProcess)
     let hiringProcesses = await hiringProcessRepository.find({ order: { startDate: 'DESC' } })
@@ -84,7 +84,7 @@ export const getAllHiringProcesses = async (request, response) => {
   }
 }
 
-export const delAllHiringProcesses = async (request, response) => {
+export const deleteHiringProcess = async (request, response) => {
   try {
     const hiringProcessRepository = getRepository(HiringProcess)
     const result = await hiringProcessRepository.delete(request.params.id)
