@@ -23,7 +23,7 @@ export const createEvaluation = async (request, response) => {
   }
 }
 
-export const editEvaluation = async (request, response) => {
+export const updateEvaluation = async (request, response) => {
   try {
     const { mentorName, score, feedback } = request.body
     const { id } = request.params
@@ -83,7 +83,7 @@ const mapExercises = (id) => {
   }
 }
 
-export const importExercises = async (request, response) => {
+export const importAllExercise = async (request, response) => {
   try {
     const { id } = request.params
     const { link } = request.body
@@ -154,7 +154,7 @@ export const getExerciseById = async (request, response) => {
   }
 }
 
-export const patchExercise = async (request, response) => {
+export const updateExercise = async (request, response) => {
   const { id } = request.params
   const { type } = request.body
 

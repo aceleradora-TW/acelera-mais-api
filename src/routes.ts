@@ -9,14 +9,14 @@ import {
 import { getCandidate, getAllCandidate, importAllCandidate } from '@controllers/candidate'
 import {
   createEvaluation,
-  editEvaluation,
+  updateEvaluation,
   deleteEvaluation,
   getExerciseById,
   getExerciseByHiringProcessId,
   exportHiringProcessResume,
-  patchExercise
+  updateExercise
 } from '@controllers/exercise'
-import { importExercises } from '@controllers/exercise'
+import { importAllExercise } from '@controllers/exercise'
 import { getEvaluation, getAllEvaluation } from '@controllers/evaluation'
 
 export const defineRoutes = (app) => {
@@ -38,9 +38,9 @@ export const defineRoutes = (app) => {
   app.get('/exercise', getExerciseByHiringProcessId)
   app.get('/exercise/:id', getExerciseById)
   app.post('/exercise', createEvaluation)
-  app.patch('/exercise/:id', patchExercise)
-  app.post('/exercise/hiring_process/:id', importExercises)
+  app.patch('/exercise/:id', updateExercise)
+  app.post('/exercise/hiring_process/:id', importAllExercise)
   app.delete('/exercise/:id', deleteEvaluation)
 
-  app.patch('/evaluation/:id', editEvaluation)
+  app.patch('/evaluation/:id', updateEvaluation)
 }
