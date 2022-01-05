@@ -5,6 +5,9 @@ import { EvaluationService } from '@service/exercise/EvaluationService'
 import { HttpResponseHandler } from "@controllers/HttpResponseHandler"
 import { message } from "@messages/languages/pt-br"
 
+const httpResponseHandler = new HttpResponseHandler()
+const evaluationService = new EvaluationService()
+
 export const getAllEvaluation = async (request, response) => {
   const { page = 0, count = 50 } = request.query
   const evaluationRepository = getRepository(Evaluation)
@@ -18,9 +21,6 @@ export const getEvaluation = async (request, response) => {
   const evaluation = await evaluationRepository.findOne(id)
   return response.json({ evaluation })
 }
-
-const httpResponseHandler = new HttpResponseHandler()
-const evaluationService = new EvaluationService()
 
 export const createEvaluation = async (request, response) => {
   try {

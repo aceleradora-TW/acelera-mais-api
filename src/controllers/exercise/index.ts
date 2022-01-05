@@ -6,8 +6,6 @@ import { importSpreadSheet } from "@service/google-spreadsheet"
 import { ExerciseService } from "@service/exercise/ExerciseService"
 import { Evaluation } from '@models/entity/Evaluation'
 
-
-
 const httpResponseHandler = new HttpResponseHandler()
 const exerciseService = new ExerciseService()
 
