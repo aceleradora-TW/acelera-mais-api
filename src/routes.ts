@@ -8,16 +8,19 @@ import {
 } from '@controllers/hiring-process'
 import { getCandidate, getAllCandidate, importAllCandidate } from '@controllers/candidate'
 import {
-  createEvaluation,
-  updateEvaluation,
-  deleteEvaluation,
   getExerciseById,
   getExerciseByHiringProcessId,
   exportHiringProcessResume,
   updateExercise
 } from '@controllers/exercise'
+import {
+  createEvaluation,
+  updateEvaluation,
+  deleteEvaluation
+} from '@controllers/evaluation'
 import { importAllExercise } from '@controllers/exercise'
 import { getEvaluation, getAllEvaluation } from '@controllers/evaluation'
+import { format } from 'path/posix'
 
 export const defineRoutes = (app) => {
   app.get('/', itsWorks)
@@ -34,13 +37,15 @@ export const defineRoutes = (app) => {
 
   app.get('/evaluation', getAllEvaluation)
   app.get('/evaluation/:id', getEvaluation)
+  app.patch('/evaluation/:id', updateEvaluation)
+  app.post('/evaluation', createEvaluation)
+  app.delete('/evaluation/:id', deleteEvaluation)
 
   app.get('/exercise', getExerciseByHiringProcessId)
   app.get('/exercise/:id', getExerciseById)
-  app.post('/exercise', createEvaluation)
   app.patch('/exercise/:id', updateExercise)
   app.post('/exercise/hiring_process/:id', importAllExercise)
-  app.delete('/exercise/:id', deleteEvaluation)
 
-  app.patch('/evaluation/:id', updateEvaluation)
+
+
 }
