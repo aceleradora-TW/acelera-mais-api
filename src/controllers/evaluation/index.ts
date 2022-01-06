@@ -1,9 +1,9 @@
-import { Evaluation } from "@models/entity/Evaluation"
 import { getRepository } from "typeorm"
 import { EvaluationRequest } from '@service/evaluation/EvaluationRequest'
 import { EvaluationService } from '@service/evaluation/EvaluationService'
 import { HttpResponseHandler } from "@controllers/HttpResponseHandler"
 import { message } from "@messages/languages/pt-br"
+import { Evaluation } from "@models/entity/Evaluation"
 
 const httpResponseHandler = new HttpResponseHandler()
 const evaluationService = new EvaluationService()
