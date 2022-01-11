@@ -1,11 +1,11 @@
-import { HttpResponseHandler } from '@controllers/HttpResponseHandler'
+import { httpResponseHandler } from '@controllers/HttpResponseHandler'
 import { createAccessToken, validateAccessToken } from '../../service/auth/AuthService'
-const responseHandler = new HttpResponseHandler()
+const responseHandler = httpResponseHandler()
 
 export const generateAccessToken = (request, response) => {
   const emailUser = request.body.email
   const passwordUser = request.body.password
-  
+
   try {
     const tokenPayload = createAccessToken(emailUser, passwordUser)
     return response.json(tokenPayload)
