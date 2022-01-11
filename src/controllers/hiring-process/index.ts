@@ -4,10 +4,10 @@ import { HiringProcess } from '@models/entity/HiringProcess'
 import { message } from '../../messages/languages/pt-br'
 import { HiringProcessRequest } from '@service/hiring-process/HiringProcessRequest'
 import { HiringProcessService } from '@service/hiring-process/HiringProcessService'
-import { HttpResponseHandler } from '@controllers/HttpResponseHandler'
+import { httpResponseHandler } from '@controllers/HttpResponseHandler'
 
 const hiringService = new HiringProcessService()
-const httpResponseHandler = new HttpResponseHandler()
+const httpResponse = httpResponseHandler()
 
 const getStatus = (startDate, endDate) => {
   const currentDate = Date.now()
@@ -29,9 +29,9 @@ export const createHiringProcess = async (request, response) => {
   try {
     const hiringProcessRequest = HiringProcessRequest.convertFromHttpBody(request.body)
     const result = await hiringService.createHiringProcessService(hiringProcessRequest)
-    return httpResponseHandler.createSuccessResponse(message.SUCCESS, result, response)
+    return httpResponse.createSuccessResponse(message.SUCCESS, result, response)
   } catch (error) {
-    return httpResponseHandler.createErrorResponse(error, response)
+    return httpResponse.createErrorResponse(error, response)
   }
 }
 

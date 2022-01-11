@@ -1,9 +1,11 @@
-import { HttpResponseHandler } from '@controllers/HttpResponseHandler'
+import { httpResponseHandler } from '@controllers/HttpResponseHandler'
 import { message } from '../../messages/languages/pt-br'
 import { Candidate } from '@models/entity/Candidate'
 import { importSpreadSheet } from '@service/google-spreadsheet'
 import { getRepository } from 'typeorm'
 import { Exercise } from '@models/entity/Exercise'
+
+const responseHandle = httpResponseHandler()
 
 const mapCandidates = (id) => {
 
@@ -46,8 +48,6 @@ const mapCandidates = (id) => {
     })
   }
 }
-
-const responseHandle = new HttpResponseHandler()
 
 export const importAllCandidate = async (request, response) => {
 
