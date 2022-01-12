@@ -1,4 +1,4 @@
-import { HttpResponseHandler } from '../../src/controllers/HttpResponseHandler'
+import { httpResponseHandler } from '../../src/controllers/HttpResponseHandler'
 import { HttpError, HttpStatusCode } from '../../src/service/HttpError'
 
 const mockResponse = (expectedStatusCode) => {
@@ -14,17 +14,17 @@ const mockResponse = (expectedStatusCode) => {
 }
 
 test('should create sucess OK response', () => {
-  const handler = new HttpResponseHandler()
+  const handler = httpResponseHandler()
   handler.createSuccessResponse('msg', { data: 'teste' }, mockResponse(HttpStatusCode.OK))
 })
 
 test('should create INTERNAL_SERVER response if status not present', () => {
-  const handler = new HttpResponseHandler()
+  const handler = httpResponseHandler()
   handler.createErrorResponse(new Error(), mockResponse(HttpStatusCode.INTERNAL_SERVER))
 })
 
 test('should create with HttpError status if present', () => {
-  const handler = new HttpResponseHandler()
+  const handler = httpResponseHandler()
   handler.createErrorResponse(
     new HttpError('test', HttpStatusCode.BAD_REQUEST), mockResponse(HttpStatusCode.BAD_REQUEST))
 })

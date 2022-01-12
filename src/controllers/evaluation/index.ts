@@ -1,11 +1,11 @@
 import { getRepository } from "typeorm"
 import { EvaluationRequest } from '@service/evaluation/EvaluationRequest'
 import { EvaluationService } from '@service/evaluation/EvaluationService'
-import { HttpResponseHandler } from "@controllers/HttpResponseHandler"
+import { httpResponseHandler } from "@controllers/HttpResponseHandler"
 import { message } from "@messages/languages/pt-br"
 import { Evaluation } from "@models/entity/Evaluation"
 
-const httpResponseHandler = new HttpResponseHandler()
+const httpResponse = httpResponseHandler()
 const evaluationService = new EvaluationService()
 
 export const getAllEvaluation = async (request, response) => {
@@ -26,9 +26,9 @@ export const createEvaluation = async (request, response) => {
   try {
     const evaluationRequest = EvaluationRequest.convertFromHttpBody(request.body)
     const result = await evaluationService.createEvaluationService(evaluationRequest)
-    return httpResponseHandler.createSuccessResponse(message.SUCCESS, result, response)
+    return httpResponse.createSuccessResponse(message.SUCCESS, result, response)
   } catch (error) {
-    return httpResponseHandler.createErrorResponse(error, response)
+    return httpResponse.createErrorResponse(error, response)
   }
 }
 
@@ -41,18 +41,18 @@ export const updateEvaluation = async (request, response) => {
       mentorName,
       score,
       feedback)
-    return httpResponseHandler.createSuccessResponse(message.UPDATED, evaluationUpdated, response)
+    return httpResponse.createSuccessResponse(message.UPDATED, evaluationUpdated, response)
   } catch (error) {
     console.log(error)
-    return httpResponseHandler.createErrorResponse(error, response)
+    return httpResponse.createErrorResponse(error, response)
   }
 }
 
 export const deleteEvaluation = async (request, response) => {
   try {
     const result = await evaluationService.deleteEvaluation(request.params.id)
-    return httpResponseHandler.createSuccessResponse(message.REMOVED, result, response)
+    return httpResponse.createSuccessResponse(message.REMOVED, result, response)
   } catch (error) {
-    return httpResponseHandler.createErrorResponse(error, response)
+    return httpResponse.createErrorResponse(error, response)
   }
 }
