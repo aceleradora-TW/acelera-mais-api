@@ -4,19 +4,14 @@ const scoreRange = (score) => {
   return 0
 }
 export const evaluationRequest = () => {
-  const createEvaluation = (mentorName, feedback, score) => ({
-    mentorName,
-    feedback,
-    score
-  })
 
   const convertFromHttpBody = (body) => {
     const { mentorName, feedback, score } = body
-    return createEvaluation(
+    return {
       mentorName,
       feedback,
-      scoreRange(score)
-    )
+      score:scoreRange(score)
+    }
   }
   return { convertFromHttpBody }
 }
