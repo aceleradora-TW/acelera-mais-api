@@ -3,11 +3,11 @@ import { message } from "@messages/languages/pt-br"
 import { Exercise } from "@models/entity/Exercise"
 import { getRepository } from "typeorm"
 import { importSpreadSheet } from "@service/google-spreadsheet"
-import { ExerciseService } from "@service/exercise/ExerciseService"
+import { exerciseService } from "@service/exercise/ExerciseService"
 import { Evaluation } from '@models/entity/Evaluation'
 
 const httpResponse = httpResponseHandler()
-const exerciseService = new ExerciseService()
+const allExercises = exerciseService()
 
 const mapExercises = (id) => {
 
@@ -93,7 +93,7 @@ export const exportHiringProcessResume = async (req, res) => {
 export const getExerciseByHiringProcessId = async (req, res) => {
   const { page, count, hiringProcessId, type, feedback } = req.query
   try {
-    const result = await exerciseService.getAllExercises({ page, count, hiringProcessId, type })
+    const result = await allExercises.getAllExercises({ page, count, hiringProcessId, type })
     return httpResponse.createSuccessResponse(message.FOUND, { hiringProcessId, result }, res)
   }
   catch (error) {
