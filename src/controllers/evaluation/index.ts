@@ -1,5 +1,5 @@
 import { getRepository } from "typeorm"
-import { EvaluationRequest } from '@service/evaluation/EvaluationRequest'
+import { evaluationRequest } from '@service/evaluation/EvaluationRequest'
 import { EvaluationService } from '@service/evaluation/EvaluationService'
 import { httpResponseHandler } from "@controllers/HttpResponseHandler"
 import { message } from "@messages/languages/pt-br"
@@ -7,6 +7,7 @@ import { Evaluation } from "@models/entity/Evaluation"
 
 const httpResponse = httpResponseHandler()
 const evaluationService = new EvaluationService()
+const evaluation = evaluationRequest()
 
 export const getAllEvaluation = async (request, response) => {
   const { page = 0, count = 50 } = request.query
@@ -24,7 +25,7 @@ export const getEvaluation = async (request, response) => {
 
 export const createEvaluation = async (request, response) => {
   try {
-    const evaluationRequest = EvaluationRequest.convertFromHttpBody(request.body)
+    const evaluationRequest = evaluation.convertFromHttpBody(request.body)
     const result = await evaluationService.createEvaluationService(evaluationRequest)
     return httpResponse.createSuccessResponse(message.SUCCESS, result, response)
   } catch (error) {
