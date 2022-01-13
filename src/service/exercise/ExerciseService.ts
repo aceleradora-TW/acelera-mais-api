@@ -7,7 +7,7 @@ export const exerciseService = () => {
 
   const getAllExercises = async ({ page, count, hiringProcessId, type }) => {
     let where = { hiringProcess: hiringProcessId }
-    if (type) { where = { ...where, ...type } }
+    if (type) { where = { ...where, type } }
     const exerciseRepository = getRepository(Exercise)
     const result = await exerciseRepository.find({
       where,
