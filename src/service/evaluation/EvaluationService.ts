@@ -4,10 +4,12 @@ import { Evaluation } from '@models/entity/Evaluation'
 import { HttpError, HttpStatusCode } from '../HttpError'
 import { evaluationRequest } from './EvaluationRequest'
 
-export const evaluationService = () => {
+const evaluation = evaluationRequest()
+
+export const evaluationService = (evaluation) => {
 
 
-  const createEvaluationService = async (evaluationRequest) => {
+  const createEvaluationService = async (evaluation) => {
 
     const evaluationRepository = getRepository(Evaluation)
     const evaluationEntity = await evaluationRepository.create(evaluationRequest)
