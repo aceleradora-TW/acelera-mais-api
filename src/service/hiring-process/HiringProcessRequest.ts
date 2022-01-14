@@ -1,23 +1,21 @@
-export class HiringProcessRequest {
-  public readonly name: string;
-  public readonly startDate: Date;
-  public readonly endDate: Date;
-  public readonly description: string;
+export const HiringProcessRequest = () => {
 
-  constructor(name: string, startDate: Date, endDate: Date, description: string) {
-    this.name = name
-    this.startDate = startDate
-    this.endDate = endDate
-    this.description = description
+  const constructor = (name: string, startDate: Date, endDate: Date, description: string) => {
+    return {
+    name: name,
+    startDate: startDate,
+    endDate: endDate,
+    description: description
   }
-
-  public static convertFromHttpBody(body) {
+  }
+  const convertFromHttpBody = (body) => {
     const { name, startDate, endDate, description } = body
-    return new HiringProcessRequest(
-      name,
-      startDate ? new Date(startDate) : undefined,
-      endDate ? new Date(endDate) : undefined,
+    return HiringProcessRequest{
+      name
+      startDate ? new Date(startDate) : undefined
+      endDate ? new Date(endDate) : undefined
       description || ''
-    )
+    }
   }
+  return { constructor, convertFromHttpBody }
 }
