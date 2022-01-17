@@ -3,10 +3,10 @@ import { validate } from 'class-validator'
 import { HiringProcess } from '@models/entity/HiringProcess'
 import { message } from '../../messages/languages/pt-br'
 import { HiringProcessRequest } from '@service/hiring-process/HiringProcessRequest'
-import { HiringProcessService } from '@service/hiring-process/HiringProcessService'
+import { hiringProcessService } from '@service/hiring-process/HiringProcessService'
 import { httpResponseHandler } from '@controllers/HttpResponseHandler'
 
-const hiringService = new HiringProcessService()
+const hiringService = hiringProcessService()
 const httpResponse = httpResponseHandler()
 
 const getStatus = (startDate, endDate) => {
