@@ -19,5 +19,5 @@ export const hiringProcessService = () => {
       throw new HttpError('Errors validating the hiring process:' + errors, HttpStatusCode.BAD_REQUEST)
     }
   }
-  return { createHiringProcessService, validateHiringProcess }
+  return { createHiringProcessService }
 }
