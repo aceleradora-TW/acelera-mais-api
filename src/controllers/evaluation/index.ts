@@ -6,7 +6,6 @@ import { message } from "@messages/languages/pt-br"
 import { Evaluation } from "@models/entity/Evaluation"
 
 const httpResponse = httpResponseHandler()
-const serviceEvaluation = evaluationService()
 const evaluation = evaluationRequest()
 
 export const getAllEvaluation = async (request, response) => {
@@ -26,7 +25,7 @@ export const getEvaluation = async (request, response) => {
 export const createEvaluation = async (request, response) => {
   try {
     const evaluationRequest = evaluation.convertFromHttpBody(request.body)
-    const result = await serviceEvaluation.createEvaluationService(evaluationRequest)
+    const result = await evaluationService().createEvaluationService(evaluationRequest)
     return httpResponse.createSuccessResponse(message.SUCCESS, result, response)
   } catch (error) {
     return httpResponse.createErrorResponse(error, response)
@@ -37,7 +36,7 @@ export const updateEvaluation = async (request, response) => {
   try {
     const { mentorName, score, feedback } = request.body
     const { id } = request.params
-    const evaluationUpdated = await serviceEvaluation.editEvaluation({
+    const evaluationUpdated = await evaluationService().editEvaluation({
       id,
       mentorName,
       score,
@@ -52,7 +51,7 @@ export const updateEvaluation = async (request, response) => {
 
 export const deleteEvaluation = async (request, response) => {
   try {
-    const result = await serviceEvaluation.deleteEvaluation(request.params.id)
+    const result = await evaluationService().deleteEvaluation(request.params.id)
     return httpResponse.createSuccessResponse(message.REMOVED, result, response)
   } catch (error) {
     return httpResponse.createErrorResponse(error, response)
