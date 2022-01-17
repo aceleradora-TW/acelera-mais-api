@@ -8,14 +8,14 @@ import { HttpError, HttpStatusCode } from '../HttpError'
 export const evaluationService = () => {
 
   // const requestEvaluation = evaluationRequest()
-  const createEvaluationService = async (requestEvaluation: any) => {
-
+  const createEvaluationService = async (evaluationRequest: any) => {
     const evaluationRepository = getRepository(Evaluation)
-    const evaluationEntity = evaluationRepository.create(requestEvaluation)
-    await validateEvaluation(evaluationEntity)
-    // if (evaluationEntity) {
+    const evaluationEntity = await evaluationRepository.create(evaluationRequest)
+    validateEvaluation(evaluationEntity)
     const evaluationEntitySaved = await evaluationRepository.save(evaluationEntity)
     return evaluationEntitySaved
+    // await validateEvaluation(evaluationEntity)
+    // if (evaluationEntity) {
     // } else {
     //   throw new HttpError('Errors validating the evaluation: ', HttpStatusCode.BAD_REQUEST)
     // }
@@ -55,7 +55,7 @@ export const evaluationService = () => {
     return result
   }
 
-  const deleteEvaluation = async ({ id }) => {
+  const deleteEvaluation = async (id) => {
     const evaluationRepository = getRepository(Evaluation)
     const evaluationDeleted = await evaluationRepository.delete(id)
 
@@ -64,5 +64,6 @@ export const evaluationService = () => {
     }
     return evaluationDeleted
   }
+
   return { createEvaluationService, editEvaluation, deleteEvaluation }
 }
