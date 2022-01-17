@@ -6,12 +6,16 @@ const scoreRange = (score) => {
 export const evaluationRequest = () => {
 
   const convertFromHttpBody = (body) => {
-    const { mentorName, feedback, score } = body
+  const hiringProcessRequest = (body) => {
+    const { name, description, startDate, endDate } = body
     return {
-      mentorName,
-      feedback,
-      score:scoreRange(score)
+        name, 
+        startDate: new Date(startDate) || undefined,
+        endDate: new Date(endDate) || undefined,
+        description: description || ''
     }
   }
+  return hiringProcessRequest 
+}
   return { convertFromHttpBody }
 }
