@@ -1,4 +1,4 @@
-export const HiringProcessRequest = () => {
+export const hiringProcessRequest = () => {
 
   const constructor = (name: string, startDate: Date, endDate: Date, description: string) => {
     return {
