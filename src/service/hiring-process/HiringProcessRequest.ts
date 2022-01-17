@@ -9,13 +9,16 @@ export const HiringProcessRequest = () => {
   }
   }
   const convertFromHttpBody = (body) => {
-    const { name, startDate, endDate, description } = body
-    return HiringProcessRequest{
-      name
-      startDate ? new Date(startDate) : undefined
-      endDate ? new Date(endDate) : undefined
-      description || ''
-    }
+  const hiringProcessRequest = (body) => {
+    const { name, description, startDate, endDate } = body
+    return {
+        name, 
+        startDate: new Date(startDate) || undefined,
+        endDate: new Date(endDate) || undefined,
+        description: description || ''
+      }
+   }
+  return hiringProcessRequest
   }
   return { constructor, convertFromHttpBody }
 }
