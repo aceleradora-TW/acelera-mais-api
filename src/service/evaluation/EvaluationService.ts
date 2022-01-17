@@ -2,26 +2,9 @@ import { getRepository } from 'typeorm'
 import { validate } from 'class-validator'
 import { Evaluation } from '@models/entity/Evaluation'
 import { HttpError, HttpStatusCode } from '../HttpError'
-// import { evaluationRequest } from './EvaluationRequest'
 
 
 export const evaluationService = () => {
-
-  // const requestEvaluation = evaluationRequest()
-  const createEvaluationService = async (evaluationRequest: any) => {
-    const evaluationRepository = getRepository(Evaluation)
-    const evaluationEntity = await evaluationRepository.create(evaluationRequest)
-    validateEvaluation(evaluationEntity)
-    const evaluationEntitySaved = await evaluationRepository.save(evaluationEntity)
-    return evaluationEntitySaved
-    // await validateEvaluation(evaluationEntity)
-    // if (evaluationEntity) {
-    // } else {
-    //   throw new HttpError('Errors validating the evaluation: ', HttpStatusCode.BAD_REQUEST)
-    // }
-    // const evaluationValidated = await validateEvaluation(evaluationEntity)
-
-  }
 
   const validateEvaluation = async ({ evaluation }) => {
     const errors = await validate(evaluation)
@@ -29,6 +12,14 @@ export const evaluationService = () => {
       throw new HttpError('Errors validating the evaluation:' + errors, HttpStatusCode.BAD_REQUEST)
     }
     return validateEvaluation
+  }
+
+  const createEvaluationService = async (evaluationRequest: any) => {
+    const evaluationRepository = getRepository(Evaluation)
+    const evaluationEntity = await evaluationRepository.create(evaluationRequest)
+    validateEvaluation(evaluationEntity)
+    const evaluationEntitySaved = await evaluationRepository.save(evaluationEntity)
+    return evaluationEntitySaved
   }
 
   const editEvaluation = async ({ id, mentorName, score, feedback }) => {
