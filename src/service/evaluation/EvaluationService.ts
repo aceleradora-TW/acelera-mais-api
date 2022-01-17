@@ -3,7 +3,6 @@ import { validate } from 'class-validator'
 import { Evaluation } from '@models/entity/Evaluation'
 import { HttpError, HttpStatusCode } from '../HttpError'
 
-
 export const evaluationService = () => {
 
   const validateEvaluation = async ({ evaluation }) => {
