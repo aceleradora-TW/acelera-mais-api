@@ -12,6 +12,7 @@ import {
 import { IsDate } from 'class-validator'
 import { HiringProcess } from './HiringProcess'
 import { Exercise } from './Exercise';
+import { isDate } from 'util/types';
 
 @Entity()
 export class Candidate {
@@ -34,8 +35,6 @@ export class Candidate {
   @Column({ name: 'email', type: 'varchar' })
   email: string;
 
-
-
   @Column({ name: 'time_stamp', type: 'timestamptz' })
   @IsDate()
   timeStamp: Date;
@@ -45,7 +44,6 @@ export class Candidate {
 
   @Column({ name: 'name', type: 'varchar', nullable: true })
   name: string;
-
 
   @Column({ name: 'phone', type: 'varchar' })
   phone: string;
@@ -82,6 +80,22 @@ export class Candidate {
 
   @Column({ name: 'ok_CI', type: 'boolean' })
   okCI: boolean;
+
+  @Column({ name: 'city', type: 'varchar' })
+  city: string;
+
+  @Column({ name: 'sexual_orientation', type: 'varchar' })
+  sexualOrientation: string;
+
+  @Column({ name: 'photo', type: 'varchar' })
+  photo: string;
+
+  @Column({ name: 'dev_profile', type: 'varchar' })
+  devProfile: string;
+
+  @Column({ name: 'equipment', type: 'varchar' })
+  equipment: string;
+
 
   @CreateDateColumn({
     name: 'created_at',

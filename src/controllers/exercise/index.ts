@@ -12,6 +12,7 @@ const allExercises = exerciseService()
 const mapExercises = (id) => {
 
   const normaliseDate = (date) => {
+    return date
     const newDate = date.split('/')
 
     return `${newDate[1]}/${newDate[0]}/${newDate[2]}`
@@ -35,7 +36,7 @@ const mapExercises = (id) => {
         haveInternet: r['Você possui acesso a internet em casa?'],
         haveWebcam: r['Voce Possui Webcam?'],
         canUseWebcam: r['Você se incomodaria em abrir sua Webcam durante as interações quanto a Aceleradora Ágil?'],
-        cityState: r['Qual a sua cidade/estado?'],
+        exerciseStatement: r['Enunciado dos exercícios'],
         type: '',
         hiringProcess: { id },
         evaluation: new Evaluation()
@@ -56,7 +57,7 @@ export const importAllExercise = async (request, response) => {
       const {
         timeStamp, addressEmail, name, phone, exercise,
         fileType, zip, github, haveComputer, haveInternet,
-        haveWebcam, canUseWebcam, cityState, hiringProcess,
+        haveWebcam, canUseWebcam, exerciseStatement, hiringProcess,
         evaluation
       } = data
       const result = await exerciseRepository.findOne({ addressEmail, hiringProcess })
@@ -71,7 +72,7 @@ export const importAllExercise = async (request, response) => {
       result.haveInternet = haveInternet
       result.haveWebcam = haveWebcam
       result.canUseWebcam = canUseWebcam
-      result.cityState = cityState
+      result.exerciseStatement = exerciseStatement
       result.hiringProcess = hiringProcess
       result.evaluation = evaluation
       await exerciseRepository.save(result)

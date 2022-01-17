@@ -64,8 +64,8 @@ export class Exercise {
   @Column({ name: 'can_use_webcam', nullable: true, type: 'varchar' })
   canUseWebcam: string;
 
-  @Column({ name: 'city_state', nullable: true, type: 'varchar' })
-  cityState: string;
+  @Column({ name: 'exercise_statement', nullable: true, type: 'varchar' })
+  exerciseStatement: string;
 
   @Column({ name: 'type', type: 'varchar', nullable: true })
   type: string;
