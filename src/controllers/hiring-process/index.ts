@@ -8,7 +8,7 @@ import { httpResponseHandler } from '@controllers/HttpResponseHandler'
 
 const hiringService = new HiringProcessService()
 const httpResponse = httpResponseHandler()
-const hiringRequest = hiringProcessRequest()
+
 const getStatus = (startDate, endDate) => {
   const currentDate = Date.now()
 
@@ -27,8 +27,8 @@ const getStatus = (startDate, endDate) => {
 
 export const createHiringProcess = async (request, response) => {
   try {
-    const hiringProcessRequest = hiringRequest.convertFromHttpBody(request.body)
-    const result = await hiringService.createHiringProcessService(hiringProcessRequest)
+    const hiringProcess = hiringProcessRequest().convertFromHttpBody(request.body)
+    const result = await hiringService.createHiringProcessService(hiringProcess)
     return httpResponse.createSuccessResponse(message.SUCCESS, result, response)
   } catch (error) {
     return httpResponse.createErrorResponse(error, response)
