@@ -2,11 +2,16 @@ import { getRepository } from 'typeorm'
 import { validate } from 'class-validator'
 import { HiringProcess } from '@models/entity/HiringProcess'
 import { message } from '../../messages/languages/pt-br'
+<<<<<<< HEAD
 import { hiringProcessRequest } from '@service/hiring-process/HiringProcessRequest'
 import { HiringProcessService } from '@service/hiring-process/HiringProcessService'
+=======
+import { HiringProcessRequest } from '@service/hiring-process/HiringProcessRequest'
+import { hiringProcessService } from '@service/hiring-process/HiringProcessService'
+>>>>>>> 140813b4ab23945a12bb457c140f822b07faccec
 import { httpResponseHandler } from '@controllers/HttpResponseHandler'
 
-const hiringService = new HiringProcessService()
+const hiringService = hiringProcessService()
 const httpResponse = httpResponseHandler()
 
 const getStatus = (startDate, endDate) => {
