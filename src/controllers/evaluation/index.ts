@@ -5,6 +5,8 @@ import { httpResponseHandler } from "@controllers/HttpResponseHandler"
 import { message } from "@messages/languages/pt-br"
 import { Evaluation } from "@models/entity/Evaluation"
 
+const httpResponse = httpResponseHandler()
+
 export const getAllEvaluation = async (request, response) => {
   const { page = 0, count = 50 } = request.query
   const evaluationRepository = getRepository(Evaluation)
@@ -23,9 +25,9 @@ export const createEvaluation = async (request, response) => {
   try {
     const evaluation = evaluationRequest().convertFromHttpBody(request.body)
     const result = await evaluationService().createEvaluationService(evaluation)
-    return httpResponseHandler().createSuccessResponse(message.SUCCESS, result, response)
+    return httpResponse.createSuccessResponse(message.SUCCESS, result, response)
   } catch (error) {
-    return httpResponseHandler().createErrorResponse(error, response)
+    return httpResponse.createErrorResponse(error, response)
   }
 }
 
@@ -39,18 +41,18 @@ export const updateEvaluation = async (request, response) => {
       score,
       feedback
     })
-    return httpResponseHandler().createSuccessResponse(message.UPDATED, evaluationUpdated, response)
+    return httpResponse.createSuccessResponse(message.UPDATED, evaluationUpdated, response)
   } catch (error) {
     console.log(error)
-    return httpResponseHandler().createErrorResponse(error, response)
+    return httpResponse.createErrorResponse(error, response)
   }
 }
 
 export const deleteEvaluation = async (request, response) => {
   try {
     const result = await evaluationService().deleteEvaluation(request.params.id)
-    return httpResponseHandler().createSuccessResponse(message.REMOVED, result, response)
+    return httpResponse.createSuccessResponse(message.REMOVED, result, response)
   } catch (error) {
-    return httpResponseHandler().createErrorResponse(error, response)
+    return httpResponse.createErrorResponse(error, response)
   }
 }
