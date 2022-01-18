@@ -1,5 +1,5 @@
 import { HiringProcessRequest } from '../../../src/service/hiring-process/HiringProcessRequest'
-import { HiringProcessService } from '../../../src/service/hiring-process/HiringProcessService'
+import { hiringProcessService } from '../../../src/service/hiring-process/HiringProcessService'
 import { HttpStatusCode } from '../../../src/service/HttpError'
 import { HiringProcess } from '../../../src/models/entity/HiringProcess'
 import { mock } from 'jest-mock-extended'
@@ -13,7 +13,7 @@ jest.mock('typeorm', () => {
   }
 })
 
-const service = new HiringProcessService()
+const service = hiringProcessService()
 
 test('should return Entity when request is valid', async () => {
   const validRequest = new HiringProcessRequest('test', new Date(), new Date(), 'test')
