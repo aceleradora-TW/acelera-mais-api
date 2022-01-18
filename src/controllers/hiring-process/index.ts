@@ -3,12 +3,17 @@ import { validate } from 'class-validator'
 import { HiringProcess } from '@models/entity/HiringProcess'
 import { message } from '../../messages/languages/pt-br'
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { hiringProcessRequest } from '@service/hiring-process/HiringProcessRequest'
 import { HiringProcessService } from '@service/hiring-process/HiringProcessService'
 =======
 import { HiringProcessRequest } from '@service/hiring-process/HiringProcessRequest'
 import { hiringProcessService } from '@service/hiring-process/HiringProcessService'
 >>>>>>> 140813b4ab23945a12bb457c140f822b07faccec
+=======
+import { hiringProcessRequest } from '@service/hiring-process/HiringProcessRequest'
+import { hiringProcessService } from '@service/hiring-process/HiringProcessService'
+>>>>>>> 0ac3cb2b913246e2dd67753eaad6500ed5c4a421
 import { httpResponseHandler } from '@controllers/HttpResponseHandler'
 
 const hiringService = hiringProcessService()
