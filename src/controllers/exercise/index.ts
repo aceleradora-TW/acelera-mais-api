@@ -7,7 +7,6 @@ import { exerciseService } from "@service/exercise/ExerciseService"
 import { Evaluation } from '@models/entity/Evaluation'
 
 const httpResponse = httpResponseHandler()
-const allExercises = exerciseService()
 
 const mapExercises = (id) => {
 
@@ -93,7 +92,7 @@ export const exportHiringProcessResume = async (req, res) => {
 export const getExerciseByHiringProcessId = async (req, res) => {
   const { page, count, hiringProcessId, type, feedback } = req.query
   try {
-    const result = await allExercises.getAllExercises({ page, count, hiringProcessId, type })
+    const result = await exerciseService().getAllExercises({ page, count, hiringProcessId, type })
     return httpResponse.createSuccessResponse(message.FOUND, { hiringProcessId, result }, res)
   }
   catch (error) {
