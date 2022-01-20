@@ -3,23 +3,25 @@ import { validate } from 'class-validator'
 import { Evaluation } from '@models/entity/Evaluation'
 import { HttpError, HttpStatusCode } from '../HttpError'
 
-export class EvaluationService {
-  public async createEvaluationService(evaluationRequest: any) {
-    const evaluationRepository = getRepository(Evaluation)
-    const evaluationEntity = await evaluationRepository.create(evaluationRequest)
-    await this.validateEvaluation(evaluationEntity)
-    const evaluationEntitySaved = await evaluationRepository.save(evaluationEntity)
-    return evaluationEntitySaved
-  }
+export const evaluationService = () => {
 
-  private async validateEvaluation(evaluation) {
+  const validateEvaluation = async ({ evaluation }) => {
     const errors = await validate(evaluation)
     if (errors.length > 0) {
       throw new HttpError('Errors validating the evaluation:' + errors, HttpStatusCode.BAD_REQUEST)
     }
+    return validateEvaluation
   }
 
-  public async editEvaluation(id, mentorName, score, feedback) {
+  const createEvaluationService = async (evaluationRequest: any) => {
+    const evaluationRepository = getRepository(Evaluation)
+    const evaluationEntity = await evaluationRepository.create(evaluationRequest)
+    validateEvaluation(evaluationEntity)
+    const evaluationEntitySaved = await evaluationRepository.save(evaluationEntity)
+    return evaluationEntitySaved
+  }
+
+  const editEvaluation = async ({ id, mentorName, score, feedback }) => {
     const evaluationRepository = getRepository(Evaluation)
     const evaluation = await evaluationRepository.findOne(id)
     if (!evaluation) {
@@ -38,12 +40,12 @@ export class EvaluationService {
       evaluation.feedback = feedback
     }
 
-    this.validateEvaluation(evaluation)
+    validateEvaluation(evaluation)
     const result = await evaluationRepository.save(evaluation)
     return result
   }
 
-  public async deleteEvaluation(id) {
+  const deleteEvaluation = async (id) => {
     const evaluationRepository = getRepository(Evaluation)
     const evaluationDeleted = await evaluationRepository.delete(id)
 
@@ -52,4 +54,6 @@ export class EvaluationService {
     }
     return evaluationDeleted
   }
+
+  return { createEvaluationService, editEvaluation, deleteEvaluation }
 }
