@@ -5,7 +5,7 @@ import { Evaluation } from "./Evaluation";
 import { HiringProcess } from "./HiringProcess";
 
 @Entity()
-export class Exercise {
+export class Challenge {
   @PrimaryGeneratedColumn()
   id: number;
 

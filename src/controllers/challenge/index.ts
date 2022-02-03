@@ -1,9 +1,9 @@
 import { httpResponseHandler } from "@controllers/HttpResponseHandler"
 import { message } from "@messages/languages/pt-br"
-import { Exercise } from "@models/entity/Exercise"
+import { Challenge } from "@models/entity/Challenge"
 import { getRepository } from "typeorm"
 import { importSpreadSheet } from "@service/google-spreadsheet"
-import { exerciseService } from "@service/exercise/ExerciseService"
+import { exerciseService } from "@service/challenge/ChallengeService"
 import { Evaluation } from '@models/entity/Evaluation'
 
 const httpResponse = httpResponseHandler()
@@ -49,7 +49,7 @@ export const importAllExercise = async (request, response) => {
     const { link } = request.body
 
     const exercisesSheet = await importSpreadSheet(link, mapExercises(id))
-    const exerciseRepository = getRepository(Exercise)
+    const exerciseRepository = getRepository(Challenge)
 
     const exercises = exercisesSheet.map(async data => {
       const {
@@ -102,7 +102,7 @@ export const getExerciseByHiringProcessId = async (req, res) => {
 
 export const getExerciseById = async (request, response) => {
   try {
-    const exerciseRepository = getRepository(Exercise)
+    const exerciseRepository = getRepository(Challenge)
     const exercise = await exerciseRepository.findOne(request.params.id)
 
     if (!exercise) {
@@ -118,7 +118,7 @@ export const updateExercise = async (request, response) => {
   const { id } = request.params
   const { type } = request.body
 
-  const exerciseRepository = getRepository(Exercise)
+  const exerciseRepository = getRepository(Challenge)
   const exercise = await exerciseRepository.findOne(id)
   exercise.type = type
   const result = await exerciseRepository.save(exercise)

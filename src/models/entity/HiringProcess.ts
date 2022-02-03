@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 import { IsNotEmpty, IsDate } from 'class-validator'
 import { Match } from '@models/validators/date'
 import { Candidate } from './Candidate'
-import { Exercise } from './Exercise';
+import { Challenge } from './Challenge';
 @Entity()
 export class HiringProcess {
   @PrimaryGeneratedColumn()
@@ -15,8 +15,8 @@ export class HiringProcess {
   @OneToMany(() => Candidate, candidate => candidate.hiringProcess)
   candidates: Candidate[]
 
-  @OneToMany(() => Exercise, exercise => exercise.hiringProcess)
-  exercises: Exercise[]
+  @OneToMany(() => Challenge, exercise => exercise.hiringProcess)
+  exercises: Challenge[]
 
   @Column({ name: 'start_date', type: 'timestamptz' })
   @IsNotEmpty()

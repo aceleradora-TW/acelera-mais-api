@@ -1,5 +1,5 @@
 import { message } from "@messages/languages/pt-br"
-import { Exercise } from "@models/entity/Exercise"
+import { Challenge } from "@models/entity/Challenge"
 import { HttpError, HttpStatusCode } from "@service/HttpError"
 import { getRepository } from "typeorm"
 
@@ -8,7 +8,7 @@ export const exerciseService = () => {
   const getAllExercises = async ({ page, count, hiringProcessId, type }) => {
     let where = { hiringProcess: hiringProcessId }
     if (type) { where = { ...where, type } }
-    const exerciseRepository = getRepository(Exercise)
+    const exerciseRepository = getRepository(Challenge)
     const result = await exerciseRepository.find({
       where,
       skip: page,
