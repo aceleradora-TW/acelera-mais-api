@@ -32,7 +32,7 @@ export const defineRoutes = (app) => {
 
   app.get('/candidate', getAllCandidate)
   app.get('/candidate/:id', getCandidate)
-  app.get('/candidate/exercise/hiring_process/:id', exportHiringProcessResume)
+  app.get('/candidate/challenge/hiring_process/:id', exportHiringProcessResume)
   app.post('/candidate/hiring_process/:id', importAllCandidate)
 
   app.get('/evaluation', getAllEvaluation)

@@ -23,11 +23,11 @@ export class Candidate {
   @ManyToOne(() => HiringProcess, hiringProcess => hiringProcess.candidates, { onDelete: 'CASCADE' })
   hiringProcess: HiringProcess
 
-  @OneToOne(() => Challenge, exercise => exercise.candidate, {
+  @OneToOne(() => Challenge, challenge => challenge.candidate, {
     cascade: true,
     onDelete: 'CASCADE'
   })
-  @JoinColumn({ name: 'exercise_id' })
+  @JoinColumn({ name: 'challenge_id' })
   exercise: Challenge;
 
 

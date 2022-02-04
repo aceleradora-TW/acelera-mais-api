@@ -21,7 +21,7 @@ export class Challenge {
     cascade: true,
     onDelete: 'CASCADE'
   })
-  @JoinColumn({ name: 'exercise_id' })
+  @JoinColumn({ name: 'challenge_id' })
   evaluation: Evaluation
 
 
