@@ -3,9 +3,9 @@ import { Challenge } from "@models/entity/Challenge"
 import { HttpError, HttpStatusCode } from "@service/HttpError"
 import { getRepository } from "typeorm"
 
-export const exerciseService = () => {
+export const challengeService = () => {
 
-  const getAllExercises = async ({ page, count, hiringProcessId, type }) => {
+  const getAllChallenges = async ({ page, count, hiringProcessId, type }) => {
     let where = { hiringProcess: hiringProcessId }
     if (type) { where = { ...where, type } }
     const exerciseRepository = getRepository(Challenge)
@@ -20,5 +20,5 @@ export const exerciseService = () => {
     return result
   }
 
-  return { getAllExercises }
+  return { getAllChallenges }
 }

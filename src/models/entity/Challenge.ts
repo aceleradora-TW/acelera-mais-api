@@ -37,8 +37,8 @@ export class Challenge {
   @Column({ name: 'phone', nullable: true, type: 'varchar' })
   phone: string;
 
-  @Column({ name: 'exercise', nullable: true, type: 'varchar' })
-  exercise: string;
+  @Column({ name: 'challenge', nullable: true, type: 'varchar' })
+  challenge: string;
 
   @Column({ name: 'file_type', nullable: true, type: 'varchar' })
   fileType: string;
