@@ -13,7 +13,7 @@ export class Challenge {
   @ManyToOne(() => HiringProcess, hiringProcess => hiringProcess.exercises, { onDelete: 'CASCADE' })
   hiringProcess: HiringProcess
 
-  @OneToOne(() => Candidate, candidate => candidate.exercise, { eager: true })
+  @OneToOne(() => Candidate, candidate => candidate.challenge, { eager: true })
   candidate: Candidate
 
   @OneToOne(() => Evaluation, evaluation => evaluation.exercise, {
@@ -23,9 +23,6 @@ export class Challenge {
   })
   @JoinColumn({ name: 'challenge_id' })
   evaluation: Evaluation
-
-
-
 
   @Column({ name: 'time_stamp', nullable: true, type: 'timestamptz' })
   @IsDate()

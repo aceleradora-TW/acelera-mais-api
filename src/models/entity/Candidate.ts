@@ -28,13 +28,10 @@ export class Candidate {
     onDelete: 'CASCADE'
   })
   @JoinColumn({ name: 'challenge_id' })
-  exercise: Challenge;
-
+  challenge: Challenge;
 
   @Column({ name: 'email', type: 'varchar' })
   email: string;
-
-
 
   @Column({ name: 'time_stamp', type: 'timestamptz' })
   @IsDate()
