@@ -8,8 +8,8 @@ export const challengeService = () => {
   const getAllChallenges = async ({ page, count, hiringProcessId, type }) => {
     let where = { hiringProcess: hiringProcessId }
     if (type) { where = { ...where, type } }
-    const exerciseRepository = getRepository(Challenge)
-    const result = await exerciseRepository.find({
+    const challengeRepository = getRepository(Challenge)
+    const result = await challengeRepository.find({
       where,
       skip: page,
       take: count

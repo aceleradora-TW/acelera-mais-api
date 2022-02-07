@@ -6,8 +6,8 @@ export class Evaluation {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(() => Challenge, exercise => exercise.evaluation)
-  exercise: Challenge;
+  @OneToOne(() => Challenge, challenge => challenge.evaluation)
+  challenge: Challenge;
 
   @Column({ name: 'mentor_name', type: 'varchar', nullable: true })
   mentorName: string;
