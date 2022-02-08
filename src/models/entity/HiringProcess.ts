@@ -15,8 +15,8 @@ export class HiringProcess {
   @OneToMany(() => Candidate, candidate => candidate.hiringProcess)
   candidates: Candidate[]
 
-  @OneToMany(() => Challenge, exercise => exercise.hiringProcess)
-  exercises: Challenge[]
+  @OneToMany(() => Challenge, challenge => challenge.hiringProcess)
+  challenges: Challenge[]
 
   @Column({ name: 'start_date', type: 'timestamptz' })
   @IsNotEmpty()
