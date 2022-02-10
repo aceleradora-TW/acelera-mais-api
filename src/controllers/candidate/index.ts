@@ -10,6 +10,7 @@ const responseHandle = httpResponseHandler()
 const mapCandidates = (id) => {
 
   const normaliseDate = (date) => {
+    return date
     const newDate = date.split("/")
     return `${newDate[1]}/${newDate[0]}/${newDate[2]}`
   }

@@ -21,7 +21,7 @@ export class Challenge {
     cascade: true,
     onDelete: 'CASCADE'
   })
-  @JoinColumn({ name: 'challenge_id' })
+  @JoinColumn({ name: 'exercise_id' })
   exercises: Exercise[]
 
   @Column({ name: 'time_stamp', nullable: true, type: 'timestamptz' })

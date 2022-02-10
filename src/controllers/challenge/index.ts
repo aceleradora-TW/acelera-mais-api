@@ -4,13 +4,13 @@ import { Challenge } from "@models/entity/Challenge"
 import { getRepository } from "typeorm"
 import { importSpreadSheet } from "@service/google-spreadsheet"
 import { challengeService } from "@service/challenge/ChallengeService"
-import { Evaluation } from '@models/entity/Evaluation'
 
 const httpResponse = httpResponseHandler()
 
 const mapChallenges = (id) => {
 
   const normaliseDate = (date) => {
+    return date
     const newDate = date.split('/')
 
     return `${newDate[1]}/${newDate[0]}/${newDate[2]}`
@@ -37,7 +37,6 @@ const mapChallenges = (id) => {
         cityState: r['Qual a sua cidade/estado?'],
         type: '',
         hiringProcess: { id },
-        evaluation: new Evaluation()
       }
     })
   }
@@ -56,7 +55,6 @@ export const importAllChallenge = async (request, response) => {
         timeStamp, addressEmail, name, phone, challenge,
         fileType, zip, github, haveComputer, haveInternet,
         haveWebcam, canUseWebcam, cityState, hiringProcess,
-        evaluation
       } = data
       const result = await challengeRepository.findOne({ addressEmail, hiringProcess })
       result.timeStamp = timeStamp
@@ -72,7 +70,6 @@ export const importAllChallenge = async (request, response) => {
       result.canUseWebcam = canUseWebcam
       result.cityState = cityState
       result.hiringProcess = hiringProcess
-      result.evaluation = evaluation
       await challengeRepository.save(result)
       return result
     })
