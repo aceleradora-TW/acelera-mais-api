@@ -3,7 +3,7 @@ import { message } from '../../messages/languages/pt-br'
 import { Candidate } from '@models/entity/Candidate'
 import { importSpreadSheet } from '@service/google-spreadsheet'
 import { getRepository } from 'typeorm'
-import { Exercise } from '@models/entity/Exercise'
+import { Challenge } from '@models/entity/Challenge'
 
 const responseHandle = httpResponseHandler()
 
@@ -21,13 +21,13 @@ const mapCandidates = (id) => {
       const timeStamp = normaliseDate(r['Carimbo de data/hora'])
       const birthDate = normaliseDate(r['Data de Nascimento:'])
       const email = r['E-mail:']
-      const exercise = new Exercise()
-      exercise.hiringProcess = id
-      exercise.addressEmail = email
+      const challenge = new Challenge()
+      challenge.hiringProcess = id
+      challenge.addressEmail = email
 
       return {
         hiringProcess: { id: parseInt(id) },
-        exercise,
+        challenge,
         timeStamp,
         addressEmail: r['Endereço de e-mail'],
         name: r['Nome Completo:'],

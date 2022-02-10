@@ -11,7 +11,7 @@ import {
 } from 'typeorm'
 import { IsDate } from 'class-validator'
 import { HiringProcess } from './HiringProcess'
-import { Exercise } from './Exercise';
+import { Challenge } from './Challenge';
 
 @Entity()
 export class Candidate {
@@ -23,18 +23,15 @@ export class Candidate {
   @ManyToOne(() => HiringProcess, hiringProcess => hiringProcess.candidates, { onDelete: 'CASCADE' })
   hiringProcess: HiringProcess
 
-  @OneToOne(() => Exercise, exercise => exercise.candidate, {
+  @OneToOne(() => Challenge, challenge => challenge.candidate, {
     cascade: true,
     onDelete: 'CASCADE'
   })
-  @JoinColumn({ name: 'exercise_id' })
-  exercise: Exercise;
-
+  @JoinColumn({ name: 'challenge_id' })
+  challenge: Challenge;
 
   @Column({ name: 'email', type: 'varchar' })
   email: string;
-
-
 
   @Column({ name: 'time_stamp', type: 'timestamptz' })
   @IsDate()

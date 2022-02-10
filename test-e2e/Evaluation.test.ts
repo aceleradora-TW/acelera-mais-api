@@ -4,7 +4,7 @@ import { HttpStatusCode } from '../src/service/HttpError'
 describe('Evaluation', () => {
 
   it('should create evaluation', async () => {
-    const response = await axiosInstance.post('/exercise', {
+    const response = await axiosInstance.post('/challenge', {
       mentorName: 'teste mentor',
       feedback: 'teste feedback',
       score: 5
@@ -15,7 +15,7 @@ describe('Evaluation', () => {
 
   it('should edit evaluation', async () => {
 
-    const response = await axiosInstance.post('/exercise', {
+    const response = await axiosInstance.post('/challenge', {
       mentorName: 'teste mentor',
       feedback: 'teste feedback',
       score: 5
@@ -23,7 +23,7 @@ describe('Evaluation', () => {
 
     const id = response.data.id
 
-    const evaluationUpdated = await axiosInstance.patch(`/exercise/${id}`, {
+    const evaluationUpdated = await axiosInstance.patch(`/challenge/${id}`, {
       mentorName: 'novo mentor',
       feedback: 'novo feedback',
       score: 4
