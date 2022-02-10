@@ -1,7 +1,7 @@
 import { IsDate } from "class-validator";
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Candidate } from "./Candidate";
-import { Evaluation } from "./Evaluation";
+import { Exercise } from "./Exercise";
 import { HiringProcess } from "./HiringProcess";
 
 @Entity()
@@ -16,13 +16,13 @@ export class Challenge {
   @OneToOne(() => Candidate, candidate => candidate.challenge, { eager: true })
   candidate: Candidate
 
-  @OneToOne(() => Evaluation, evaluation => evaluation.challenge, {
+  @OneToOne(() => Exercise, exercise => exercise.challenge, {
     eager: true,
     cascade: true,
     onDelete: 'CASCADE'
   })
   @JoinColumn({ name: 'challenge_id' })
-  evaluation: Evaluation
+  exercises: Exercise[]
 
   @Column({ name: 'time_stamp', nullable: true, type: 'timestamptz' })
   @IsDate()
