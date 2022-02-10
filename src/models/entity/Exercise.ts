@@ -18,6 +18,9 @@ export class Exercise {
   @JoinColumn({ name: 'evaluation_id' })
   evaluation: Evaluation
 
+  @Column({ name: 'name', nullable: true, type: 'varchar' })
+  name: string;
+
   @Column({ name: 'type', nullable: true, type: 'varchar' })
   type: string;
 

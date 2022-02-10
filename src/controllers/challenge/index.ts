@@ -4,6 +4,7 @@ import { Challenge } from "@models/entity/Challenge"
 import { getRepository } from "typeorm"
 import { importSpreadSheet } from "@service/google-spreadsheet"
 import { challengeService } from "@service/challenge/ChallengeService"
+import { Evaluation } from "@models/entity/Evaluation"
 
 const httpResponse = httpResponseHandler()
 
@@ -41,40 +42,65 @@ const mapChallenges = (id) => {
     })
   }
 }
-
+const groupChallengesByEmail = (challenges) => {
+  let object = {}
+  challenges.forEach(challenge => {
+    if (object[challenge.addressEmail]) {
+      object[challenge.addressEmail].exercises.push({
+        name: challenge.challenge, 
+        type: 'zip',
+        link: 'http://google.com.br',
+        evaluation: new Evaluation()
+      })
+    } else {
+      object[challenge.addressEmail] = {}
+      object[challenge.addressEmail].exercises = []
+      object[challenge.addressEmail].exercises.push({
+        name: challenge.challenge, 
+        type: 'zip',
+        link: 'http://google.com.br',
+        evaluation: new Evaluation()
+      })
+    }
+  })
+  console.log(object)
+  return object
+}
 export const importAllChallenge = async (request, response) => {
   try {
     const { id } = request.params
     const { link } = request.body
 
     const challengesSheet = await importSpreadSheet(link, mapChallenges(id))
-    const challengeRepository = getRepository(Challenge)
+    const challengeSumarized = groupChallengesByEmail(challengesSheet)
+//    const challengeRepository = getRepository(Challenge)
+//
+//    const challenges = challengesSheet.map(async data => {
+//      const {
+//        timeStamp, addressEmail, name, phone, challenge,
+//        fileType, zip, github, haveComputer, haveInternet,
+//        haveWebcam, canUseWebcam, cityState, hiringProcess,
+//      } = data
+//      const result = await challengeRepository.findOne({ addressEmail, hiringProcess })
+//      result.timeStamp = timeStamp
+//      result.name = name
+//      result.phone = phone
+//      result.challenge = challenge
+//      result.github = github
+//      result.fileType = fileType
+ //     result.zip = zip
+  //    result.haveComputer = haveComputer
+    //  result.haveInternet = haveInternet
+    //  result.haveWebcam = haveWebcam
+     // result.canUseWebcam = canUseWebcam
+    //  result.cityState = cityState
+     // result.hiringProcess = hiringProcess
+      //await challengeRepository.save(result)
+      //return result
+    //})
 
-    const challenges = challengesSheet.map(async data => {
-      const {
-        timeStamp, addressEmail, name, phone, challenge,
-        fileType, zip, github, haveComputer, haveInternet,
-        haveWebcam, canUseWebcam, cityState, hiringProcess,
-      } = data
-      const result = await challengeRepository.findOne({ addressEmail, hiringProcess })
-      result.timeStamp = timeStamp
-      result.name = name
-      result.phone = phone
-      result.challenge = challenge
-      result.github = github
-      result.fileType = fileType
-      result.zip = zip
-      result.haveComputer = haveComputer
-      result.haveInternet = haveInternet
-      result.haveWebcam = haveWebcam
-      result.canUseWebcam = canUseWebcam
-      result.cityState = cityState
-      result.hiringProcess = hiringProcess
-      await challengeRepository.save(result)
-      return result
-    })
-
-    return httpResponse.createSuccessResponse(message.SUCCESS, { id, challenges, count: challengesSheet.length }, response)
+    //return httpResponse.createSuccessResponse(message.SUCCESS, { id, challenges, count: challengesSheet.length }, response)
+  return httpResponse.createSuccessResponse(message.SUCCESS, {challengeSumarized}, response)
   } catch (error) {
     return httpResponse.createErrorResponse(error, response)
   }
