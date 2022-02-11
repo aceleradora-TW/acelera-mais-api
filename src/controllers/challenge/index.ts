@@ -51,12 +51,12 @@ const getExerciseType = (challenge) => {
 const getExerciseLink = (challenge) =>
   getExerciseType(challenge) === "zip" ? challenge.zip : challenge.github
 
-
 const groupChallengesByEmail = (challenges) => {
   return challenges.reduce((acc, obj) => {
-    let addressEmail = obj[challenges.addressEmail]
+    const addressEmail = obj[challenges.addressEmail]
     if (!acc[addressEmail]) {
-      acc[addressEmail] = [];
+      acc[addressEmail] = {}
+      acc[addressEmail].exercises = []
     }
     acc[addressEmail].exercises.push({
       name: challenges.challenge,
@@ -64,6 +64,7 @@ const groupChallengesByEmail = (challenges) => {
       link: getExerciseLink(challenges),
       evaluation: new Evaluation()
     })
+    console.log(addressEmail)
     return acc;
   }, {});
 }
