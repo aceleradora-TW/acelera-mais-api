@@ -16,7 +16,7 @@ export class Challenge {
   @OneToOne(() => Candidate, candidate => candidate.challenge, { eager: true })
   candidate: Candidate
 
-  @OneToOne(() => Exercise, exercise => exercise.challenge, {
+  @ManyToOne(() => Exercise, exercise => exercise.challenge, {
     eager: true,
     cascade: true,
     onDelete: 'CASCADE'
