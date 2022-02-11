@@ -11,7 +11,6 @@ const httpResponse = httpResponseHandler()
 const mapChallenges = (id) => {
 
   const normaliseDate = (date) => {
-    return date
     const newDate = date.split('/')
 
     return `${newDate[1]}/${newDate[0]}/${newDate[2]}`
@@ -44,38 +43,29 @@ const mapChallenges = (id) => {
 }
 
 const getExerciseType = (challenge) => {
-  if (challenge.zip === '') {
-    if (challenge.github !== '') {
-      return "github"
-    }
-    return "Não existe exercício"
-  }
+  if (challenge.zip === '')
+    challenge.github !== '' ? "github" : "Não existe exercício"
   return "zip"
 }
 
+const getExerciseLink = (challenge) =>
+  getExerciseType(challenge) === "zip" ? challenge.zip : challenge.github
+
+
 const groupChallengesByEmail = (challenges) => {
-  let object = {}
-  challenges.forEach(challenge => {
-    if (object[challenge.addressEmail]) {
-      object[challenge.addressEmail].exercises.push({
-        name: challenge.challenge,
-        type: getExerciseType(challenge),
-        link: 'http://google.com.br',
-        evaluation: new Evaluation()
-      })
-    } else {
-      object[challenge.addressEmail] = {}
-      object[challenge.addressEmail].exercises = []
-      object[challenge.addressEmail].exercises.push({
-        name: challenge.challenge,
-        type: getExerciseType(challenge),
-        link: 'http://google.com.br',
-        evaluation: new Evaluation()
-      })
+  return challenges.reduce((acc, obj) => {
+    let addressEmail = obj[challenges.addressEmail]
+    if (!acc[addressEmail]) {
+      acc[addressEmail] = [];
     }
-  })
-  console.log(object)
-  return object
+    acc[addressEmail].exercises.push({
+      name: challenges.challenge,
+      type: getExerciseType(challenges),
+      link: getExerciseLink(challenges),
+      evaluation: new Evaluation()
+    })
+    return acc;
+  }, {});
 }
 
 export const importAllChallenge = async (request, response) => {
