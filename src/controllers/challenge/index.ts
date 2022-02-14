@@ -55,7 +55,7 @@ const groupChallengesByEmail = (challenges) => {
   return challenges.reduce((acc, obj) => {
     const addressEmail = obj.addressEmail
     if (!acc[addressEmail]) {
-      acc[addressEmail] = {}
+      acc[addressEmail] = { ...obj }
       acc[addressEmail].exercises = []
     }
     let typeAndLink = getExerciseType(obj)
@@ -76,33 +76,34 @@ export const importAllChallenge = async (request, response) => {
 
     const challengesSheet = await importSpreadSheet(link, mapChallenges(id))
     const challengeSumarized = groupChallengesByEmail(challengesSheet)
-    //    const challengeRepository = getRepository(Challenge)
-    //
-    //    const challenges = challengesSheet.map(async data => {
-    //      const {
-    //        timeStamp, addressEmail, name, phone, challenge,
-    //        fileType, zip, github, haveComputer, haveInternet,
-    //        haveWebcam, canUseWebcam, cityState, hiringProcess,
-    //      } = data
-    //      const result = await challengeRepository.findOne({ addressEmail, hiringProcess })
-    //      result.timeStamp = timeStamp
-    //      result.name = name
-    //      result.phone = phone
-    //      result.challenge = challenge
-    //      result.github = github
-    //      result.fileType = fileType
-    //     result.zip = zip
-    //    result.haveComputer = haveComputer
-    //  result.haveInternet = haveInternet
-    //  result.haveWebcam = haveWebcam
-    // result.canUseWebcam = canUseWebcam
-    //  result.cityState = cityState
-    // result.hiringProcess = hiringProcess
-    //await challengeRepository.save(result)
-    //return result
-    //})
+    const challengeRepository = getRepository(Challenge)
 
-    //return httpResponse.createSuccessResponse(message.SUCCESS, { id, challenges, count: challengesSheet.length }, response)
+    /* const challenges = challengesSheet.map(async data => {
+      const {
+        timeStamp, addressEmail, name, phone, challenge,
+        fileType, zip, github, haveComputer, haveInternet,
+        haveWebcam, canUseWebcam, cityState, hiringProcess, exercises,
+      } = data
+      const result = await challengeRepository.findOne({ addressEmail, hiringProcess })
+      result.timeStamp = timeStamp
+      result.name = name
+      result.phone = phone
+      result.challenge = challenge
+      result.github = github
+      result.fileType = fileType
+      result.zip = zip
+      result.haveComputer = haveComputer
+      result.haveInternet = haveInternet
+      result.haveWebcam = haveWebcam
+      result.canUseWebcam = canUseWebcam
+      result.cityState = cityState
+      result.hiringProcess = hiringProcess
+      result.exercises = exercises
+      await challengeRepository.save(result)
+      return result
+    }) 
+
+    return httpResponse.createSuccessResponse(message.SUCCESS, { id, challenges, count: challengesSheet.length }, response) */
     return httpResponse.createSuccessResponse(message.SUCCESS, { challengeSumarized }, response)
   } catch (error) {
     return httpResponse.createErrorResponse(error, response)
