@@ -5,6 +5,7 @@ import { getRepository } from "typeorm"
 import { importSpreadSheet } from "@service/google-spreadsheet"
 import { challengeService } from "@service/challenge/ChallengeService"
 import { Evaluation } from "@models/entity/Evaluation"
+import { Exercise } from "@models/entity/Exercise"
 
 const httpResponse = httpResponseHandler()
 
@@ -69,6 +70,10 @@ const groupChallengesByEmail = (challenges) => {
   }, {});
 }
 
+const getChallengeList = (sumirized) => {
+  const keys = Object.keys(sumirized)
+  return keys.map(key => sumirized[key])
+}
 export const importAllChallenge = async (request, response) => {
   try {
     const { id } = request.params
@@ -78,8 +83,8 @@ export const importAllChallenge = async (request, response) => {
     const challengeSumarized = groupChallengesByEmail(challengesSheet)
     const challengeRepository = getRepository(Challenge)
 
-    /* const challenges = challengesSheet.map(async data => {
-      const {
+    const challenges = challengesSheet.map(async data => {
+    const {
         timeStamp, addressEmail, name, phone, challenge,
         fileType, zip, github, haveComputer, haveInternet,
         haveWebcam, canUseWebcam, cityState, hiringProcess, exercises,
@@ -98,12 +103,12 @@ export const importAllChallenge = async (request, response) => {
       result.canUseWebcam = canUseWebcam
       result.cityState = cityState
       result.hiringProcess = hiringProcess
-      result.exercises = exercises
+      result.exercises = exercises.map(exercise => new Exercise(exercise))
       await challengeRepository.save(result)
       return result
     }) 
 
-    return httpResponse.createSuccessResponse(message.SUCCESS, { id, challenges, count: challengesSheet.length }, response) */
+    return httpResponse.createSuccessResponse(message.SUCCESS, { id, challenges, count: challengesSheet.length }, response)
     return httpResponse.createSuccessResponse(message.SUCCESS, { challengeSumarized }, response)
   } catch (error) {
     return httpResponse.createErrorResponse(error, response)
