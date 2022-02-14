@@ -43,28 +43,28 @@ const mapChallenges = (id) => {
 }
 
 const getExerciseType = (challenge) => {
-  if (challenge.zip === '')
-    challenge.github !== '' ? "github" : "Não existe exercício"
-  return "zip"
-}
+  let typeLink = { type: "Não existe exercicio.", link: '' }
 
-const getExerciseLink = (challenge) =>
-  getExerciseType(challenge) === "zip" ? challenge.zip : challenge.github
+  challenge.zip !== "" && (typeLink = { type: 'zip', link: challenge.zip })
+  challenge.github !== "" && (typeLink = { type: 'github', link: challenge.github })
+
+  return typeLink
+}
 
 const groupChallengesByEmail = (challenges) => {
   return challenges.reduce((acc, obj) => {
-    const addressEmail = obj[challenges.addressEmail]
+    const addressEmail = obj.addressEmail
     if (!acc[addressEmail]) {
       acc[addressEmail] = {}
       acc[addressEmail].exercises = []
     }
+    let typeAndLink = getExerciseType(obj)
     acc[addressEmail].exercises.push({
-      name: challenges.challenge,
-      type: getExerciseType(challenges),
-      link: getExerciseLink(challenges),
+      name: obj.challenge,
+      type: typeAndLink.type,
+      link: typeAndLink.link,
       evaluation: new Evaluation()
     })
-    console.log(addressEmail)
     return acc;
   }, {});
 }
