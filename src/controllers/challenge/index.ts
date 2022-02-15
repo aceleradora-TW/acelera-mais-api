@@ -81,34 +81,35 @@ export const importAllChallenge = async (request, response) => {
 
     const challengesSheet = await importSpreadSheet(link, mapChallenges(id))
     const challengeSumarized = groupChallengesByEmail(challengesSheet)
+    const challengeList = getChallengeList(challengeSumarized)
     const challengeRepository = getRepository(Challenge)
 
-    const challenges = challengesSheet.map(async data => {
-    const {
-        timeStamp, addressEmail, name, phone, challenge,
-        fileType, zip, github, haveComputer, haveInternet,
-        haveWebcam, canUseWebcam, cityState, hiringProcess, exercises,
-      } = data
-      const result = await challengeRepository.findOne({ addressEmail, hiringProcess })
-      result.timeStamp = timeStamp
-      result.name = name
-      result.phone = phone
-      result.challenge = challenge
-      result.github = github
-      result.fileType = fileType
-      result.zip = zip
-      result.haveComputer = haveComputer
-      result.haveInternet = haveInternet
-      result.haveWebcam = haveWebcam
-      result.canUseWebcam = canUseWebcam
-      result.cityState = cityState
-      result.hiringProcess = hiringProcess
-      result.exercises = exercises.map(exercise => new Exercise(exercise))
-      await challengeRepository.save(result)
-      return result
-    }) 
+    // const challenges = challengeList.map(async data => {
+    // const {
+    //     timeStamp, addressEmail, name, phone, challenge,
+    //     fileType, zip, github, haveComputer, haveInternet,
+    //     haveWebcam, canUseWebcam, cityState, hiringProcess, exercises,
+    //   } = data
+    //   const result = await challengeRepository.findOne({ addressEmail, hiringProcess })
+    //   result.timeStamp = timeStamp
+    //   result.name = name
+    //   result.phone = phone
+    //   result.challenge = challenge
+    //   result.github = github
+    //   result.fileType = fileType
+    //   result.zip = zip
+    //   result.haveComputer = haveComputer
+    //   result.haveInternet = haveInternet
+    //   result.haveWebcam = haveWebcam
+    //   result.canUseWebcam = canUseWebcam
+    //   result.cityState = cityState
+    //   result.hiringProcess = hiringProcess
+    //   result.exercises = exercises.map(exercise => new Exercise(exercise))
+    //   await challengeRepository.save(result)
+    //   return result
+    // }) 
 
-    return httpResponse.createSuccessResponse(message.SUCCESS, { id, challenges, count: challengesSheet.length }, response)
+    return httpResponse.createSuccessResponse(message.SUCCESS, { id, challengeList, count: challengesSheet.length }, response)
     return httpResponse.createSuccessResponse(message.SUCCESS, { challengeSumarized }, response)
   } catch (error) {
     return httpResponse.createErrorResponse(error, response)
