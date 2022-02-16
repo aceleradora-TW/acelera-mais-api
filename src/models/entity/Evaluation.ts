@@ -1,13 +1,13 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne } from 'typeorm'
-import { Exercise } from './Exercise';
+import { Challenge } from './Challenge';
 
 @Entity()
 export class Evaluation {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(() => Exercise, exercise => exercise.evaluation)
-  exercise: Exercise;
+  @OneToOne(() => Challenge, challenge => challenge.evaluation)
+  challenge: Challenge;
 
   @Column({ name: 'mentor_name', type: 'varchar', nullable: true })
   mentorName: string;

@@ -8,17 +8,17 @@ import {
 } from '@controllers/hiring-process'
 import { getCandidate, getAllCandidate, importAllCandidate } from '@controllers/candidate'
 import {
-  getExerciseById,
-  getExerciseByHiringProcessId,
+  getChallengeById,
+  getChallengeByHiringProcessId,
   exportHiringProcessResume,
-  updateExercise
-} from '@controllers/exercise'
+  updateChallenge
+} from '@controllers/challenge'
 import {
   createEvaluation,
   updateEvaluation,
   deleteEvaluation
 } from '@controllers/evaluation'
-import { importAllExercise } from '@controllers/exercise'
+import { importAllChallenge } from '@controllers/challenge'
 import { getEvaluation, getAllEvaluation } from '@controllers/evaluation'
 import { format } from 'path/posix'
 
@@ -32,7 +32,7 @@ export const defineRoutes = (app) => {
 
   app.get('/candidate', getAllCandidate)
   app.get('/candidate/:id', getCandidate)
-  app.get('/candidate/exercise/hiring_process/:id', exportHiringProcessResume)
+  app.get('/candidate/challenge/hiring_process/:id', exportHiringProcessResume)
   app.post('/candidate/hiring_process/:id', importAllCandidate)
 
   app.get('/evaluation', getAllEvaluation)
@@ -41,10 +41,10 @@ export const defineRoutes = (app) => {
   app.post('/evaluation', createEvaluation)
   app.delete('/evaluation/:id', deleteEvaluation)
 
-  app.get('/exercise', getExerciseByHiringProcessId)
-  app.get('/exercise/:id', getExerciseById)
-  app.patch('/exercise/:id', updateExercise)
-  app.post('/exercise/hiring_process/:id', importAllExercise)
+  app.get('/challenge', getChallengeByHiringProcessId)
+  app.get('/challenge/:id', getChallengeById)
+  app.patch('/challenge/:id', updateChallenge)
+  app.post('/challenge/hiring_process/:id', importAllChallenge)
 
 
 

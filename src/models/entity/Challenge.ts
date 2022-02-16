@@ -5,27 +5,24 @@ import { Evaluation } from "./Evaluation";
 import { HiringProcess } from "./HiringProcess";
 
 @Entity()
-export class Exercise {
+export class Challenge {
   @PrimaryGeneratedColumn()
   id: number;
 
   @JoinColumn({ name: 'hiring_process_id' })
-  @ManyToOne(() => HiringProcess, hiringProcess => hiringProcess.exercises, { onDelete: 'CASCADE' })
+  @ManyToOne(() => HiringProcess, hiringProcess => hiringProcess.challenges, { onDelete: 'CASCADE' })
   hiringProcess: HiringProcess
 
-  @OneToOne(() => Candidate, candidate => candidate.exercise, { eager: true })
+  @OneToOne(() => Candidate, candidate => candidate.challenge, { eager: true })
   candidate: Candidate
 
-  @OneToOne(() => Evaluation, evaluation => evaluation.exercise, {
+  @OneToOne(() => Evaluation, evaluation => evaluation.challenge, {
     eager: true,
     cascade: true,
     onDelete: 'CASCADE'
   })
-  @JoinColumn({ name: 'exercise_id' })
+  @JoinColumn({ name: 'challenge_id' })
   evaluation: Evaluation
-
-
-
 
   @Column({ name: 'time_stamp', nullable: true, type: 'timestamptz' })
   @IsDate()
@@ -40,8 +37,8 @@ export class Exercise {
   @Column({ name: 'phone', nullable: true, type: 'varchar' })
   phone: string;
 
-  @Column({ name: 'exercise', nullable: true, type: 'varchar' })
-  exercise: string;
+  @Column({ name: 'challenge', nullable: true, type: 'varchar' })
+  challenge: string;
 
   @Column({ name: 'file_type', nullable: true, type: 'varchar' })
   fileType: string;
