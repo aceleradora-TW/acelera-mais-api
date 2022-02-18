@@ -7,7 +7,7 @@ export class Exercise {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToMany(() => Challenge, challenge => challenge.exercises)
+  @ManyToOne(() => Challenge, challenge => challenge.exercises)
   challenge: Challenge
 
   @OneToOne(() => Evaluation, evaluation => evaluation.exercise, {

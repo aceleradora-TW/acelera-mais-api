@@ -13,7 +13,6 @@ const mapChallenges = (id) => {
 
   const normaliseDate = (date) => {
     const newDate = date.split('/')
-
     return `${newDate[1]}/${newDate[0]}/${newDate[2]}`
   }
 
@@ -52,7 +51,21 @@ const getExerciseType = (challenge) => {
   return typeLink
 }
 
-const groupChallengesByEmail = (challenges) => {
+const createExercise = async ({ name, type, link, challenge }) => {
+  const exercise = new Exercise()
+  exercise.name = name
+  exercise.type = type
+  exercise.link = link
+  exercise.evaluation = new Evaluation()
+  exercise.challenge = await getRepository(Challenge).findOne({
+    addressEmail: challenge.addressEmail,
+    hiringProcess: challenge.id
+  })
+  // console.log({ exercise })
+  return exercise
+}
+
+const groupChallengesByEmail = ({ challenges, id }) => {
   return challenges.reduce((acc, obj) => {
     const addressEmail = obj.addressEmail
     if (!acc[addressEmail]) {
@@ -60,12 +73,12 @@ const groupChallengesByEmail = (challenges) => {
       acc[addressEmail].exercises = []
     }
     let typeAndLink = getExerciseType(obj)
-    acc[addressEmail].exercises.push({
+    acc[addressEmail].exercises.push(createExercise({
       name: obj.challenge,
       type: typeAndLink.type,
       link: typeAndLink.link,
-      evaluation: new Evaluation()
-    })
+      challenge: { ...obj, id }
+    }))
     return acc;
   }, {});
 }
@@ -75,52 +88,52 @@ const getChallengeList = (sumirized) => {
   return keys.map(key => sumirized[key])
 }
 export const importAllChallenge = async (request, response) => {
-  try {
-    const { id } = request.params
-    const { link } = request.body
 
-    const challengesSheet = await importSpreadSheet(link, mapChallenges(id))
-    const challengeSumarized = groupChallengesByEmail(challengesSheet)
-    const challengeList = getChallengeList(challengeSumarized)
-    const challengeRepository = getRepository(Challenge)
+  const { id } = request.params
+  const { link } = request.body
 
-    const challenges = await challengeList.map(async data => {
-      const {
-        timeStamp, addressEmail, name, phone, challenge,
-        fileType, zip, github, haveComputer, haveInternet,
-        haveWebcam, canUseWebcam, cityState, hiringProcess, exercises,
-      } = data
-      const result = await challengeRepository.findOne({ addressEmail, hiringProcess })
-      result.timeStamp = timeStamp
-      result.name = name
-      result.phone = phone
-      result.challenge = challenge
-      result.github = github
-      result.fileType = fileType
-      result.zip = zip
-      result.haveComputer = haveComputer
-      result.haveInternet = haveInternet
-      result.haveWebcam = haveWebcam
-      result.canUseWebcam = canUseWebcam
-      result.cityState = cityState
-      result.hiringProcess = hiringProcess
-      result.exercises = await exercises.map(exercise => {
-        const ex = new Exercise()
-        ex.name = exercise.name
-        ex.type = exercise.type
-        ex.link = exercise.link
-        ex.evaluation = exercise.evaluation
-        return ex
-      })
-      await challengeRepository.save(result)
-      return result
-    })
-    console.log({ challenges })
-    return httpResponse.createSuccessResponse(message.SUCCESS, { id, challenges, count: challengesSheet.length }, response)
-    return httpResponse.createSuccessResponse(message.SUCCESS, { challengeSumarized }, response)
-  } catch (error) {
-    return httpResponse.createErrorResponse(error, response)
-  }
+  // transformo o que tem no link de desafio em dados do javascript
+  const challengesSheet = await importSpreadSheet(link, mapChallenges(id))
+
+  // agrupo os desafio por email
+  const challengeSumarized = groupChallengesByEmail({ challenges: challengesSheet, id })
+
+  // transformo o objeto do agrupamento em um array de objetos contendo dados dos desafios
+  const challengeList = getChallengeList(challengeSumarized)
+
+  // crio uma instancia para manipular os desafios no banco
+  const challengeRepository = getRepository(Challenge)
+
+  // com a lista de desafios eu salvo 
+  const challenges = await challengeList.map(async data => {
+    const {
+      timeStamp, addressEmail, name, phone, challenge,
+      fileType, zip, github, haveComputer, haveInternet,
+      haveWebcam, canUseWebcam, cityState, hiringProcess, exercises
+    } = data
+
+    const newChallenge = await challengeRepository.findOne({ addressEmail, hiringProcess })
+    newChallenge.hiringProcess = hiringProcess
+    newChallenge.timeStamp = timeStamp
+    newChallenge.name = name
+    newChallenge.phone = phone
+    newChallenge.challenge = challenge
+    newChallenge.github = github
+    newChallenge.fileType = fileType
+    newChallenge.zip = zip
+    newChallenge.haveComputer = haveComputer
+    newChallenge.haveInternet = haveInternet
+    newChallenge.haveWebcam = haveWebcam
+    newChallenge.canUseWebcam = canUseWebcam
+    newChallenge.cityState = cityState
+    newChallenge.exercises = exercises
+    // console.dir(newChallenge, { depth: 1000 })
+    const challengeSaved = await challengeRepository.save(newChallenge)
+    return challengeSaved
+  })
+
+  return httpResponse.createSuccessResponse(message.SUCCESS, { id, challenges, count: challengesSheet.length }, response)
+
 
 }
 
