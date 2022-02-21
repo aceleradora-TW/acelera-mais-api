@@ -8,6 +8,7 @@ export class Exercise {
   id: number;
 
   @ManyToOne(() => Challenge, challenge => challenge.exercises)
+  @JoinColumn({ name: 'challenge_id' })
   challenge: Challenge
 
   @OneToOne(() => Evaluation, evaluation => evaluation.exercise, {

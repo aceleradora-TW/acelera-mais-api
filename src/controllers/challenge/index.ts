@@ -6,6 +6,7 @@ import { importSpreadSheet } from "@service/google-spreadsheet"
 import { challengeService } from "@service/challenge/ChallengeService"
 import { Evaluation } from "@models/entity/Evaluation"
 import { Exercise } from "@models/entity/Exercise"
+import { create } from "domain"
 
 const httpResponse = httpResponseHandler()
 
@@ -19,7 +20,8 @@ const mapChallenges = (id) => {
   return (rows) => {
     return rows.map(r => {
 
-      const timeStamp = normaliseDate(r['Carimbo de data/hora'])
+      //const timeStamp = normaliseDate(r['Carimbo de data/hora'])
+      const timeStamp = r['Carimbo de data/hora']
 
       return {
         timeStamp,
@@ -43,6 +45,7 @@ const mapChallenges = (id) => {
 }
 
 const getExerciseType = (challenge) => {
+
   let typeLink = { type: "Não existe exercicio.", link: '' }
 
   challenge.zip !== "" && (typeLink = { type: 'zip', link: challenge.zip })
@@ -51,17 +54,12 @@ const getExerciseType = (challenge) => {
   return typeLink
 }
 
-const createExercise = async ({ name, type, link, challenge }) => {
+const createExercise = ({ name, type, link }) => {
   const exercise = new Exercise()
   exercise.name = name
   exercise.type = type
   exercise.link = link
   exercise.evaluation = new Evaluation()
-  exercise.challenge = await getRepository(Challenge).findOne({
-    addressEmail: challenge.addressEmail,
-    hiringProcess: challenge.id
-  })
-  // console.log({ exercise })
   return exercise
 }
 
@@ -76,8 +74,7 @@ const groupChallengesByEmail = ({ challenges, id }) => {
     acc[addressEmail].exercises.push(createExercise({
       name: obj.challenge,
       type: typeAndLink.type,
-      link: typeAndLink.link,
-      challenge: { ...obj, id }
+      link: typeAndLink.link
     }))
     return acc;
   }, {});
@@ -87,6 +84,7 @@ const getChallengeList = (sumirized) => {
   const keys = Object.keys(sumirized)
   return keys.map(key => sumirized[key])
 }
+
 export const importAllChallenge = async (request, response) => {
 
   const { id } = request.params
@@ -105,7 +103,7 @@ export const importAllChallenge = async (request, response) => {
   const challengeRepository = getRepository(Challenge)
 
   // com a lista de desafios eu salvo 
-  const challenges = await challengeList.map(async data => {
+  const challengesPromisse = challengeList.map(async data => {
     const {
       timeStamp, addressEmail, name, phone, challenge,
       fileType, zip, github, haveComputer, haveInternet,
@@ -127,14 +125,13 @@ export const importAllChallenge = async (request, response) => {
     newChallenge.canUseWebcam = canUseWebcam
     newChallenge.cityState = cityState
     newChallenge.exercises = exercises
-    // console.dir(newChallenge, { depth: 1000 })
-    const challengeSaved = await challengeRepository.save(newChallenge)
-    return challengeSaved
+    return await challengeRepository.save(newChallenge)
   })
 
+  const challenges = []
+  await Promise.all(challengesPromisse).then(challenge => challenges.push(challenge))
+
   return httpResponse.createSuccessResponse(message.SUCCESS, { id, challenges, count: challengesSheet.length }, response)
-
-
 }
 
 export const exportHiringProcessResume = async (req, res) => {
