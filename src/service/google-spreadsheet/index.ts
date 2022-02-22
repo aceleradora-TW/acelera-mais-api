@@ -45,6 +45,6 @@ const timeoutConnect = () => {
     const timeout = timeoutConnect()
     const rows = await getGoogleSheetRows(id)
     clearTimeout(timeout)
-    return mappingCallback(rows)
+    return await mappingCallback(rows)
   }
 
