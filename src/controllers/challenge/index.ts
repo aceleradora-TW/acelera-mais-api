@@ -13,6 +13,7 @@ const httpResponse = httpResponseHandler()
 const mapChallenges = (id) => {
 
   const normaliseDate = (date) => {
+    return date
     const newDate = date.split('/')
     return `${newDate[1]}/${newDate[0]}/${newDate[2]}`
   }
@@ -20,8 +21,7 @@ const mapChallenges = (id) => {
   return (rows) => {
     return rows.map(r => {
 
-      //const timeStamp = normaliseDate(r['Carimbo de data/hora'])
-      const timeStamp = r['Carimbo de data/hora']
+      const timeStamp = normaliseDate(r['Carimbo de data/hora'])
 
       return {
         timeStamp,
@@ -45,13 +45,13 @@ const mapChallenges = (id) => {
 }
 
 const getExerciseType = (challenge) => {
-
-  let typeLink = { type: "Não existe exercicio.", link: '' }
-
-  challenge.zip !== "" && (typeLink = { type: 'zip', link: challenge.zip })
-  challenge.github !== "" && (typeLink = { type: 'github', link: challenge.github })
-
-  return typeLink
+  const { github, zip } = challenge
+  if (zip !== "") {
+    return { type: "zip", link: zip }
+  } if (github !== "") {
+    return { type: "github", link: github }
+  }
+  return { type: "Not defined.", link: "" }
 }
 
 const createExercise = ({ name, type, link }) => {
@@ -63,7 +63,7 @@ const createExercise = ({ name, type, link }) => {
   return exercise
 }
 
-const groupChallengesByEmail = ({ challenges, id }) => {
+const groupChallengesByEmail = ({ challenges }) => {
   return challenges.reduce((acc, obj) => {
     const addressEmail = obj.addressEmail
     if (!acc[addressEmail]) {
@@ -94,7 +94,7 @@ export const importAllChallenge = async (request, response) => {
   const challengesSheet = await importSpreadSheet(link, mapChallenges(id))
 
   // agrupo os desafio por email
-  const challengeSumarized = groupChallengesByEmail({ challenges: challengesSheet, id })
+  const challengeSumarized = groupChallengesByEmail({ challenges: challengesSheet })
 
   // transformo o objeto do agrupamento em um array de objetos contendo dados dos desafios
   const challengeList = getChallengeList(challengeSumarized)
