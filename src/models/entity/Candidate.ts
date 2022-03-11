@@ -11,12 +11,7 @@ import {
 } from 'typeorm'
 import { IsDate } from 'class-validator'
 import { HiringProcess } from './HiringProcess'
-<<<<<<< HEAD
-import { Exercise } from './Exercise';
-import { isDate } from 'util/types';
-=======
 import { Challenge } from './Challenge';
->>>>>>> 0cf2c1498f13ddc1c5f427b08588383e9bda34e4
 
 @Entity()
 export class Candidate {

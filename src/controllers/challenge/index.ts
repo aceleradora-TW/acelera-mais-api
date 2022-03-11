@@ -4,7 +4,9 @@ import { Challenge } from "@models/entity/Challenge"
 import { getRepository } from "typeorm"
 import { importSpreadSheet } from "@service/google-spreadsheet"
 import { challengeService } from "@service/challenge/ChallengeService"
-import { Evaluation } from '@models/entity/Evaluation'
+import { Evaluation } from "@models/entity/Evaluation"
+import { Exercise } from "@models/entity/Exercise"
+import { create } from "domain"
 
 const httpResponse = httpResponseHandler()
 
@@ -36,51 +38,99 @@ const mapChallenges = (id) => {
         exerciseStatement: r['Enunciado dos exercícios'],
         type: '',
         hiringProcess: { id },
-        evaluation: new Evaluation()
       }
     })
   }
 }
 
-export const importAllChallenge = async (request, response) => {
-  try {
-    const { id } = request.params
-    const { link } = request.body
-
-    const challengesSheet = await importSpreadSheet(link, mapChallenges(id))
-    const challengeRepository = getRepository(Challenge)
-
-    const challenges = challengesSheet.map(async data => {
-      const {
-        timeStamp, addressEmail, name, phone, challenge,
-        fileType, zip, github, haveComputer, haveInternet,
-        haveWebcam, canUseWebcam, exerciseStatement, hiringProcess,
-        evaluation
-      } = data
-      const result = await challengeRepository.findOne({ addressEmail, hiringProcess })
-      result.timeStamp = timeStamp
-      result.name = name
-      result.phone = phone
-      result.challenge = challenge
-      result.github = github
-      result.fileType = fileType
-      result.zip = zip
-      result.haveComputer = haveComputer
-      result.haveInternet = haveInternet
-      result.haveWebcam = haveWebcam
-      result.canUseWebcam = canUseWebcam
-      result.exerciseStatement = exerciseStatement
-      result.hiringProcess = hiringProcess
-      result.evaluation = evaluation
-      await challengeRepository.save(result)
-      return result
-    })
-
-    return httpResponse.createSuccessResponse(message.SUCCESS, { id, challenges, count: challengesSheet.length }, response)
-  } catch (error) {
-    return httpResponse.createErrorResponse(error, response)
+const getExerciseType = (challenge) => {
+  const { github, zip } = challenge
+  if (zip !== "") {
+    return { type: "zip", link: zip }
+  } if (github !== "") {
+    return { type: "github", link: github }
   }
+  return { type: "Not defined.", link: "" }
+}
 
+const createExercise = ({ name, type, link }) => {
+  const exercise = new Exercise()
+  exercise.name = name
+  exercise.type = type
+  exercise.link = link
+  exercise.evaluation = new Evaluation()
+  return exercise
+}
+
+const groupChallengesByEmail = ({ challenges }) => {
+  return challenges.reduce((acc, obj) => {
+    const addressEmail = obj.addressEmail
+    if (!acc[addressEmail]) {
+      acc[addressEmail] = { ...obj }
+      acc[addressEmail].exercises = []
+    }
+    let typeAndLink = getExerciseType(obj)
+    acc[addressEmail].exercises.push(createExercise({
+      name: obj.challenge,
+      type: typeAndLink.type,
+      link: typeAndLink.link
+    }))
+    return acc;
+  }, {});
+}
+
+const getChallengeList = (sumirized) => {
+  const keys = Object.keys(sumirized)
+  return keys.map(key => sumirized[key])
+}
+
+export const importAllChallenge = async (request, response) => {
+
+  const { id } = request.params
+  const { link } = request.body
+
+  // transformo o que tem no link de desafio em dados do javascript
+  const challengesSheet = await importSpreadSheet(link, mapChallenges(id))
+
+  // agrupo os desafio por email
+  const challengeSumarized = groupChallengesByEmail({ challenges: challengesSheet })
+
+  // transformo o objeto do agrupamento em um array de objetos contendo dados dos desafios
+  const challengeList = getChallengeList(challengeSumarized)
+
+  // crio uma instancia para manipular os desafios no banco
+  const challengeRepository = getRepository(Challenge)
+
+  // com a lista de desafios eu salvo 
+  const challengesPromisse = challengeList.map(async data => {
+    const {
+      timeStamp, addressEmail, name, phone, challenge,
+      fileType, zip, github, haveComputer, haveInternet,
+      haveWebcam, canUseWebcam, cityState, hiringProcess, exercises
+    } = data
+
+    const newChallenge = await challengeRepository.findOne({ addressEmail, hiringProcess })
+    newChallenge.hiringProcess = hiringProcess
+    newChallenge.timeStamp = timeStamp
+    newChallenge.name = name
+    newChallenge.phone = phone
+    newChallenge.challenge = challenge
+    newChallenge.github = github
+    newChallenge.fileType = fileType
+    newChallenge.zip = zip
+    newChallenge.haveComputer = haveComputer
+    newChallenge.haveInternet = haveInternet
+    newChallenge.haveWebcam = haveWebcam
+    newChallenge.canUseWebcam = canUseWebcam
+    newChallenge.cityState = cityState
+    newChallenge.exercises = exercises
+    return await challengeRepository.save(newChallenge)
+  })
+
+  const challenges = []
+  await Promise.all(challengesPromisse).then(challenge => challenges.push(challenge))
+
+  return httpResponse.createSuccessResponse(message.SUCCESS, { id, challenges, count: challengesSheet.length }, response)
 }
 
 export const exportHiringProcessResume = async (req, res) => {
