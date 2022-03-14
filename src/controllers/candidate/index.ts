@@ -40,9 +40,14 @@ const mapCandidates = (id) => {
         courseName: r['Nome do curso:'],
         milestone: r['Previsão de conclusão do curso:'],
         howFound: r['Como descobriu sobre a Aceleradora Ágil?'],
-        expectation: r['Quais são suas expectativas para Aceleradora Ágil 20?'],
+        expectation: r['Quais são suas expectativas para Aceleradora Ágil?'],
         motivation: r['O que te motiva a se inscrever e embarcar nesse desafio?'],
         curriculum: r['Currículo:'],
+        city: r['Qual a sua cidade/estado?'],
+        sexualOrientation: r['Qual é a sua orientação sexual?'],
+        photo: r['Foto'],
+        devProfile: r['Quais desses perfis você mais se identifica ?'],
+        equipment: r['Você possui algum desses equipamentos ?'],
         okCI: r['OK do CI'] || false
       }
     })

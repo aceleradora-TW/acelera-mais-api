@@ -35,7 +35,7 @@ const mapChallenges = (id) => {
         haveInternet: r['Você possui acesso a internet em casa?'],
         haveWebcam: r['Voce Possui Webcam?'],
         canUseWebcam: r['Você se incomodaria em abrir sua Webcam durante as interações quanto a Aceleradora Ágil?'],
-        cityState: r['Qual a sua cidade/estado?'],
+        exerciseStatement: r['Enunciado dos exercícios'],
         type: '',
         hiringProcess: { id },
       }

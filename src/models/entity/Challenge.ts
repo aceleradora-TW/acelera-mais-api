@@ -61,6 +61,9 @@ export class Challenge {
   @Column({ name: 'can_use_webcam', nullable: true, type: 'varchar' })
   canUseWebcam: string;
 
+  @Column({ name: 'exercise_statement', nullable: true, type: 'varchar' })
+  exerciseStatement: string;
+
   @Column({ name: 'city_state', nullable: true, type: 'varchar' })
   cityState: string;
 
@@ -82,4 +85,5 @@ export class Challenge {
     onUpdate: 'CURRENT_TIMESTAMPTZ(6)'
   })
   updatedAt: Date;
+
 }
