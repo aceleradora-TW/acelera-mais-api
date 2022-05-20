@@ -1,7 +1,7 @@
 
 import { getRepository } from 'typeorm'
 import { validate } from 'class-validator'
-// import { User } from '@models/entity/User'
+import { User } from '@models/entity/User'
 import { HttpError, HttpStatusCode } from '../HttpError'
 
 export const userService = () => {
