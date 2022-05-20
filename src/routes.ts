@@ -20,7 +20,9 @@ import {
 } from '@controllers/evaluation'
 import { importAllChallenge } from '@controllers/challenge'
 import { getEvaluation, getAllEvaluation } from '@controllers/evaluation'
+import { createUser } from '@controllers/user'
 import { format } from 'path/posix'
+
 
 export const defineRoutes = (app) => {
   app.get('/', itsWorks)
@@ -46,6 +48,5 @@ export const defineRoutes = (app) => {
   app.patch('/challenge/:id', updateChallenge)
   app.post('/challenge/hiring_process/:id', importAllChallenge)
 
-
-
+  app.post('/user', createUser)
 }
