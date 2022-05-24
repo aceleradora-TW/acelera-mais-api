@@ -15,6 +15,7 @@ export const createUser = async (request, response) => {
     return httpResponseHandler().createErrorResponse(error, response)
   }
 }
+
 export const getUser = async (request, response) => {
   try {
     const userRepository = getRepository(User)
