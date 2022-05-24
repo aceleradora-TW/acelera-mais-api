@@ -16,7 +16,7 @@ export const userService = () => {
   const validateUser = async (user) => {
     const errors = await validate(user)
     if (errors.length > 0) {
-      throw new HttpError('Errors validating the user:' + errors, HttpStatusCode.BAD_REQUEST)
+      throw new HttpError('Errors validating the user:' + errors, HttpStatusCode.NOT_FOUND)
     }
   }
   const editUser = async ({ id, name, email, telephone, type }) => {
@@ -42,5 +42,6 @@ export const userService = () => {
     const result = await userRepository.save(user)
     return result
   }
+
   return { createUserService, editUser }
 }
