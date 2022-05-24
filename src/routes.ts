@@ -51,5 +51,4 @@ export const defineRoutes = (app) => {
 
   app.post('/user', createUser)
   app.get('/user', getUser)
-
 }
