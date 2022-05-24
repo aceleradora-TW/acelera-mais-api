@@ -25,6 +25,7 @@ import { format } from 'path/posix'
 import { getUser } from '@controllers/user'
 
 
+
 export const defineRoutes = (app) => {
   app.get('/', itsWorks)
   app.post('/login', generateAccessToken)

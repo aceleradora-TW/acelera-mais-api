@@ -5,7 +5,6 @@ import { userService } from "@service/user/UserService"
 import { getRepository } from 'typeorm'
 import { User } from '@models/entity/User'
 
-
 export const createUser = async (request, response) => {
   try {
     const user = userRequest().convertFromHttpBody(request.body)
@@ -15,7 +14,6 @@ export const createUser = async (request, response) => {
     return httpResponseHandler().createErrorResponse(error, response)
   }
 }
-
 export const getUser = async (request, response) => {
   try {
     const userRepository = getRepository(User)
