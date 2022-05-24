@@ -1,4 +1,4 @@
-import { HiringProcessRequest } from '../../../src/service/hiring-process/HiringProcessRequest'
+import { hiringProcessRequest } from '../../../src/service/hiring-process/HiringProcessRequest'
 
 test('should convert to request given valid parameters', async () => {
   const body = {
@@ -7,11 +7,11 @@ test('should convert to request given valid parameters', async () => {
     endDate: '03/25/2021',
     description: ''
   }
-  const hiringProcessRequest = HiringProcessRequest.convertFromHttpBody(body)
-  expect(hiringProcessRequest.name).toEqual(body.name)
-  expect(hiringProcessRequest.startDate).toEqual(new Date(body.startDate))
-  expect(hiringProcessRequest.endDate).toEqual(new Date(body.endDate))
-  expect(hiringProcessRequest.description).toEqual(body.description)
+  const HiringProcessRequest = hiringProcessRequest().convertFromHttpBody(body)
+  expect(HiringProcessRequest.name).toEqual(body.name)
+  expect(HiringProcessRequest.startDate).toEqual(new Date(body.startDate))
+  expect(HiringProcessRequest.endDate).toEqual(new Date(body.endDate))
+  expect(HiringProcessRequest.description).toEqual(body.description)
 })
 
 test('should convert to undefined dates when not present', async () => {
@@ -21,7 +21,7 @@ test('should convert to undefined dates when not present', async () => {
     endDate: undefined,
     description: ''
   }
-  const hiringProcessRequest = HiringProcessRequest.convertFromHttpBody(body)
-  expect(hiringProcessRequest.startDate).toEqual(undefined)
-  expect(hiringProcessRequest.endDate).toEqual(undefined)
+  const HiringProcessRequest = hiringProcessRequest().convertFromHttpBody(body)
+  expect(HiringProcessRequest.startDate).toEqual(undefined)
+  expect(HiringProcessRequest.endDate).toEqual(undefined)
 })

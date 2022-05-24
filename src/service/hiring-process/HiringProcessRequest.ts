@@ -3,8 +3,8 @@ export const hiringProcessRequest = () => {
     const { name, description, startDate, endDate } = body
     return {
       name,
-      startDate: new Date(startDate) || undefined,
-      endDate: new Date(endDate) || undefined,
+      startDate: startDate ? new Date(startDate) : undefined,
+      endDate: endDate ? new Date(endDate) : undefined,
       description: description || ''
     }
   }
