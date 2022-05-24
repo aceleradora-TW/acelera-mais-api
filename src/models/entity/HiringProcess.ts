@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm'
 import { IsNotEmpty, IsDate } from 'class-validator'
-import { Match } from '@models/validators/date'
+import { Match } from '../../models/validators/date'
 import { Candidate } from './Candidate'
 import { Challenge } from './Challenge';
 @Entity()

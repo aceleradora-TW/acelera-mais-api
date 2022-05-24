@@ -1,7 +1,7 @@
 
 import { getRepository } from 'typeorm'
 import { validate } from 'class-validator'
-import { HiringProcess } from '@models/entity/HiringProcess'
+import { HiringProcess } from '../../models/entity/HiringProcess'
 import { HttpError, HttpStatusCode } from '../HttpError'
 
 export const hiringProcessService = () => {

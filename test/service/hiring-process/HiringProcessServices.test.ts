@@ -1,4 +1,4 @@
-import { HiringProcessRequest } from '../../../src/service/hiring-process/HiringProcessRequest'
+import { hiringProcessRequest } from '../../../src/service/hiring-process/HiringProcessRequest'
 import { hiringProcessService } from '../../../src/service/hiring-process/HiringProcessService'
 import { HttpStatusCode } from '../../../src/service/HttpError'
 import { HiringProcess } from '../../../src/models/entity/HiringProcess'
@@ -16,7 +16,14 @@ jest.mock('typeorm', () => {
 const service = hiringProcessService()
 
 test('should return Entity when request is valid', async () => {
-  const validRequest = new HiringProcessRequest('test', new Date(), new Date(), 'test')
+  const validRequest = hiringProcessRequest().convertFromHttpBody(
+    {
+      name: 'test',
+      startDate: undefined,
+      endDate: undefined,
+      description: 'test'
+    }
+  )
   const validEntity = new HiringProcess()
   validEntity.name = validRequest.name
   validEntity.startDate = validRequest.startDate
@@ -30,7 +37,7 @@ test('should return Entity when request is valid', async () => {
 
 test('should return HttpError with status 400 when request is not valid', async () => {
   repositoryMock.create.mockResolvedValue(new HiringProcess())
-  const invalidRequest = new HiringProcessRequest(undefined, undefined, undefined, undefined)
+  const invalidRequest = hiringProcessRequest().convertFromHttpBody({ name: undefined, startDate: undefined, endDate: undefined, description: undefined })
   try {
     await service.createHiringProcessService(invalidRequest)
   } catch (error) {
