@@ -20,7 +20,7 @@ import {
 } from '@controllers/evaluation'
 import { importAllChallenge } from '@controllers/challenge'
 import { getEvaluation, getAllEvaluation } from '@controllers/evaluation'
-import { createUser } from '@controllers/user'
+import { createUser, deleteUser } from '@controllers/user'
 import { format } from 'path/posix'
 import { getUser } from '@controllers/user'
 
@@ -52,4 +52,6 @@ export const defineRoutes = (app) => {
 
   app.post('/user', createUser)
   app.get('/user', getUser)
+  app.delete('/user/:id', deleteUser)
+
 }
