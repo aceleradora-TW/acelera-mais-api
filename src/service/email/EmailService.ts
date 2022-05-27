@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 
-export const sendEmail = (mentorName, mentorPassword, mentorEmail) => {
+export const EmailService = (mentorName, mentorPassword, mentorEmail) => {
 
   let transport = nodemailer.createTransport({
     service: 'gmail',

@@ -1,7 +1,7 @@
 import { httpResponseHandler } from "@controllers/HttpResponseHandler"
 import { message } from "@messages/languages/pt-br"
 import { User } from "@models/entity/User"
-import { sendEmail } from "@service/email/EmailService"
+import { EmailService } from "@service/email/EmailService"
 import { userRequest } from "@service/user/UserRequest"
 import { userService } from "@service/user/UserService"
 import { getRepository } from "typeorm"
@@ -11,7 +11,7 @@ const httpResponse = httpResponseHandler()
 export const createUser = async (request, response) => {
   try {
     const user = userRequest().convertFromHttpBody(request.body)
-    sendEmail(user.name, user.password, user.email)
+    EmailService(user.name, user.password, user.email)
     const result = await userService().createUserService(user)
     return httpResponseHandler().createSuccessResponse(message.SUCCESS, result, response)
   } catch (error) {
@@ -55,6 +55,5 @@ export const getUser = async (request, response) => {
     let user = await userRepository.find()
     return response.status(200).json(user)
   }
-  catch (error) 
-  { return response.status(500).json(error) }
+  catch (error) { return response.status(500).json(error) }
 }

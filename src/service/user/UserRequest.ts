@@ -1,4 +1,4 @@
-import { gerarPassword } from "@service/password/PasswordService"
+import { passwordGenerator } from "@service/password/PasswordService"
 
 export const userRequest = () => {
   const convertFromHttpBody = (body) => {
@@ -8,7 +8,7 @@ export const userRequest = () => {
       telephone: telephone || '',
       email,
       type,
-      password: gerarPassword()
+      password: passwordGenerator()
     }
   }
   return { convertFromHttpBody }
