@@ -11,7 +11,7 @@ export const EmailService = (mentorName, mentorPassword, mentorEmail) => {
   });
 
   let message = {
-    from: "aceleramaisteste@gmail.com",
+    from: "aceleradorametodosageis@gmail.com",
     to: mentorEmail,
     subject: "AceleraMais: Convite para mentora avaliadora!",
     text: `
@@ -30,9 +30,9 @@ export const EmailService = (mentorName, mentorPassword, mentorEmail) => {
 
   transport.sendMail(message, () => (err, info) => {
     if (err) {
-      console.log(err)
+      console.error(err)
     } else {
-      console.log(info)
+      console.warn(info)
     }
   })
 }
