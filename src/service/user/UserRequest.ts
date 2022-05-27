@@ -1,3 +1,5 @@
+import { gerarPassword } from "@service/password/PasswordService"
+
 export const userRequest = () => {
   const convertFromHttpBody = (body) => {
     const { name, telephone, email, type } = body
@@ -5,7 +7,8 @@ export const userRequest = () => {
       name,
       telephone: telephone || '',
       email,
-      type
+      type,
+      password: gerarPassword()
     }
   }
   return { convertFromHttpBody }
