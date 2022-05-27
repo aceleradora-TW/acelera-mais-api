@@ -3,16 +3,15 @@ const nodemailer = require('nodemailer');
 export const sendEmail = (mentorName, mentorPassword, mentorEmail) => {
 
   let transport = nodemailer.createTransport({
-    host: "smtp.mailtrap.io",
-    port: 2525,
+    service: 'gmail',
     auth: {
-      user: "e28dc0c301cd31",
-      pass: "fcf678b6be0b6a"
+      user: "aceleradorametodosageis@gmail.com",
+      pass: "VDR1ehc_eha1cgj7bxw"
     }
   });
 
   let message = {
-    from: "noreply@acelera-mais.com",
+    from: "aceleramaisteste@gmail.com",
     to: mentorEmail,
     subject: "AceleraMais: Convite para mentora avaliadora!",
     text: `
