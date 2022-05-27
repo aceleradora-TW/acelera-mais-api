@@ -1,6 +1,7 @@
 import { httpResponseHandler } from "@controllers/HttpResponseHandler"
 import { message } from "@messages/languages/pt-br"
 import { User } from "@models/entity/User"
+import { sendEmail } from "@service/email/EmailService"
 import { userRequest } from "@service/user/UserRequest"
 import { userService } from "@service/user/UserService"
 import { getRepository } from "typeorm"
@@ -9,6 +10,7 @@ import { getRepository } from "typeorm"
 export const createUser = async (request, response) => {
   try {
     const user = userRequest().convertFromHttpBody(request.body)
+    sendEmail(user.name, user.password, user.email)
     const result = await userService().createUserService(user)
     return httpResponseHandler().createSuccessResponse(message.SUCCESS, result, response)
   } catch (error) {
