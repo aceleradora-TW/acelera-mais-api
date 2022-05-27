@@ -45,4 +45,14 @@ export const deleteUser = async (request, response) => {
   } catch (error) {
     return response.status(500).json(error)
   }
+
+}
+export const getUser = async (request, response) => {
+  try {
+    const userRepository = getRepository(User)
+    let user = await userRepository.find()
+    return response.status(200).json(user)
+  }
+  catch (error) 
+  { return response.status(500).json(error) }
 }
