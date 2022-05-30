@@ -1,23 +1,24 @@
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken')
 
-export const EmailService = (mentorName, mentorPassword, mentorEmail) => {
-  const { EMAIL, PASSWORD, SECRET_PASSWORD } = process.env
-  const decodingPassword = jwt.verify(mentorPassword, SECRET_PASSWORD);
+export const EmailService = () => {
+  const send = (mentorName, mentorPassword, mentorEmail) => {
+    const { EMAIL, PASSWORD, SECRET_PASSWORD } = process.env
+    const decodingPassword = jwt.verify(mentorPassword, SECRET_PASSWORD);
 
-  let transport = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: EMAIL,
-      pass: PASSWORD
-    }
-  });
+    let transport = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: EMAIL,
+        pass: PASSWORD
+      }
+    });
 
-  let message = {
-    from: "aceleradorametodosageis@gmail.com",
-    to: mentorEmail,
-    subject: "AceleraMais: Convite para mentora avaliadora!",
-    text: `
+    let message = {
+      from: "aceleradorametodosageis@gmail.com",
+      to: mentorEmail,
+      subject: "AceleraMais: Convite para mentora avaliadora!",
+      text: `
       Olá, ${mentorName}!
     
       Você foi convidada para ser mentora avaliadora no Acelera Mais. Uhuuuul!!!!
@@ -29,13 +30,15 @@ export const EmailService = (mentorName, mentorPassword, mentorEmail) => {
       Senha gerada: ${decodingPassword} 
       
       Seja bem vinda!`
-  }
-
-  transport.sendMail(message, () => (err, info) => {
-    if (err) {
-      console.error(err)
-    } else {
-      console.warn(info)
     }
-  })
+
+    transport.sendMail(message, () => (err, info) => {
+      if (err) {
+        console.error(err)
+      } else {
+        console.warn(info)
+      }
+    })
+  }
+  return { send }
 }

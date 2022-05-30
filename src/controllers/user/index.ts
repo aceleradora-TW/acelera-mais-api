@@ -11,7 +11,7 @@ const httpResponse = httpResponseHandler()
 export const createUser = async (request, response) => {
   try {
     const user = userRequest().convertFromHttpBody(request.body)
-    EmailService(user.name, user.password, user.email)
+    EmailService().send(user.name, user.password, user.email)
     const result = await userService().createUserService(user)
     return httpResponseHandler().createSuccessResponse(message.SUCCESS, result, response)
   } catch (error) {
