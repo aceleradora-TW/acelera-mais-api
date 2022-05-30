@@ -1,12 +1,15 @@
 const nodemailer = require('nodemailer');
+const jwt = require('jsonwebtoken')
 
 export const EmailService = (mentorName, mentorPassword, mentorEmail) => {
+  const { EMAIL, PASSWORD, SECRET_PASSWORD } = process.env
+  const decodingPassword = jwt.verify(mentorPassword, SECRET_PASSWORD);
 
   let transport = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: "aceleradorametodosageis@gmail.com",
-      pass: "VDR1ehc_eha1cgj7bxw"
+      user: EMAIL,
+      pass: PASSWORD
     }
   });
 
@@ -23,7 +26,7 @@ export const EmailService = (mentorName, mentorPassword, mentorEmail) => {
     
       Você precisará trocar a senha no primeiro login.
       
-      Senha gerada: ${mentorPassword} 
+      Senha gerada: ${decodingPassword} 
       
       Seja bem vinda!`
   }
