@@ -21,6 +21,9 @@ export class User {
   @Column({ name: 'password', type: 'varchar' })
   password: String;
 
+  @Column({ name: 'force_password_change', type: 'boolean', nullable: true })
+  forcePasswordChange: Boolean;
+
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamptz',

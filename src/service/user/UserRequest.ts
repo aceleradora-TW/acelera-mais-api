@@ -15,7 +15,8 @@ export const userRequest = () => {
       telephone: telephone || '',
       email,
       type,
-      password: passwordGenerator()
+      password: passwordGenerator(),
+      forcePasswordChange: true
     }
   }
   return { convertFromHttpBody }
