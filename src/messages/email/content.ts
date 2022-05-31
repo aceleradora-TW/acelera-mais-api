@@ -4,7 +4,7 @@ export const inviteEmailContent = {
   content: (name, password) => {
     return `
     Olá ${name},
-    Você foi convidada para ser mentora avaliadora no Acelera Mais.Uhuuuu!!!!
+    Você foi convidada para ser mentora avaliadora no Acelera Mais. Uhuuuu!!!!
     Por favor, acesse https://aceleramais.com.br, faça o login com o seu e-mail usando a senha abaixo.
     Você precisará trocar a senha no primeiro login.
     Senha gerada: ${password}

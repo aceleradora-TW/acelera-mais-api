@@ -8,17 +8,20 @@ import { inviteEmailContent } from '@messages/email/content'
 const jwt = require('jsonwebtoken')
 
 export const userService = () => {
-  const sendEmail = (from, subject, password, email, name) => {
-    EmailService().send(from, subject, email, inviteEmailContent.content(name, password))
+  const sendUserCreatedEmail = (user) => {
+    const { from, subject, content } = inviteEmailContent
+    const { name, password, email } = user
+    const { NODEMAILER_PASSWORD } = process.env
+    const decodedPassword = jwt.verify(password, NODEMAILER_PASSWORD);
+    EmailService().send(from, subject, email, content(name, decodedPassword))
   }
 
   const createUserService = async (userRequest: any) => {
-    const { SECRET_PASSWORD } = process.env
-    const decodingPassword = jwt.verify(userRequest.password, SECRET_PASSWORD);
+    const { NODEMAILER_PASSWORD } = process.env
     const userRepository = getRepository(User)
     const userEntity = await userRepository.create(userRequest)
     validateUser(userEntity)
-    sendEmail(inviteEmailContent.from, inviteEmailContent.subject, decodingPassword, userRequest.email, userRequest.name)
+    sendUserCreatedEmail(userRequest)
     const userEntitySaved = await userRepository.save(userEntity)
     return userEntitySaved
   }

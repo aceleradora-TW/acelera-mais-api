@@ -1,6 +1,4 @@
 const nodemailer = require('nodemailer');
-const jwt = require('jsonwebtoken')
-import { inviteEmailContent } from '@messages/email/content'
 
 export const EmailService = () => {
   const send = (from, subject, email, content) => {
