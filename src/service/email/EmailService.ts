@@ -1,16 +1,7 @@
-import nodemailer from 'nodemailer'
+import { transport } from "@service/nodemailer"
 
 export const EmailService = () => {
   const send = async (from, subject, email, content) => {
-    const { NODEMAILER_EMAIL, NODEMAILER_PASSWORD } = process.env
-
-    const transport = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: NODEMAILER_EMAIL,
-        pass: NODEMAILER_PASSWORD
-      }
-    });
 
     const message = {
       from: from,
