@@ -3,12 +3,25 @@ import { getRepository } from 'typeorm'
 import { validate } from 'class-validator'
 import { User } from '@models/entity/User'
 import { HttpError, HttpStatusCode } from '../HttpError'
+import { EmailService } from '@service/email/EmailService'
+import { inviteEmailContent } from '@messages/email/content'
+const jwt = require('jsonwebtoken')
 
 export const userService = () => {
+  const sendUserCreatedEmail = (user) => {
+    const { from, subject, content } = inviteEmailContent
+    const { name, password, email } = user
+    const { NODEMAILER_PASSWORD } = process.env
+    const decodedPassword = jwt.verify(password, NODEMAILER_PASSWORD);
+    EmailService().send(from, subject, email, content(name, decodedPassword))
+  }
+
   const createUserService = async (userRequest: any) => {
+    const { NODEMAILER_PASSWORD } = process.env
     const userRepository = getRepository(User)
     const userEntity = await userRepository.create(userRequest)
     validateUser(userEntity)
+    sendUserCreatedEmail(userRequest)
     const userEntitySaved = await userRepository.save(userEntity)
     return userEntitySaved
   }
@@ -42,6 +55,5 @@ export const userService = () => {
     const result = await userRepository.save(user)
     return result
   }
-
   return { createUserService, editUser }
 }

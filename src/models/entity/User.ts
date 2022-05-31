@@ -18,6 +18,9 @@ export class User {
   @Column({ name: 'type', type: 'varchar' })
   type: String;
 
+  @Column({ name: 'password', type: 'varchar' })
+  password: String;
+
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamptz',

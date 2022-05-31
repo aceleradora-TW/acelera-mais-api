@@ -53,6 +53,5 @@ export const getUser = async (request, response) => {
     let user = await userRepository.find()
     return response.status(200).json(user)
   }
-  catch (error) 
-  { return response.status(500).json(error) }
+  catch (error) { return response.status(500).json(error) }
 }
