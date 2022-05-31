@@ -1,10 +1,10 @@
-const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer'
 
 export const EmailService = () => {
   const send = async (from, subject, email, content) => {
     const { NODEMAILER_EMAIL, NODEMAILER_PASSWORD } = process.env
 
-    let transport = nodemailer.createTransport({
+    const transport = nodemailer.createTransport({
       service: 'gmail',
       auth: {
         user: NODEMAILER_EMAIL,
