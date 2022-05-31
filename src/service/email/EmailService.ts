@@ -29,5 +29,3 @@ export const EmailService = () => {
   }
   return { send }
 }
-
-
