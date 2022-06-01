@@ -9,13 +9,14 @@ export const userRequest = () => {
   }
 
   const convertFromHttpBody = (body) => {
-    const { name, telephone, email, type } = body
+    const { name, telephone, email, type, flag } = body
     return {
       name,
       telephone: telephone || '',
       email,
       type,
-      password: passwordGenerator()
+      password: passwordGenerator(),
+      flag
     }
   }
   return { convertFromHttpBody }

@@ -21,6 +21,9 @@ export class User {
   @Column({ name: 'password', type: 'varchar' })
   password: String;
 
+  @Column({ name: 'flag', type: 'varchar' })
+  flag: String;
+
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamptz',
