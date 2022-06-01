@@ -19,8 +19,8 @@ const requestLogger = (): Handler => expressWinston.logger({
     requestWhitelist: ['body']
 })
 
-const requestErrorLogger = () => expressWinston.errorLogger({ 
-    transports, 
+const requestErrorLogger = () => expressWinston.errorLogger({
+    transports,
     format,
 })
 
