@@ -4,18 +4,37 @@ import express from 'express'
 import { connect } from './db-connection'
 import cors from 'cors'
 import { defineRoutes } from './routes'
-connect()
+import { requestLogger, requestErrorLogger, logger } from './logger'
 
+const start = async () => {
+  try {
+    logger.info('Establishing database connection...');
+    await connect()
+    logger.info('Database connection established!');
 
-const app = express()
-const port = process.env.PORT || 9000
+    logger.info('Starting application server...');
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-app.use(cors({ origin: '*' }))
+    const app = express()
+    const port = process.env.PORT || 9000
 
-defineRoutes(app)
+    app.use(express.json())
+    app.use(express.urlencoded({ extended: true }))
+    app.use(cors({ origin: '*' }))
+    app.use(requestLogger())
 
-app.listen(port, () => {
-  console.log(`Server's running in http://localhost:${port}`)
+    defineRoutes(app)
+
+    app.use(requestErrorLogger())
+
+    app.listen(port, () => {
+      logger.info(`Server's running in http://localhost:${port}`)
+    })
+  } catch (error) {
+    throw new Error(`Failed to start application server: ${error.message}`)
+  }
+}
+
+start().catch((error) => {
+  logger.error(error.message, error.stack)
+  process.exit(1)
 })
