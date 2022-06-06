@@ -11,7 +11,7 @@ export const createAccessToken = async (emailUser, passwordUser) => {
   const user = await findUserByEmail(emailUser)
 
 
-  if (user.password !== encodePassword || user.email !== emailUser) {
+  if (!user || user.password !== encodePassword) {
     throw new HttpError('Unauthorized', HttpStatusCode.UNAUTHORIZED)
   }
 
