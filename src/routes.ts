@@ -48,7 +48,7 @@ export const defineRoutes = (app) => {
   app.patch('/challenge/:id', updateChallenge)
   app.post('/challenge/hiring_process/:id', importAllChallenge)
 
-  app.post('/user', verifyAccessToken, createUser)
+  app.post('/user', createUser)
   app.get('/user', verifyAccessToken, getUser)
   app.put('/user/:id', verifyAccessToken, updateUser)
   app.delete('/user/:id',verifyAccessToken, deleteUser)
