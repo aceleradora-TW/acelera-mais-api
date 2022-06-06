@@ -1,17 +1,21 @@
 import { HttpError, HttpStatusCode } from '../HttpError'
+import { findUserByEmail } from './AuthRequest'
 
 const jwt = require('jsonwebtoken')
 
-export const createAccessToken = (emailUser, passwordUser) => {
-  const { USERS, SECRET } = process.env
-  const listUsers = JSON.parse(USERS)
-  const emailFound = listUsers.filter(users => users.email == emailUser)
+export const createAccessToken = async (emailUser, passwordUser) => {
+  const { SECRET, NODEMAILER_SECRET } = process.env
 
-  if (emailFound.length === 0 || emailFound[0].password !== passwordUser) {
+  const encodePassword = jwt.sign(passwordUser, NODEMAILER_SECRET)
+
+  const user = await findUserByEmail(emailUser)
+
+
+  if (!user || user.password !== encodePassword) {
     throw new HttpError('Unauthorized', HttpStatusCode.UNAUTHORIZED)
   }
 
-  const payload = { name: emailFound[0].name, email: emailFound[0].email, role: emailFound[0].role }
+  const payload = { name: user.name, email: user.email, role: user.type }
   const accessToken = jwt.sign(payload, SECRET)
 
   return {

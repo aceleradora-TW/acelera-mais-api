@@ -49,7 +49,7 @@ export const defineRoutes = (app) => {
   app.post('/challenge/hiring_process/:id', importAllChallenge)
 
   app.post('/user', createUser)
-  app.get('/user', getUser)
-  app.put('/user/:id', updateUser)
-  app.delete('/user/:id', deleteUser)
+  app.get('/user', verifyAccessToken, getUser)
+  app.put('/user/:id', verifyAccessToken, updateUser)
+  app.delete('/user/:id',verifyAccessToken, deleteUser)
 }
