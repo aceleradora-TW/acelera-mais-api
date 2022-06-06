@@ -15,7 +15,7 @@ export const createAccessToken = async (emailUser, passwordUser) => {
     throw new HttpError('Unauthorized', HttpStatusCode.UNAUTHORIZED)
   }
 
-  const payload = { name: user.name, email: user.email, type: user.type }
+  const payload = { name: user.name, email: user.email, role: user.type }
   const accessToken = jwt.sign(payload, SECRET)
 
   return {
