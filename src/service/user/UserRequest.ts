@@ -2,9 +2,9 @@ const jwt = require('jsonwebtoken')
 
 export const userRequest = () => {
   const passwordGenerator = () => {
-    const { NODEMAILER_PASSWORD } = process.env
+    const { NODEMAILER_SECRET } = process.env
     const randomPassword = Math.random().toString(36).slice(-10)
-    const encryptedPassword = jwt.sign(randomPassword, NODEMAILER_PASSWORD);
+    const encryptedPassword = jwt.sign(randomPassword, NODEMAILER_SECRET);
     return encryptedPassword
   }
 

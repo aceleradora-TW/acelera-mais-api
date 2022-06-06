@@ -11,13 +11,12 @@ export const userService = () => {
   const sendUserCreatedEmail = (user) => {
     const { from, subject, content } = inviteEmailContent
     const { name, password, email } = user
-    const { NODEMAILER_PASSWORD } = process.env
-    const decodedPassword = jwt.verify(password, NODEMAILER_PASSWORD);
+    const { NODEMAILER_SECRET } = process.env
+    const decodedPassword = jwt.verify(password, NODEMAILER_SECRET);
     EmailService().send(from, subject, email, content(name, decodedPassword))
   }
 
   const createUserService = async (userRequest: any) => {
-    const { NODEMAILER_PASSWORD } = process.env
     const userRepository = getRepository(User)
     const userEntity = await userRepository.create(userRequest)
     validateUser(userEntity)
