@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken")
 
 export const createAccessToken = async (emailUser, passwordUser) => {
   const { SECRET, NODEMAILER_SECRET } = process.env
-  let auth = true
 
   const encodePassword = jwt.sign(passwordUser, NODEMAILER_SECRET)
 
@@ -19,7 +18,7 @@ export const createAccessToken = async (emailUser, passwordUser) => {
   const accessToken = jwt.sign(payload, SECRET)
 
   return {
-    auth,
+    auth: true,
     accessToken,
     user: payload,
   }
