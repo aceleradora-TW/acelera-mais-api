@@ -1,3 +1,4 @@
+import { flags } from "@service/Flags"
 import { HttpError, HttpStatusCode } from "../HttpError"
 import { findUserByEmail } from "./AuthRequest"
 
@@ -5,6 +6,7 @@ const jwt = require("jsonwebtoken")
 
 export const createAccessToken = async (emailUser, passwordUser) => {
   const { SECRET, NODEMAILER_SECRET } = process.env
+  let auth = true
 
   const encodePassword = jwt.sign(passwordUser, NODEMAILER_SECRET)
 
@@ -14,11 +16,15 @@ export const createAccessToken = async (emailUser, passwordUser) => {
     throw new HttpError("Unauthorized", HttpStatusCode.UNAUTHORIZED)
   }
 
+  if (user.flag.includes(flags.FIRST_LOGIN)) {
+    auth = false
+  }
+
   const payload = { name: user.name, email: user.email, role: user.type }
   const accessToken = jwt.sign(payload, SECRET)
 
   return {
-    auth: true,
+    auth,
     accessToken,
     user: payload,
   }
