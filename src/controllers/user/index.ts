@@ -11,7 +11,11 @@ export const createUser = async (request, response) => {
   try {
     const user = userRequest().convertFromHttpBody(request.body)
     const result = await userService().createUserService(user)
-    return httpResponseHandler().createSuccessResponse(message.SUCCESS, result, response)
+    return httpResponseHandler().createSuccessResponse(
+      message.SUCCESS,
+      result,
+      response
+    )
   } catch (error) {
     return httpResponseHandler().createErrorResponse(error, response)
   }
@@ -26,9 +30,13 @@ export const updateUser = async (request, response) => {
       name,
       email,
       telephone,
-      type
+      type,
     })
-    return httpResponse.createSuccessResponse(message.UPDATED, userUpdated, response)
+    return httpResponse.createSuccessResponse(
+      message.UPDATED,
+      userUpdated,
+      response
+    )
   } catch (error) {
     return httpResponse.createErrorResponse(error, response)
   }
@@ -45,13 +53,31 @@ export const deleteUser = async (request, response) => {
   } catch (error) {
     return response.status(500).json(error)
   }
-
 }
 export const getUser = async (request, response) => {
   try {
     const userRepository = getRepository(User)
     let user = await userRepository.find()
     return response.status(200).json(user)
+  } catch (error) {
+    return response.status(500).json(error)
   }
-  catch (error) { return response.status(500).json(error) }
+}
+
+export const sendRememberEmail = async (request, response) => {
+  try {
+    const user = userRequest().rememberEmailBody(request.body)
+    console.log({ user })
+    const userRepository = getRepository(User)
+    const userEntity = await userRepository.findOne(user.email)
+    console.log({ userEntity })
+    const result = userService().sendUserRememberEmail(userEntity)
+    return httpResponseHandler().createSuccessResponse(
+      message.SUCCESS,
+      result,
+      response
+    )
+  } catch (error) {
+    return response.status(500).json(error)
+  }
 }
