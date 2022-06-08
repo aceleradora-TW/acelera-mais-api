@@ -1,4 +1,3 @@
-import { flags } from "@service/Flags"
 import { HttpError, HttpStatusCode } from "../HttpError"
 import { findUserByEmail } from "./AuthRequest"
 
@@ -14,10 +13,6 @@ export const createAccessToken = async (emailUser, passwordUser) => {
 
   if (!user || user.password !== encodePassword) {
     throw new HttpError("Unauthorized", HttpStatusCode.UNAUTHORIZED)
-  }
-
-  if (user.flag.includes(flags.FIRST_LOGIN)) {
-    auth = false
   }
 
   const payload = { name: user.name, email: user.email, role: user.type }
