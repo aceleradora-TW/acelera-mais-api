@@ -1,3 +1,4 @@
+import { flags } from "@service/Flags"
 import { HttpError, HttpStatusCode } from "../HttpError"
 import { findUserByEmail } from "./AuthRequest"
 
@@ -15,7 +16,7 @@ export const createAccessToken = async (emailUser, passwordUser) => {
     throw new HttpError("Unauthorized", HttpStatusCode.UNAUTHORIZED)
   }
 
-  if (user.flag.includes("first-login")) {
+  if (user.flag.includes(flags.FIRST_LOGIN)) {
     auth = false
   }
 
