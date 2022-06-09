@@ -1,3 +1,5 @@
+import { User } from "@models/entity/User"
+import { getRepository } from "typeorm"
 const jwt = require("jsonwebtoken")
 
 export const userRequest = () => {
@@ -29,5 +31,11 @@ export const userRequest = () => {
     }
   }
 
-  return { convertFromHttpBody, rememberEmailBody }
+  const findUserByEmail = async (email) => {
+    const userRepository = getRepository(User)
+    const user = await userRepository.findOne({ email })
+    return user
+  }
+
+  return { convertFromHttpBody, findUserByEmail, rememberEmailBody }
 }

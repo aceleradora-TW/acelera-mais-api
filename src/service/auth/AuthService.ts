@@ -1,6 +1,6 @@
 import { UserRegistrationStatus } from "@service/Flags"
 import { HttpError, HttpStatusCode } from "../HttpError"
-import { findUserByEmail } from "./AuthRequest"
+import { userRequest } from "@service/user/UserRequest"
 
 const jwt = require("jsonwebtoken")
 
@@ -10,7 +10,7 @@ export const createAccessToken = async (emailUser, passwordUser) => {
 
   const encodePassword = jwt.sign(passwordUser, NODEMAILER_SECRET)
 
-  const user = await findUserByEmail(emailUser)
+  const user = await userRequest().findUserByEmail(emailUser)
 
   if (!user || user.password !== encodePassword) {
     throw new HttpError("Unauthorized", HttpStatusCode.UNAUTHORIZED)

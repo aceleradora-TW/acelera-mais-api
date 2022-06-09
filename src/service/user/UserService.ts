@@ -18,7 +18,7 @@ export const userService = () => {
     EmailService().send(from, subject, email, content(name, decodedPassword))
   }
 
-  const sendUserRememberEmail = async (user: any) => {
+  const sendUserRememberEmail = (user) => {
     const { from, subject, content } = rememberEmailContent
     const { NODEMAILER_SECRET } = process.env
     const { password, email, name } = user

@@ -12,7 +12,7 @@ export const createUser = async (request, response) => {
     const user = userRequest().convertFromHttpBody(request.body)
     const result = await userService().createUserService(user)
     return httpResponseHandler().createSuccessResponse(
-      message.SUCCESS,
+      message.EMAIL_SENT,
       result,
       response
     )
@@ -67,13 +67,11 @@ export const getUser = async (request, response) => {
 export const sendRememberEmail = async (request, response) => {
   try {
     const user = userRequest().rememberEmailBody(request.body)
-    console.log({ user })
-    const userRepository = getRepository(User)
-    const userEntity = await userRepository.findOne(user.email)
-    console.log({ userEntity })
+    const { email } = user
+    const userEntity = await userRequest().findUserByEmail(email)
     const result = userService().sendUserRememberEmail(userEntity)
     return httpResponseHandler().createSuccessResponse(
-      message.SUCCESS,
+      message.EMAIL_SENT,
       result,
       response
     )
