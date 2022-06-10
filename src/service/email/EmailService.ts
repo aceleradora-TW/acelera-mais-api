@@ -1,22 +1,29 @@
 import { transport } from "@service/nodemailer"
+const jwt = require("jsonwebtoken")
 
 export const EmailService = () => {
   const send = async (from, subject, email, content) => {
-
     const message = {
       from: from,
       to: email,
       subject: subject,
-      text: content
+      text: content,
     }
 
     try {
       const info = await transport.sendMail(message)
-      console.log('Email sent:', JSON.stringify(info))
+      console.log("Email sent:", JSON.stringify(info))
     } catch (error) {
-      console.error('Failed to send email:', error.message)
+      console.error("Failed to send email:", error.message)
     }
-
   }
-  return { send }
+
+  const sendEmail = (user, message) => {
+    const { from, subject, content } = message
+    const { name, password, email } = user
+    const { NODEMAILER_SECRET } = process.env
+    const decodedPassword = jwt.verify(password, NODEMAILER_SECRET)
+    EmailService().send(from, subject, email, content(name, decodedPassword))
+  }
+  return { send, sendEmail }
 }

@@ -7,24 +7,13 @@ import {
   inviteEmailContent,
   rememberEmailContent,
 } from "@messages/email/content"
-const jwt = require("jsonwebtoken")
 
 export const userService = () => {
-  const sendUserCreatedEmail = (user) => {
-    const { from, subject, content } = inviteEmailContent
-    const { name, password, email } = user
-    const { NODEMAILER_SECRET } = process.env
-    const decodedPassword = jwt.verify(password, NODEMAILER_SECRET)
-    EmailService().send(from, subject, email, content(name, decodedPassword))
-  }
+  const sendUserCreatedEmail = (user) =>
+    EmailService().sendEmail(user, inviteEmailContent)
 
-  const sendUserRememberEmail = async (user) => {
-    const { from, subject, content } = rememberEmailContent
-    const { NODEMAILER_SECRET } = process.env
-    const { password, email, name } = user
-    const decodedPassword = jwt.verify(password, NODEMAILER_SECRET)
-    EmailService().send(from, subject, email, content(name, decodedPassword))
-  }
+  const sendUserRememberEmail = async (user) =>
+    EmailService().sendEmail(user, rememberEmailContent)
 
   const createUserService = async (userRequest: any) => {
     const userRepository = getRepository(User)
