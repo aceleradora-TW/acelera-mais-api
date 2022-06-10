@@ -18,7 +18,7 @@ export const userService = () => {
     EmailService().send(from, subject, email, content(name, decodedPassword))
   }
 
-  const sendUserRememberEmail = (user) => {
+  const sendUserRememberEmail = async (user) => {
     const { from, subject, content } = rememberEmailContent
     const { NODEMAILER_SECRET } = process.env
     const { password, email, name } = user
@@ -70,5 +70,23 @@ export const userService = () => {
     const result = await userRepository.save(user)
     return result
   }
-  return { createUserService, editUser, sendUserRememberEmail }
+
+  const editUserFlag = async ({ id, flag }) => {
+    const userRepository = getRepository(User)
+    const user = await userRepository.findOne(id)
+    if (!user) {
+      throw new HttpError(
+        "User not found with: " + id,
+        HttpStatusCode.BAD_REQUEST
+      )
+    }
+    if (flag) {
+      user.flag = flag
+    }
+    validateUser(user)
+    const result = await userRepository.save(user)
+    return result
+  }
+
+  return { createUserService, editUser, sendUserRememberEmail, editUserFlag }
 }

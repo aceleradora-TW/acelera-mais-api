@@ -1,6 +1,7 @@
 import { httpResponseHandler } from "@controllers/HttpResponseHandler"
 import { message } from "@messages/languages/pt-br"
 import { User } from "@models/entity/User"
+import { UserRegistrationStatus } from "@service/Flags"
 import { userRequest } from "@service/user/UserRequest"
 import { userService } from "@service/user/UserService"
 import { getRepository } from "typeorm"
@@ -68,7 +69,13 @@ export const sendRememberEmail = async (request, response) => {
   try {
     const user = userRequest().rememberEmailBody(request.body)
     const { email } = user
+    const { id } = request.params
+    const flag = UserRegistrationStatus.EMAIL_RESENDED
     const userEntity = await userRequest().findUserByEmail(email)
+    await userService().editUserFlag({
+      id,
+      flag,
+    })
     const result = userService().sendUserRememberEmail(userEntity)
     return httpResponseHandler().createSuccessResponse(
       message.EMAIL_SENT,
