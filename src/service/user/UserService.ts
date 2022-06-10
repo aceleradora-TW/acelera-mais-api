@@ -77,5 +77,17 @@ export const userService = () => {
     return result
   }
 
-  return { createUserService, editUser, sendUserRememberEmail, editUserFlag }
+  const findUserByEmail = async (email) => {
+    const userRepository = getRepository(User)
+    const user = await userRepository.findOne({ email })
+    return user
+  }
+
+  return {
+    createUserService,
+    editUser,
+    sendUserRememberEmail,
+    editUserFlag,
+    findUserByEmail,
+  }
 }

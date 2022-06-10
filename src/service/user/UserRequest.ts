@@ -31,11 +31,5 @@ export const userRequest = () => {
     }
   }
 
-  const findUserByEmail = async (email) => {
-    const userRepository = getRepository(User)
-    const user = await userRepository.findOne({ email })
-    return user
-  }
-
-  return { convertFromHttpBody, findUserByEmail, rememberEmailBody }
+  return { convertFromHttpBody, rememberEmailBody }
 }
