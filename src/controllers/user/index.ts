@@ -70,7 +70,7 @@ export const sendRememberEmail = async (request, response) => {
     const user = userRequest().rememberEmailBody(request.body)
     const { email } = user
     const { id } = request.params
-    const flag = UserRegistrationStatus.EMAIL_RESENDED
+    const flag = UserRegistrationStatus.EMAIL_RESENT
     const userEntity = await userRequest().findUserByEmail(email)
     await userService().editUserFlag({
       id,
