@@ -68,18 +68,17 @@ export const getUser = async (request, response) => {
 export const sendRememberEmail = async (request, response) => {
   try {
     const user = userRequest().rememberEmailBody(request.body)
-    const { email } = user
+    const { email, flag = UserRegistrationStatus.EMAIL_RESENT } = user
     const { id } = request.params
-    const flag = UserRegistrationStatus.EMAIL_RESENT
     const userEntity = await userService().findUserByEmail(email)
-    await userService().editUserFlag({
+    const save = await userService().editUserFlag({
       id,
       flag,
     })
-    const result = userService().sendUserRememberEmail(userEntity)
+    userService().sendUserRememberEmail(userEntity)
     return httpResponseHandler().createSuccessResponse(
       message.EMAIL_SENT,
-      result,
+      save,
       response
     )
   } catch (error) {

@@ -23,7 +23,7 @@ export const EmailService = () => {
     const { name, password, email } = user
     const { NODEMAILER_SECRET } = process.env
     const decodedPassword = jwt.verify(password, NODEMAILER_SECRET)
-    EmailService().send(from, subject, email, content(name, decodedPassword))
+    send(from, subject, email, content(name, decodedPassword))
   }
   return { send, sendEmail }
 }
