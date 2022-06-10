@@ -68,9 +68,13 @@ export const getUser = async (request, response) => {
 export const sendRememberEmail = async (request, response) => {
   try {
     const user = userRequest().rememberEmailBody(request.body)
-    const { email, flag = UserRegistrationStatus.EMAIL_RESENT } = user
+    const { email } = user
     const { id } = request.params
+    let flag
     const userEntity = await userService().findUserByEmail(email)
+    if (userEntity.flag === UserRegistrationStatus.FIRST_LOGIN) {
+      flag = userEntity.flag = UserRegistrationStatus.EMAIL_RESENT
+    }
     const save = await userService().editUserFlag({
       id,
       flag,

@@ -23,12 +23,11 @@ export const userRequest = () => {
   }
 
   const rememberEmailBody = (body) => {
-    const { name, email, password, flag } = body
+    const { name, email, password } = body
     return {
       name,
       email,
       password,
-      flag,
     }
   }
 
