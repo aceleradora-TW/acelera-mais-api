@@ -14,8 +14,8 @@ export class InvalidCandidate {
   @Column({ name: "adress_email", nullable: true, type: "varchar" })
   adress_email: String
 
-  @Column({ name: "hiring_process_id", nullable: true, type: "int" })
-  hiring_process_id: Number
+  @Column({ name: "hiring_process_id", nullable: true, type: "varchar" })
+  hiring_process_id: String
 
   @CreateDateColumn({
     name: "created_at",
