@@ -157,7 +157,7 @@ export const importAllChallenge = async (request, response) => {
     return await invalidCandidateRepository.save(
       invalidCandidateRepository.create({
         adress_email: addressEmail,
-        hiring_process_id: hiringProcess,
+        hiring_process_id: hiringProcess.id,
       })
     )
   })
