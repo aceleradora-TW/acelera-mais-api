@@ -11,7 +11,11 @@ export const createUser = async (request, response) => {
   try {
     const user = userRequest().convertFromHttpBody(request.body)
     const result = await userService().createUserService(user)
-    return httpResponseHandler().createSuccessResponse(message.SUCCESS, result, response)
+    return httpResponseHandler().createSuccessResponse(
+      message.SUCCESS,
+      result,
+      response
+    )
   } catch (error) {
     return httpResponseHandler().createErrorResponse(error, response)
   }
@@ -19,16 +23,21 @@ export const createUser = async (request, response) => {
 
 export const updateUser = async (request, response) => {
   try {
-    const { name, email, telephone, type } = request.body
+    const { name, email, telephone, type, flag } = request.body
     const { id } = request.params
     const userUpdated = await userService().editUser({
       id,
       name,
       email,
       telephone,
-      type
+      type,
+      flag,
     })
-    return httpResponse.createSuccessResponse(message.UPDATED, userUpdated, response)
+    return httpResponse.createSuccessResponse(
+      message.UPDATED,
+      userUpdated,
+      response
+    )
   } catch (error) {
     return httpResponse.createErrorResponse(error, response)
   }
@@ -45,13 +54,13 @@ export const deleteUser = async (request, response) => {
   } catch (error) {
     return response.status(500).json(error)
   }
-
 }
 export const getUser = async (request, response) => {
   try {
     const userRepository = getRepository(User)
     let user = await userRepository.find()
     return response.status(200).json(user)
+  } catch (error) {
+    return response.status(500).json(error)
   }
-  catch (error) { return response.status(500).json(error) }
 }
