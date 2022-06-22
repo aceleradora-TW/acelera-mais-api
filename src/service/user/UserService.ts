@@ -68,6 +68,9 @@ export const userService = () => {
     if (password) {
       user.password = encryptPassword(password)
     }
+    if (flag) {
+      user.flag = flag
+    }
     validateUser(user)
     const result = await userRepository.save(user)
     return result
