@@ -33,7 +33,7 @@ export const userService = () => {
       )
     }
   }
-  const editUser = async ({ id, name, email, telephone, type }) => {
+  const editUser = async ({ id, name, email, telephone, type, flag }) => {
     const userRepository = getRepository(User)
     const user = await userRepository.findOne(id)
     if (!user) {
@@ -54,6 +54,9 @@ export const userService = () => {
     }
     if (type) {
       user.type = type
+    }
+    if (flag) {
+      user.flag = flag
     }
     validateUser(user)
     const result = await userRepository.save(user)
