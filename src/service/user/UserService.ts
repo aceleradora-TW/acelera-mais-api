@@ -7,6 +7,7 @@ import {
   inviteEmailContent,
   rememberEmailContent,
 } from "@messages/email/content"
+import { encryptPassword } from "./UserRequest"
 const jwt = require("jsonwebtoken")
 
 export const userService = () => {
@@ -65,9 +66,7 @@ export const userService = () => {
       user.type = type
     }
     if (password) {
-      const { NODEMAILER_SECRET } = process.env
-      const encryptedPassword = jwt.sign(password, NODEMAILER_SECRET)
-      user.password = encryptedPassword
+      user.password = encryptPassword(password)
     }
     validateUser(user)
     const result = await userRepository.save(user)
