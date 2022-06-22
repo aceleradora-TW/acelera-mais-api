@@ -7,6 +7,7 @@ import {
   inviteEmailContent,
   rememberEmailContent,
 } from "@messages/email/content"
+const jwt = require("jsonwebtoken")
 
 export const userService = () => {
   const sendUserCreatedEmail = (user) =>
@@ -33,7 +34,15 @@ export const userService = () => {
       )
     }
   }
-  const editUser = async ({ id, name, email, telephone, type }) => {
+  const editUser = async ({
+    id,
+    name,
+    email,
+    telephone,
+    type,
+    flag,
+    password,
+  }) => {
     const userRepository = getRepository(User)
     const user = await userRepository.findOne(id)
     if (!user) {
@@ -54,6 +63,11 @@ export const userService = () => {
     }
     if (type) {
       user.type = type
+    }
+    if (password) {
+      const { NODEMAILER_SECRET } = process.env
+      const encryptedPassword = jwt.sign(password, NODEMAILER_SECRET)
+      user.password = encryptedPassword
     }
     validateUser(user)
     const result = await userRepository.save(user)
