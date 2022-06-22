@@ -3,17 +3,17 @@ import { validate } from "class-validator"
 import { User } from "@models/entity/User"
 import { HttpError, HttpStatusCode } from "../HttpError"
 import { EmailService } from "@service/email/EmailService"
-import { inviteEmailContent } from "@messages/email/content"
-const jwt = require("jsonwebtoken")
+import {
+  inviteEmailContent,
+  rememberEmailContent,
+} from "@messages/email/content"
 
 export const userService = () => {
-  const sendUserCreatedEmail = (user) => {
-    const { from, subject, content } = inviteEmailContent
-    const { name, password, email } = user
-    const { NODEMAILER_SECRET } = process.env
-    const decodedPassword = jwt.verify(password, NODEMAILER_SECRET)
-    EmailService().send(from, subject, email, content(name, decodedPassword))
-  }
+  const sendUserCreatedEmail = (user) =>
+    EmailService().sendEmail(user, inviteEmailContent)
+
+  const sendUserRememberEmail = async (user) =>
+    EmailService().sendEmail(user, rememberEmailContent)
 
   const createUserService = async (userRequest: any) => {
     const userRepository = getRepository(User)
@@ -62,5 +62,35 @@ export const userService = () => {
     const result = await userRepository.save(user)
     return result
   }
-  return { createUserService, editUser }
+
+  const editUserFlag = async ({ id, flag }) => {
+    const userRepository = getRepository(User)
+    const user = await userRepository.findOne(id)
+    if (!user) {
+      throw new HttpError(
+        "User not found with: " + id,
+        HttpStatusCode.BAD_REQUEST
+      )
+    }
+    if (flag) {
+      user.flag = flag
+    }
+    validateUser(user)
+    const result = await userRepository.save(user)
+    return result
+  }
+
+  const findUserByEmail = async (email) => {
+    const userRepository = getRepository(User)
+    const user = await userRepository.findOne({ email })
+    return user
+  }
+
+  return {
+    createUserService,
+    editUser,
+    sendUserRememberEmail,
+    editUserFlag,
+    findUserByEmail,
+  }
 }

@@ -1,6 +1,7 @@
 import { httpResponseHandler } from "@controllers/HttpResponseHandler"
 import { message } from "@messages/languages/pt-br"
 import { User } from "@models/entity/User"
+import { UserRegistrationStatus } from "@service/Flags"
 import { userRequest } from "@service/user/UserRequest"
 import { userService } from "@service/user/UserService"
 import { getRepository } from "typeorm"
@@ -12,7 +13,7 @@ export const createUser = async (request, response) => {
     const user = userRequest().convertFromHttpBody(request.body)
     const result = await userService().createUserService(user)
     return httpResponseHandler().createSuccessResponse(
-      message.SUCCESS,
+      message.EMAIL_SENT,
       result,
       response
     )
@@ -60,6 +61,31 @@ export const getUser = async (request, response) => {
     const userRepository = getRepository(User)
     let user = await userRepository.find()
     return response.status(200).json(user)
+  } catch (error) {
+    return response.status(500).json(error)
+  }
+}
+
+export const sendRememberEmail = async (request, response) => {
+  try {
+    const user = userRequest().rememberEmailBody(request.body)
+    const { email } = user
+    const { id } = request.params
+    let flag
+    const userEntity = await userService().findUserByEmail(email)
+    if (userEntity.flag === UserRegistrationStatus.FIRST_LOGIN) {
+      flag = userEntity.flag = UserRegistrationStatus.EMAIL_RESENT
+    }
+    const save = await userService().editUserFlag({
+      id,
+      flag,
+    })
+    userService().sendUserRememberEmail(userEntity)
+    return httpResponseHandler().createSuccessResponse(
+      message.EMAIL_SENT,
+      save,
+      response
+    )
   } catch (error) {
     return response.status(500).json(error)
   }
