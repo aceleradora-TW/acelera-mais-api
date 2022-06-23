@@ -66,6 +66,7 @@ export const userService = () => {
       user.type = type
     }
     if (password) {
+      console.log(password)
       user.password = encryptPassword(password)
     }
     if (flag) {
