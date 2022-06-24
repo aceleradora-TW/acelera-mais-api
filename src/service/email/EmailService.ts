@@ -25,5 +25,11 @@ export const EmailService = () => {
     const decodedPassword = jwt.verify(password, NODEMAILER_SECRET)
     send(from, subject, email, content(name, decodedPassword))
   }
-  return { send, sendEmail }
+
+  const sendNegativeEmail = (email, name, message) => {
+    const { from, subject, content } = message
+    send(from, subject, email, content(name))
+  }
+
+  return { send, sendEmail, sendNegativeEmail }
 }
