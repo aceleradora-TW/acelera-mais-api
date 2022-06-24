@@ -1,4 +1,4 @@
-import { transport } from "@service/nodemailer"
+import { NodemailerService } from "@service/nodemailer/NodemailerService"
 const jwt = require("jsonwebtoken")
 
 export const EmailService = () => {
@@ -11,10 +11,10 @@ export const EmailService = () => {
     }
 
     try {
-      const info = await transport.sendMail(message)
-      console.log("Email sent:", JSON.stringify(info))
+      ;(await NodemailerService()).transport.sendMail(message)
+      console.log("Email sent")
     } catch (error) {
-      console.error("Failed to send email:", error.message)
+      console.error("Failed to send email:", error)
     }
   }
 
