@@ -154,7 +154,7 @@ export const importAllChallenge = async (request, response) => {
       newChallenge.exercises = exercises
       return await challengeRepository.save(newChallenge)
     }
-    return IncompleteCandidateService().incompleteCandidateEmails(
+    return IncompleteCandidateService().createIncompleteCandidate(
       addressEmail,
       hiringProcess,
       name
