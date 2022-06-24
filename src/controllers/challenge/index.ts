@@ -159,6 +159,7 @@ export const importAllChallenge = async (request, response) => {
       incompleteCandidateRepository.create({
         adressEmail: addressEmail,
         hiringProcess: hiringProcess.id,
+        name: name,
       })
     )
   })

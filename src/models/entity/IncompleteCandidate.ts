@@ -20,8 +20,11 @@ export class IncompleteCandidate {
   })
   hiringProcess: HiringProcess
 
-  @Column({ name: "adress_email", nullable: true, type: "varchar" })
+  @Column({ name: "adress_email", type: "varchar" })
   adressEmail: String
+
+  @Column({ name: "name", type: "varchar" })
+  name: String
 
   @CreateDateColumn({
     name: "created_at",
