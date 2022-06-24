@@ -7,12 +7,13 @@ import { challengeService } from "@service/challenge/ChallengeService"
 import { Evaluation } from "@models/entity/Evaluation"
 import { Exercise } from "@models/entity/Exercise"
 import { create } from "domain"
-import { InvalidCandidate } from "@models/entity/InvalidCandidate"
+import { IncompleteCandidate } from "@models/entity/IncompleteCandidate"
 
 const httpResponse = httpResponseHandler()
 
 const mapChallenges = (id) => {
   const normaliseDate = (date) => {
+    return date
     const newDate = date.split("/")
     return `${newDate[1]}/${newDate[0]}/${newDate[2]}`
   }
@@ -110,7 +111,7 @@ export const importAllChallenge = async (request, response) => {
   // crio uma instancia para manipular os desafios no banco
   const challengeRepository = getRepository(Challenge)
 
-  const invalidCandidateRepository = getRepository(InvalidCandidate)
+  const incompleteCandidateRepository = getRepository(IncompleteCandidate)
 
   // com a lista de desafios eu salvo
   const challengesPromisse = challengeList.map(async (data) => {
@@ -154,8 +155,8 @@ export const importAllChallenge = async (request, response) => {
       newChallenge.exercises = exercises
       return await challengeRepository.save(newChallenge)
     }
-    return await invalidCandidateRepository.save(
-      invalidCandidateRepository.create({
+    return await incompleteCandidateRepository.save(
+      incompleteCandidateRepository.create({
         adress_email: addressEmail,
         hiring_process_id: hiringProcess.id,
       })

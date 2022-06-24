@@ -7,7 +7,7 @@ import {
 } from "typeorm"
 
 @Entity()
-export class InvalidCandidate {
+export class IncompleteCandidate {
   @PrimaryGeneratedColumn()
   id: number
 
