@@ -37,9 +37,9 @@ export const defineRoutes = (app) => {
   app.get("/", itsWorks)
   app.post("/login", generateAccessToken)
   app.get("/hiring_process", getAllHiringProcess)
-  app.post("/hiring_process", verifyAccessToken, createHiringProcess)
-  app.patch("/hiring_process/:id", verifyAccessToken, updateHiringProcess)
-  app.delete("/hiring_process/:id", verifyAccessToken, deleteHiringProcess)
+  app.post("/hiring_process", createHiringProcess)
+  app.patch("/hiring_process/:id", updateHiringProcess)
+  app.delete("/hiring_process/:id", deleteHiringProcess)
 
   app.get("/candidate", getAllCandidate)
   app.get("/candidate/:id", getCandidate)
@@ -58,8 +58,8 @@ export const defineRoutes = (app) => {
   app.post("/challenge/hiring_process/:id", importAllChallenge)
 
   app.post("/user", createUser)
-  app.get("/user", verifyAccessToken, getUser)
-  app.put("/user/:id", verifyAccessToken, updateUser)
+  app.get("/user", getUser)
+  app.put("/user/:id", updateUser)
   app.put("/user/:id/email_verification", sendRememberEmail)
-  app.delete("/user/:id", verifyAccessToken, deleteUser)
+  app.delete("/user/:id", deleteUser)
 }
