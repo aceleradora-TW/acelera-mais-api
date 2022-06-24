@@ -39,7 +39,7 @@
     "express": "^4.17.1",
     "express-winston": "^4.2.0",
     "google-spreadsheet": "^3.2.0",
-    "googleapis": "^102.0.0",
+    "googleapis": "^104.0.0",
     "jest-mock-extended": "^2.0.4",
     "jsonwebtoken": "^8.5.1",
     "nodemailer": "^6.7.5",
