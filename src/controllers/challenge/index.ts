@@ -6,8 +6,6 @@ import { importSpreadSheet } from "@service/google-spreadsheet"
 import { challengeService } from "@service/challenge/ChallengeService"
 import { Evaluation } from "@models/entity/Evaluation"
 import { Exercise } from "@models/entity/Exercise"
-import { create } from "domain"
-import { IncompleteCandidate } from "@models/entity/IncompleteCandidate"
 import { IncompleteCandidateService } from "@service/incomplete-candidate/IncompleteCandidateService"
 
 const httpResponse = httpResponseHandler()
