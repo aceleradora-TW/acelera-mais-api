@@ -4,8 +4,13 @@ import { EmailService } from "@service/email/EmailService"
 import { getRepository } from "typeorm"
 
 export const IncompleteCandidateService = () => {
+  const negativeEmail = (email, name, message) => {
+    const { from, subject, content } = message
+    EmailService().send(from, subject, email, content(name))
+  }
+
   const sendEmailToIncompleteCandidate = (email, name, message) => {
-    EmailService().sendNegativeEmail(email, name, message)
+    negativeEmail(email, name, message)
   }
 
   const createIncompleteCandidate = async (
