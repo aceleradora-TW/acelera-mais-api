@@ -21,7 +21,7 @@ export class IncompleteCandidate {
   hiringProcess: HiringProcess
 
   @Column({ name: "adress_email", type: "varchar" })
-  adressEmail: String
+  addressEmail: String
 
   @Column({ name: "name", type: "varchar" })
   name: String

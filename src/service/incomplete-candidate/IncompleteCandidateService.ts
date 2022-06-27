@@ -10,10 +10,6 @@ export const IncompleteCandidateService = () => {
     EmailService().send(from, subject, email, content(name), bcc(NODE_ENV))
   }
 
-  const sendEmailToIncompleteCandidate = (email, name, message) => {
-    negativeEmail(email, name, message)
-  }
-
   const createIncompleteCandidate = async (
     addressEmail,
     hiringProcess,
@@ -21,14 +17,14 @@ export const IncompleteCandidateService = () => {
   ) => {
     const incompleteCandidateRepository = getRepository(IncompleteCandidate)
     const createIncompleteCandidate = incompleteCandidateRepository.create({
-      adressEmail: addressEmail,
+      addressEmail: addressEmail,
       hiringProcess: hiringProcess.id,
       name: name,
     })
     const saveIncompleteCandidate = await incompleteCandidateRepository.save(
       createIncompleteCandidate
     )
-    sendEmailToIncompleteCandidate(addressEmail, name, negativeEmailContent)
+    negativeEmail(addressEmail, name, negativeEmailContent)
     return saveIncompleteCandidate
   }
 
