@@ -31,6 +31,7 @@ export const rememberEmailContent = {
 export const negativeEmailContent = {
   from: "Aceleradora Ágil <aceleradorametodosageis@gmail.com>",
   subject: "Aceleradora Ágil: 2ª Fase Processo seletivo",
+  bcc: "jumartinsvargas@gmail.com",
   content: (name) => {
     return `
     Olá ${name},

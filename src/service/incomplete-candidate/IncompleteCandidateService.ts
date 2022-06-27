@@ -4,13 +4,13 @@ import { EmailService } from "@service/email/EmailService"
 import { getRepository } from "typeorm"
 
 export const IncompleteCandidateService = () => {
-  const negativeEmail = (email, name, message, bcc) => {
-    const { from, subject, content } = message
+  const negativeEmail = (email, name, message) => {
+    const { from, subject, content, bcc } = message
     EmailService().send(from, subject, email, content(name), bcc)
   }
 
-  const sendEmailToIncompleteCandidate = (email, name, message, bcc) => {
-    negativeEmail(email, name, message, bcc)
+  const sendEmailToIncompleteCandidate = (email, name, message) => {
+    negativeEmail(email, name, message)
   }
 
   const createIncompleteCandidate = async (
@@ -27,12 +27,7 @@ export const IncompleteCandidateService = () => {
     const saveIncompleteCandidate = await incompleteCandidateRepository.save(
       createIncompleteCandidate
     )
-    sendEmailToIncompleteCandidate(
-      addressEmail,
-      name,
-      negativeEmailContent,
-      "jumartinsvargas@gmail.com"
-    )
+    sendEmailToIncompleteCandidate(addressEmail, name, negativeEmailContent)
     return saveIncompleteCandidate
   }
 
