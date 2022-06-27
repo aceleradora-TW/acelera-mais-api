@@ -5,8 +5,8 @@ import { getRepository } from "typeorm"
 
 export const IncompleteCandidateService = () => {
   const { NODE_ENV } = process.env
-  const negativeEmail = (email, name, message) => {
-    const { from, subject, content, bcc } = message
+  const negativeEmail = (email, name) => {
+    const { from, subject, content, bcc } = negativeEmailContent
     EmailService().send(from, subject, email, content(name), bcc(NODE_ENV))
   }
 
@@ -24,7 +24,7 @@ export const IncompleteCandidateService = () => {
     const saveIncompleteCandidate = await incompleteCandidateRepository.save(
       createIncompleteCandidate
     )
-    negativeEmail(addressEmail, name, negativeEmailContent)
+    negativeEmail(addressEmail, name)
     return saveIncompleteCandidate
   }
 
