@@ -1,5 +1,3 @@
-import { content } from "googleapis/build/src/apis/content"
-
 export const inviteEmailContent = {
   from: "AceleraMais <aceleradorametodosageis@gmail.com>",
   subject: "AceleraMais: Convite para mentora avaliadora!",
