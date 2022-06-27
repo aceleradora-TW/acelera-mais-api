@@ -8,7 +8,6 @@ import {
   rememberEmailContent,
 } from "@messages/email/content"
 import { encryptPassword } from "./UserRequest"
-const jwt = require("jsonwebtoken")
 
 export const userService = () => {
   const sendUserCreatedEmail = (user) =>

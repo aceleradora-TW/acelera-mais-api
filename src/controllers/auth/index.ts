@@ -20,6 +20,7 @@ export const generateAccessToken = async (request, response) => {
 export const verifyAccessToken = (request, response, next) => {
   if (process.env.NODE_ENV === "local") {
     next()
+    return
   }
   const authHeaders = request.headers.authorization
 
