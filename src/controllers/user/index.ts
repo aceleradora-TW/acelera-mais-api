@@ -24,7 +24,7 @@ export const createUser = async (request, response) => {
 
 export const updateUser = async (request, response) => {
   try {
-    const { name, email, telephone, type } = request.body
+    const { name, email, telephone, type, flag } = request.body
     const { id } = request.params
     const userUpdated = await userService().editUser({
       id,
@@ -32,6 +32,7 @@ export const updateUser = async (request, response) => {
       email,
       telephone,
       type,
+      flag,
     })
     return httpResponse.createSuccessResponse(
       message.UPDATED,
@@ -79,7 +80,7 @@ export const sendRememberEmail = async (request, response) => {
       id,
       flag,
     })
-    userService().sendUserRememberEmail(userEntity)
+    userService().rememberEmail(userEntity)
     return httpResponseHandler().createSuccessResponse(
       message.EMAIL_SENT,
       save,
