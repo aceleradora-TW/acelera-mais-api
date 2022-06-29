@@ -81,7 +81,7 @@ export const sendRememberEmail = async (request, response) => {
       id,
       flag,
     })
-    userService().sendUserRememberEmail(userEntity)
+    userService().rememberEmail(userEntity)
     return httpResponseHandler().createSuccessResponse(
       message.EMAIL_SENT,
       save,
