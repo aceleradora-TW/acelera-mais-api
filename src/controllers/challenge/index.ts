@@ -127,6 +127,7 @@ export const importAllChallenge = async (request, response) => {
       cityState,
       hiringProcess,
       exercises,
+      exerciseStatement,
     } = data
 
     const newChallenge = await challengeRepository.findOne({
@@ -149,6 +150,7 @@ export const importAllChallenge = async (request, response) => {
       newChallenge.canUseWebcam = canUseWebcam
       newChallenge.cityState = cityState
       newChallenge.exercises = exercises
+      newChallenge.exerciseStatement = exerciseStatement
       return await challengeRepository.save(newChallenge)
     }
     return IncompleteCandidateService().createIncompleteCandidate(
