@@ -1,5 +1,8 @@
-import { httpResponseHandler } from '@controllers/HttpResponseHandler'
-import { createAccessToken, validateAccessToken } from '../../service/auth/AuthService'
+import { httpResponseHandler } from "@controllers/HttpResponseHandler"
+import {
+  createAccessToken,
+  validateAccessToken,
+} from "../../service/auth/AuthService"
 const responseHandler = httpResponseHandler()
 
 export const generateAccessToken = async (request, response) => {
@@ -15,6 +18,10 @@ export const generateAccessToken = async (request, response) => {
 }
 
 export const verifyAccessToken = (request, response, next) => {
+  if (process.env.NODE_ENV === "local") {
+    next()
+    return
+  }
   const authHeaders = request.headers.authorization
 
   const isAuthenticated = validateAccessToken(authHeaders)

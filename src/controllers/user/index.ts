@@ -24,7 +24,7 @@ export const createUser = async (request, response) => {
 
 export const updateUser = async (request, response) => {
   try {
-    const { name, email, telephone, type, flag } = request.body
+    const { name, email, telephone, type, flag, password } = request.body
     const { id } = request.params
     const userUpdated = await userService().editUser({
       id,
@@ -33,6 +33,7 @@ export const updateUser = async (request, response) => {
       telephone,
       type,
       flag,
+      password,
     })
     return httpResponse.createSuccessResponse(
       message.UPDATED,

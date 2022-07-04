@@ -20,7 +20,12 @@ export const createAccessToken = async (emailUser, passwordUser) => {
     auth = false
   }
 
-  const payload = { name: user.name, email: user.email, role: user.type }
+  const payload = {
+    name: user.name,
+    email: user.email,
+    role: user.type,
+    id: user.id,
+  }
   const accessToken = jwt.sign(payload, SECRET)
 
   return {
