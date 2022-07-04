@@ -2,20 +2,29 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm"
+import { HiringProcess } from "./HiringProcess"
 
 @Entity()
-export class InvalidCandidate {
+export class IncompleteCandidate {
   @PrimaryGeneratedColumn()
   id: number
 
-  @Column({ name: "adress_email", nullable: true, type: "varchar" })
-  adress_email: String
+  @JoinColumn({ name: "hiring_process_id" })
+  @ManyToOne(() => HiringProcess, (hiringProcess) => hiringProcess.challenges, {
+    onDelete: "CASCADE",
+  })
+  hiringProcess: HiringProcess
 
-  @Column({ name: "hiring_process_id", nullable: true, type: "varchar" })
-  hiring_process_id: String
+  @Column({ name: "adress_email", type: "varchar" })
+  addressEmail: String
+
+  @Column({ name: "name", type: "varchar" })
+  name: String
 
   @CreateDateColumn({
     name: "created_at",
