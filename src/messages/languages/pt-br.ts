@@ -6,5 +6,6 @@ export const message = {
   NOT_FOUND: "Não foram encontradas informações.",
   FOUND: "Informações encontradas com sucesso.",
   EMAIL_SENT: "Email enviado com sucesso!",
-  CREATE_ERROR: "Não foi possivel concluir solicitação.",
+  CREATE_ERROR:
+    "Não foi possivel criar ou atualizar usuário. Motivo: flag inválida.",
 }
