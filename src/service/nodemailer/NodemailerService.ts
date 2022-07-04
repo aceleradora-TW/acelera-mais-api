@@ -34,6 +34,13 @@ export const NodemailerService = async () => {
     })
   })
 
+  oauth2Client.on = () => {
+    if (NODEMAILER_REFRESH_TOKEN) {
+      console.log(NODEMAILER_REFRESH_TOKEN)
+    }
+    console.log(accessToken)
+  }
+
   const transport = nodemailer.createTransport({
     service: "gmail",
     auth: {
