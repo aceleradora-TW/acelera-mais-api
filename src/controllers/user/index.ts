@@ -11,10 +11,6 @@ const httpResponse = httpResponseHandler()
 export const createUser = async (request, response) => {
   try {
     const user = userRequest().convertFromHttpBody(request.body)
-    const auth = await userService().validateRegister(user.flag)
-    if (!auth) {
-      return response.status(400).json({ message: message.CREATE_ERROR })
-    }
     const result = await userService().createUserService(user)
     return httpResponseHandler().createSuccessResponse(
       message.EMAIL_SENT,
@@ -28,12 +24,9 @@ export const createUser = async (request, response) => {
 
 export const updateUser = async (request, response) => {
   try {
-    const { name, email, telephone, type, flag } = request.body
-    const auth = await userService().validateRegister(flag)
+    const { name, email, telephone, type, flag } =
+      userRequest().convertFromHttpBody(request.body)
     const { id } = request.params
-    if (!auth) {
-      return response.status(400).json({ message: message.NOT_UPDATED })
-    }
     const userUpdated = await userService().editUser({
       id,
       name,

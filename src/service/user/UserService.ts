@@ -7,7 +7,6 @@ import {
   inviteEmailContent,
   rememberEmailContent,
 } from "@messages/email/content"
-import { UserRegistrationStatus } from "@service/Flags"
 const jwt = require("jsonwebtoken")
 
 export const userService = () => {
@@ -94,19 +93,11 @@ export const userService = () => {
     return user
   }
 
-  const validateRegister = async (flag) => {
-    if (Object.values(UserRegistrationStatus).includes(flag)) {
-      return flag
-    }
-    return false
-  }
-
   return {
     createUserService,
     editUser,
     rememberEmail,
     editUserFlag,
     findUserByEmail,
-    validateRegister,
   }
 }
