@@ -1,6 +1,7 @@
-import { User } from "@models/entity/User"
-import { getRepository } from "typeorm"
+import { message } from "@messages/languages/pt-br"
+import { HttpError, HttpStatusCode } from "@service/HttpError"
 const jwt = require("jsonwebtoken")
+import { UserRegistrationStatus } from "@service/Flags"
 
 export const userRequest = () => {
   const passwordGenerator = () => {
@@ -12,14 +13,21 @@ export const userRequest = () => {
 
   const convertFromHttpBody = (body) => {
     const { name, telephone, email, type, flag } = body
-    return {
-      name,
-      telephone: telephone || "",
-      email,
-      type,
-      password: passwordGenerator(),
-      flag,
+    if (validateFlag(flag)) {
+      return {
+        name,
+        telephone: telephone || "",
+        email,
+        type,
+        password: passwordGenerator(),
+        flag,
+      }
     }
+    throw new HttpError(message.CREATE_ERROR, HttpStatusCode.BAD_REQUEST)
+  }
+
+  const validateFlag = (flag) => {
+    return Object.values(UserRegistrationStatus).includes(flag)
   }
 
   const rememberEmailBody = (body) => {
