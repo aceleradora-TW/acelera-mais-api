@@ -63,5 +63,5 @@ export const defineRoutes = (app) => {
   app.put("/user/:id/email_verification", sendRememberEmail)
   app.delete("/user/:id", verifyAccessToken, deleteUser)
 
-  app.get("/exercise", getExercise)
+  app.get("/exercise/:id", getExercise)
 }
