@@ -129,6 +129,7 @@ export const importAllChallenge = async (request, response) => {
       hiringProcess,
       exercises,
       exerciseStatement,
+      type,
     } = data
 
     const newChallenge = await challengeRepository.findOne({
@@ -152,6 +153,7 @@ export const importAllChallenge = async (request, response) => {
       newChallenge.cityState = cityState
       newChallenge.exercises = exercises
       newChallenge.exerciseStatement = exerciseStatement
+      newChallenge.type = type
       return await challengeRepository.save(newChallenge)
     }
     return IncompleteCandidateService().createIncompleteCandidate(
