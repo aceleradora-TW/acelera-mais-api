@@ -12,6 +12,7 @@ const httpResponse = httpResponseHandler()
 
 const mapChallenges = (id) => {
   const normaliseDate = (date) => {
+    return date
     const newDate = date.split("/")
     return `${newDate[1]}/${newDate[0]}/${newDate[2]}`
   }
@@ -40,7 +41,7 @@ const mapChallenges = (id) => {
             "Você se incomodaria em abrir sua Webcam durante as interações quanto a Aceleradora Ágil?"
           ],
         exerciseStatement: r["Enunciado dos exercícios"],
-        type: "",
+        type: r["Você desenvolveu o exercício com:"],
         hiringProcess: { id },
       }
     })
