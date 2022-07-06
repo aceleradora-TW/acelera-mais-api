@@ -2,7 +2,7 @@
   "type": "postgres",
   "name": "default",
   "url": "postgres://postgres:1234@localhost:5432/aceleradora_agil",
-  "synchronize": true,
+  "synchronize": false,
   "entities": [
     "**/models/**/*{.ts,.js}"
   ],
