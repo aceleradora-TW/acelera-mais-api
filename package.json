@@ -7,9 +7,9 @@
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/index.ts",
     "test": "jest ./test",
     "start": "cd dist && node index.js",
-    "migration:revert": "ts-node -r tsconfig-paths/register ./node_modules/.bin/typeorm  migration:revert",
-    "migration:run": "ts-node -r tsconfig-paths/register ./node_modules/.bin/typeorm  migration:run",
-    "migration:generate": "ts-node -r tsconfig-paths/register ./node_modules/.bin/typeorm  migration:generate -n",
+    "migration:revert": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js  migration:revert",
+    "migration:run": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js  migration:run",
+    "migration:generate": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js  migration:generate -n",
     "test:e2e": "jest ./test-e2e",
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored",
     "prepare": "husky install"
