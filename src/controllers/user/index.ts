@@ -24,7 +24,8 @@ export const createUser = async (request, response) => {
 
 export const updateUser = async (request, response) => {
   try {
-    const { name, email, telephone, type, flag, password } = request.body
+    const { name, email, telephone, type, flag, password } =
+      userRequest().convertFromHttpBody(request.body)
     const { id } = request.params
     const userUpdated = await userService().editUser({
       id,
