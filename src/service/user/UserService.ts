@@ -9,6 +9,10 @@ import {
 } from "@messages/email/content"
 const jwt = require("jsonwebtoken")
 
+const errorHandler = (message, httpStatusCode) => {
+  throw new HttpError(message, httpStatusCode)
+}
+
 export const userService = () => {
   const sendEmail = async (user, message) => {
     const { from, subject, content } = message
@@ -29,15 +33,30 @@ export const userService = () => {
 
   const createUserService = async (userRequest: any) => {
     const userRepository = getRepository(User)
-    const userEntity = await userRepository.create(userRequest)
-    validateUser(userEntity)
-    inviteEmail(userRequest)
+    await validateDuplicateEmail(userRequest)
+    const userEntity = userRepository.create(userRequest)
+    await validateUser(userEntity)
+    await inviteEmail(userRequest)
     const userEntitySaved = await userRepository.save(userEntity)
     return userEntitySaved
   }
 
+  const validateDuplicateEmail = async (user) => {
+    const { email } = user
+    const userRepository = getRepository(User)
+    const findUser = await userRepository.findOne({ email })
+
+    if (findUser) {
+      throw new HttpError(
+        "User already exist in database",
+        HttpStatusCode.BAD_REQUEST
+      )
+    }
+  }
+
   const validateUser = async (user) => {
     const errors = await validate(user)
+
     if (errors.length > 0) {
       throw new HttpError(
         "Errors validating the user:" + errors,
@@ -45,6 +64,7 @@ export const userService = () => {
       )
     }
   }
+
   const editUser = async ({ id, name, email, telephone, type, flag }) => {
     const userRepository = getRepository(User)
     const user = await userRepository.findOne(id)

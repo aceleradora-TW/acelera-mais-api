@@ -2,7 +2,7 @@ import { httpResponseHandler } from "@controllers/HttpResponseHandler"
 import { Message } from "../../messages/languages/pt-br"
 import { Candidate } from "@models/entity/Candidate"
 import { importSpreadSheet } from "@service/google-spreadsheet"
-//import { getRepository } from "typeorm"
+import { getRepository } from "typeorm"
 import { Challenge } from "@models/entity/Challenge"
 
 const responseHandle = httpResponseHandler()
