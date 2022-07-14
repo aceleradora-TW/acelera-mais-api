@@ -31,7 +31,7 @@ import {
   getUser,
   sendRememberEmail,
 } from "@controllers/user"
-import { format } from "path/posix"
+import * as UserX from "@controllers/userx"
 
 export const defineRoutes = (app) => {
   app.get("/", itsWorks)
@@ -62,4 +62,9 @@ export const defineRoutes = (app) => {
   app.put("/user/:id", verifyAccessToken, updateUser)
   app.put("/user/:id/email_verification", sendRememberEmail)
   app.delete("/user/:id", verifyAccessToken, deleteUser)
+
+  app.post("/x/user", UserX.createUser)
+  app.get("/x/user", UserX.getUser)
+  app.put("/x/user/:id", UserX.updateUser)
+  app.put("/x/user/:id/email_verification", UserX.resendEmail)
 }

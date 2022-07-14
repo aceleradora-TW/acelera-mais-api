@@ -1,13 +1,22 @@
+import jwt from "jsonwebtoken"
+
+const decodedPassword = (password) => {
+  const { NODEMAILER_SECRET } = process.env
+  return jwt.verify(password, NODEMAILER_SECRET)
+}
+
 export const inviteEmailContent = {
   from: "AceleraMais <aceleradorametodosageis@gmail.com>",
   subject: "AceleraMais: Convite para mentora avaliadora!",
-  content: (name, password) => {
+  content: (user) => {
+    const { name, password } = user
+
     return `
     Olá ${name},
     Você foi convidada para ser mentora avaliadora no Acelera Mais. Uhuuuu!!!!
     Por favor, acesse https://aceleramais.com.br, faça o login com o seu e-mail usando a senha abaixo.
     Você precisará trocar a senha no primeiro login.
-    Senha gerada: ${password}
+    Senha gerada: ${decodedPassword(password)}
     Seja bem vinda!
     `
   },
@@ -16,13 +25,14 @@ export const inviteEmailContent = {
 export const rememberEmailContent = {
   from: "AceleraMais <aceleradorametodosageis@gmail.com>",
   subject: "AceleraMais: Lembrete do convite para ser mentora avaliadora!",
-  content: (name, password) => {
+  content: (user) => {
+    const { name, password } = user
     return `
     Olá ${name},
     Estamos enviando está mensagem para lhe relembrar do convite para ser mentora no AceleraMais.
     Por favor, acesse https://aceleramais.com.br, faça o login com o seu e-mail usando a senha abaixo.
     Você precisará trocar a senha no primeiro login.
-    Senha gerada: ${password}
+    Senha gerada: ${decodedPassword(password)}
     Seja bem vinda!
     `
   },
@@ -32,7 +42,8 @@ export const negativeEmailContent = {
   from: "Aceleradora Ágil <aceleradorametodosageis@gmail.com>",
   subject: "Aceleradora Ágil: 2ª Fase Processo seletivo",
   bcc: (addressEmail) => addressEmail,
-  content: (name) => {
+  content: (user) => {
+    const { name } = user
     return `
     Olá ${name},
 
