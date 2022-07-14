@@ -1,4 +1,5 @@
 import { NodemailerService } from "@service/nodemailer/NodemailerService"
+import { Message } from "@messages/languages/pt-br"
 
 export const EmailService = () => {
   const send = async (from, subject, email, content, bcc = "") => {
@@ -10,12 +11,14 @@ export const EmailService = () => {
       text: content,
     }
 
-    try {
-      ;(await NodemailerService()).transport.sendMail(message)
-      console.log("Email successfully sent")
-    } catch (error) {
-      console.error("Failed to send email:", error)
-    }
+    ;(await NodemailerService()).transport.sendMail(message, (err, info) => {
+      const { envelope, response } = info
+      if (err) {
+        console.error(Message.EMAIL_NOT_SENT, err)
+        return
+      }
+      console.log(Message.EMAIL_SENT, { envelope, response })
+    })
   }
 
   return { send }

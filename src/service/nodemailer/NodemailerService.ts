@@ -1,7 +1,6 @@
 import nodemailer from "nodemailer"
 import { google } from "googleapis"
-import dotenv from "dotenv"
-dotenv.config()
+require("dotenv").config()
 
 const OAuth2 = google.auth.OAuth2
 
@@ -14,17 +13,17 @@ const {
   NODEMAILER_REFRESH_TOKEN,
 } = process.env
 
+const oauth2Client = new OAuth2(
+  NODEMAILER_CLIENT_ID,
+  NODEMAILER_CLIENT_SECRET,
+  NODEMAILER_REDIRECT_URI
+)
+
+oauth2Client.setCredentials({
+  refresh_token: NODEMAILER_REFRESH_TOKEN,
+})
+
 export const NodemailerService = async () => {
-  const oauth2Client = new OAuth2(
-    NODEMAILER_CLIENT_ID,
-    NODEMAILER_CLIENT_SECRET,
-    NODEMAILER_REDIRECT_URI
-  )
-
-  oauth2Client.setCredentials({
-    refresh_token: NODEMAILER_REFRESH_TOKEN,
-  })
-
   const accessToken = await new Promise((resolve, reject) => {
     oauth2Client.getAccessToken((err, token) => {
       if (err) {
