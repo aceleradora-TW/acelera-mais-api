@@ -64,5 +64,5 @@ export const defineRoutes = (app) => {
   app.delete("/user/:id", verifyAccessToken, deleteUser)
 
   app.get("/exercise/:id", getExercise)
-  app.patch("/exercise/:id", updateExercise)
+  app.put("/exercise/:id", updateExercise)
 }

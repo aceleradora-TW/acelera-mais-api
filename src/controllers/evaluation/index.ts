@@ -1,6 +1,6 @@
 import { getRepository } from "typeorm"
-import { evaluationRequest } from '@service/evaluation/EvaluationRequest'
-import { evaluationService } from '@service/evaluation/EvaluationService'
+import { evaluationRequest } from "@service/evaluation/EvaluationRequest"
+import { evaluationService } from "@service/evaluation/EvaluationService"
 import { httpResponseHandler } from "@controllers/HttpResponseHandler"
 import { message } from "@messages/languages/pt-br"
 import { Evaluation } from "@models/entity/Evaluation"
@@ -10,7 +10,10 @@ const httpResponse = httpResponseHandler()
 export const getAllEvaluation = async (request, response) => {
   const { page = 0, count = 50 } = request.query
   const evaluationRepository = getRepository(Evaluation)
-  const evaluations = await evaluationRepository.find({ skip: page, take: count })
+  const evaluations = await evaluationRepository.find({
+    skip: page,
+    take: count,
+  })
   return response.json({ evaluations })
 }
 
@@ -34,14 +37,19 @@ export const createEvaluation = async (request, response) => {
 export const updateEvaluation = async (request, response) => {
   try {
     const { mentorName, score, feedback } = request.body
+    console.log({ mentorName })
     const { id } = request.params
     const evaluationUpdated = await evaluationService().editEvaluation({
       id,
       mentorName,
       score,
-      feedback
+      feedback,
     })
-    return httpResponse.createSuccessResponse(message.UPDATED, evaluationUpdated, response)
+    return httpResponse.createSuccessResponse(
+      message.UPDATED,
+      evaluationUpdated,
+      response
+    )
   } catch (error) {
     console.log(error)
     return httpResponse.createErrorResponse(error, response)
