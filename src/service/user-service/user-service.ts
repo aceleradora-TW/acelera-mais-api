@@ -29,6 +29,8 @@ export const userService = (request) => {
       userEntity.flag = EMAIL_RESENT
       return await userRepository.save(userEntity)
     }
+
+    return {}
   }
 
   const validateEntity = async (entity) => {
