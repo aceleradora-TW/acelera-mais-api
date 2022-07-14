@@ -1,5 +1,5 @@
 import { httpResponseHandler } from "@controllers/HttpResponseHandler"
-import { message } from "@messages/languages/pt-br"
+import { Message } from "@messages/languages/pt-br"
 import { Challenge } from "@models/entity/Challenge"
 import { getRepository } from "typeorm"
 import { importSpreadSheet } from "@service/google-spreadsheet"
@@ -166,7 +166,7 @@ export const importAllChallenge = async (request, response) => {
   )
 
   return httpResponse.createSuccessResponse(
-    message.SUCCESS,
+    Message.SUCCESS,
     { id, challenges, count: challengesSheet.length },
     response
   )
@@ -187,7 +187,7 @@ export const getChallengeByHiringProcessId = async (req, res) => {
       type,
     })
     return httpResponse.createSuccessResponse(
-      message.FOUND,
+      Message.FOUND,
       { hiringProcessId, result },
       res
     )
@@ -202,7 +202,7 @@ export const getChallengeById = async (request, response) => {
     const challenge = await challengeRepository.findOne(request.params.id)
 
     if (!challenge) {
-      return response.status(404).json({ message: message.NOT_FOUND })
+      return response.status(404).json({ message: Message.NOT_FOUND })
     }
     return response.status(200).json(challenge)
   } catch (error) {
