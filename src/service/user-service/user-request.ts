@@ -51,7 +51,7 @@ export const UserRequest = ({ params, body, query }) => {
     }
 
     if (!type && (!flag || isValidFlag())) {
-      return { ...body }
+      return { ...user }
     }
     throw new HttpError(message.CREATE_ERROR, HttpStatusCode.BAD_REQUEST)
   }
