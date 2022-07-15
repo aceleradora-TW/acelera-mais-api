@@ -10,12 +10,17 @@ import {
 const jwt = require("jsonwebtoken")
 
 export const userService = () => {
-  const sendEmail = (user, message) => {
+  const sendEmail = async (user, message) => {
     const { from, subject, content } = message
     const { name, password, email } = user
     const { NODEMAILER_SECRET } = process.env
     const decodedPassword = jwt.verify(password, NODEMAILER_SECRET)
-    EmailService().send(from, subject, email, content(name, decodedPassword))
+    ;(await EmailService()).send(
+      from,
+      subject,
+      email,
+      content(name, decodedPassword)
+    )
   }
 
   const inviteEmail = (user) => sendEmail(user, inviteEmailContent)
