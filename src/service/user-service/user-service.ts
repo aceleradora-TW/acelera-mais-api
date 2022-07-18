@@ -23,18 +23,19 @@ export const userService = (request) => {
     const user = UserRequest(request).getUserForResendEmail()
     const userEntity = await userRepository.findOneOrFail({ email: user.email })
 
-    sendEmail(userEntity, rememberEmailContent)
-
     if (userEntity.flag === FIRST_LOGIN) {
       userEntity.flag = EMAIL_RESENT
       return await userRepository.save(userEntity)
     }
+
+    sendEmail(userEntity, rememberEmailContent)
 
     return {}
   }
 
   const validateEntity = async (entity) => {
     const errors = await validate(entity)
+
     if (errors.length > 0) {
       throw new HttpError(
         "Errors validating the user:" + errors,
@@ -44,33 +45,52 @@ export const userService = (request) => {
   }
 
   const createUser = async () => {
-    // recebe a request, valida e prepara o payload
     const user = UserRequest(request).firstLogin()
-    // cria a entidade de usuario
+    const findUser = await userRepository.findOne({ email: user.email })
+    if (findUser) {
+      throw new HttpError(
+        "User already exist in database",
+        HttpStatusCode.CONFLICT
+      )
+    }
     const userEntity = userRepository.create(user)
-    // valida
     validateEntity(userEntity)
-
-    // envia email para usuário criado
+    const saveUser = await userRepository.save(userEntity)
     sendEmail(user, inviteEmailContent)
-
-    // salva a entidade criada ao banco
-    return await userRepository.save(userEntity)
+    return saveUser
   }
 
   const updateUser = async () => {
     const user = UserRequest(request).getUser()
     let userEntity = await userRepository.findOne(user.id)
+    const { name, email, telephone, type, flag, password } = user
     if (!userEntity) {
       throw new HttpError(
         `User not found with: ${user.id}`,
         HttpStatusCode.BAD_REQUEST
       )
     }
-    userEntity = {
-      ...userEntity,
-      ...user,
+
+    if (password) {
+      userEntity.password = password
     }
+
+    if (name) {
+      userEntity.name = name
+    }
+    if (email) {
+      userEntity.email = email
+    }
+    if (telephone) {
+      userEntity.telephone = telephone
+    }
+    if (type) {
+      userEntity.type = type
+    }
+    if (flag) {
+      userEntity.flag = flag
+    }
+
     return await userRepository.save(userEntity)
   }
 

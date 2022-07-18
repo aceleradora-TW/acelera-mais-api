@@ -50,10 +50,9 @@ export const UserRequest = ({ params, body, query }) => {
       }
     }
 
-    if (isValidType() && isValidFlag()) {
+    if (!flag || isValidFlag()) {
       return { ...user }
     }
-    console.log("CAIU AQUI")
     throw new HttpError(Message.CREATE_ERROR, HttpStatusCode.BAD_REQUEST)
   }
 
