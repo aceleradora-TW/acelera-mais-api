@@ -6,9 +6,15 @@ import { getRepository } from "typeorm"
 export const IncompleteCandidateService = () => {
   const { NODE_ENV } = process.env
   const bccValue = NODE_ENV === "prod" ? "jumartinsvargas@gmail.com" : ""
-  const negativeEmail = (email, name) => {
+  const negativeEmail = async (email, name) => {
     const { from, subject, content, bcc } = negativeEmailContent
-    EmailService().send(from, subject, email, content(name), bcc(bccValue))
+    ;(await EmailService()).send(
+      from,
+      subject,
+      email,
+      content(name),
+      bcc(bccValue)
+    )
   }
 
   const createIncompleteCandidate = async (

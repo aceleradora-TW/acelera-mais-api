@@ -13,8 +13,8 @@ export const inviteEmailContent = {
 
     return `
     Olá ${name},
-    Você foi convidada para ser mentora avaliadora no Acelera Mais. Uhuuuu!!!!
-    Por favor, acesse https://aceleramais.com.br, faça o login com o seu e-mail usando a senha abaixo.
+    Você foi convidada para ser mentora avaliadora no Acelera Mais. Uhuuuul!!!!
+    Por favor, acesse https://acelera-mais.herokuapp.com/, faça o login com o seu e-mail usando a senha abaixo.
     Você precisará trocar a senha no primeiro login.
     Senha gerada: ${decodedPassword(password)}
     Seja bem vinda!
@@ -30,7 +30,7 @@ export const rememberEmailContent = {
     return `
     Olá ${name},
     Estamos enviando está mensagem para lhe relembrar do convite para ser mentora no AceleraMais.
-    Por favor, acesse https://aceleramais.com.br, faça o login com o seu e-mail usando a senha abaixo.
+    Por favor, acesse https://acelera-mais.herokuapp.com/, faça o login com o seu e-mail usando a senha abaixo.
     Você precisará trocar a senha no primeiro login.
     Senha gerada: ${decodedPassword(password)}
     Seja bem vinda!
