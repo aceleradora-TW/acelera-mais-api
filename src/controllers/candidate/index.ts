@@ -1,5 +1,5 @@
 import { httpResponseHandler } from "@controllers/HttpResponseHandler"
-import { message } from "../../messages/languages/pt-br"
+import { Message } from "../../messages/languages/pt-br"
 import { Candidate } from "@models/entity/Candidate"
 import { importSpreadSheet } from "@service/google-spreadsheet"
 import { getRepository } from "typeorm"
@@ -64,7 +64,7 @@ export const importAllCandidate = async (request, response) => {
     const candidates = await candidateRepository.save(candidatesSheet)
 
     return responseHandle.createSuccessResponse(
-      message.SUCCESS,
+      Message.SUCCESS,
       { id, candidates, count: candidatesSheet.length },
       response
     )

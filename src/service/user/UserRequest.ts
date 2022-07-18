@@ -1,4 +1,4 @@
-import { message } from "@messages/languages/pt-br"
+import { Message } from "@messages/languages/pt-br"
 import { HttpError, HttpStatusCode } from "@service/HttpError"
 const jwt = require("jsonwebtoken")
 import { UserRegistrationStatus } from "@service/Flags"
@@ -23,7 +23,7 @@ export const userRequest = () => {
         flag,
       }
     }
-    throw new HttpError(message.CREATE_ERROR, HttpStatusCode.BAD_REQUEST)
+    throw new HttpError(Message.CREATE_ERROR, HttpStatusCode.BAD_REQUEST)
   }
 
   const validateFlag = (flag) => {
