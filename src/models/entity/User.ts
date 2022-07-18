@@ -2,7 +2,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  PrimaryColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm"
@@ -15,8 +14,7 @@ export class User {
   @Column({ name: "name", type: "varchar" })
   name: String
 
-  @PrimaryColumn()
-  @Column({ name: "email", type: "varchar" })
+  @Column({ name: "email", type: "varchar", unique: true })
   email: String
 
   @Column({ name: "telephone", type: "varchar" })

@@ -47,7 +47,7 @@ export const userService = (request) => {
     // recebe a request, valida e prepara o payload
     const user = UserRequest(request).firstLogin()
     // cria a entidade de usuario
-    const userEntity = await userRepository.create(user)
+    const userEntity = userRepository.create(user)
     // valida
     validateEntity(userEntity)
 

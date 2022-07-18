@@ -29,15 +29,16 @@ export const userService = () => {
 
   const createUserService = async (userRequest: any) => {
     const userRepository = getRepository(User)
-    const userEntity = await userRepository.create(userRequest)
-    validateUser(userEntity)
-    inviteEmail(userRequest)
+    const userEntity = userRepository.create(userRequest)
+    await validateUser(userEntity)
     const userEntitySaved = await userRepository.save(userEntity)
+    await inviteEmail(userRequest)
     return userEntitySaved
   }
 
   const validateUser = async (user) => {
     const errors = await validate(user)
+
     if (errors.length > 0) {
       throw new HttpError(
         "Errors validating the user:" + errors,
@@ -45,6 +46,7 @@ export const userService = () => {
       )
     }
   }
+
   const editUser = async ({ id, name, email, telephone, type, flag }) => {
     const userRepository = getRepository(User)
     const user = await userRepository.findOne(id)

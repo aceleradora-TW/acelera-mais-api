@@ -1,4 +1,4 @@
-import { message } from "@messages/languages/pt-br"
+import { Message } from "@messages/languages/pt-br"
 import { UserRegistrationStatus } from "@service/Flags"
 import { HttpError, HttpStatusCode } from "@service/HttpError"
 import { UserType } from "./Types"
@@ -37,7 +37,7 @@ export const UserRequest = ({ params, body, query }) => {
     if (isRequired() && isValidType()) {
       return { ...body }
     }
-    throw new HttpError(message.CREATE_ERROR, HttpStatusCode.BAD_REQUEST)
+    throw new HttpError(Message.CREATE_ERROR, HttpStatusCode.BAD_REQUEST)
   }
 
   const isValidBodyForUpdateUser = () => {
@@ -50,10 +50,11 @@ export const UserRequest = ({ params, body, query }) => {
       }
     }
 
-    if (!type && (!flag || isValidFlag())) {
+    if (isValidType() && isValidFlag()) {
       return { ...user }
     }
-    throw new HttpError(message.CREATE_ERROR, HttpStatusCode.BAD_REQUEST)
+    console.log("CAIU AQUI")
+    throw new HttpError(Message.CREATE_ERROR, HttpStatusCode.BAD_REQUEST)
   }
 
   const firstLogin = () => {
@@ -80,7 +81,7 @@ export const UserRequest = ({ params, body, query }) => {
         flag: EMAIL_RESENT,
       }
     }
-    throw new HttpError(message.CREATE_ERROR, HttpStatusCode.BAD_REQUEST)
+    throw new HttpError(Message.CREATE_ERROR, HttpStatusCode.BAD_REQUEST)
   }
 
   return {
