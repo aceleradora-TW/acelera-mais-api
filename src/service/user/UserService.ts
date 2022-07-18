@@ -9,10 +9,6 @@ import {
 } from "@messages/email/content"
 const jwt = require("jsonwebtoken")
 
-const errorHandler = (message, httpStatusCode) => {
-  throw new HttpError(message, httpStatusCode)
-}
-
 export const userService = () => {
   const sendEmail = async (user, message) => {
     const { from, subject, content } = message
@@ -33,16 +29,15 @@ export const userService = () => {
 
   const createUserService = async (userRequest: any) => {
     const userRepository = getRepository(User)
-    const userEntity = userRepository.create(userRequest)
-    await validateUser(userEntity)
+    const userEntity = await userRepository.create(userRequest)
+    validateUser(userEntity)
+    inviteEmail(userRequest)
     const userEntitySaved = await userRepository.save(userEntity)
-    await inviteEmail(userRequest)
     return userEntitySaved
   }
 
   const validateUser = async (user) => {
     const errors = await validate(user)
-
     if (errors.length > 0) {
       throw new HttpError(
         "Errors validating the user:" + errors,
@@ -50,7 +45,6 @@ export const userService = () => {
       )
     }
   }
-
   const editUser = async ({ id, name, email, telephone, type, flag }) => {
     const userRepository = getRepository(User)
     const user = await userRepository.findOne(id)
