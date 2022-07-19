@@ -37,6 +37,9 @@ export class Exercise {
   @Column({ name: "exercise_type", nullable: true, type: "varchar" })
   exerciseType: string
 
+  @Column({ name: "exercise_statement", nullable: true, type: "varchar" })
+  exerciseStatement: string
+
   @Column({ name: "link", nullable: true, type: "varchar" })
   link: string
 

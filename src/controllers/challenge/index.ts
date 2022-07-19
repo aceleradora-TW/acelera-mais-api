@@ -58,11 +58,12 @@ const getExerciseType = (challenge) => {
   return { type: "Not defined.", link: "" }
 }
 
-const createExercise = ({ name, type, link }) => {
+const createExercise = ({ name, type, link, exerciseStatement }) => {
   const exercise = new Exercise()
   exercise.name = name
   exercise.type = type
   exercise.link = link
+  exercise.exerciseStatement = exerciseStatement
   exercise.evaluation = new Evaluation()
   return exercise
 }
@@ -75,11 +76,13 @@ const groupChallengesByEmail = ({ challenges }) => {
       acc[addressEmail].exercises = []
     }
     let typeAndLink = getExerciseType(obj)
+    console.dir({ obj }, { depth: 9999 })
     acc[addressEmail].exercises.push(
       createExercise({
         name: obj.challenge,
         type: typeAndLink.type,
         link: typeAndLink.link,
+        exerciseStatement: obj.exerciseStatement,
       })
     )
     return acc
