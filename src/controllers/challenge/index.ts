@@ -76,7 +76,6 @@ const groupChallengesByEmail = ({ challenges }) => {
       acc[addressEmail].exercises = []
     }
     let typeAndLink = getExerciseType(obj)
-    console.dir({ obj }, { depth: 9999 })
     acc[addressEmail].exercises.push(
       createExercise({
         name: obj.challenge,
