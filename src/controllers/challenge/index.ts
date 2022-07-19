@@ -170,23 +170,8 @@ export const importAllChallenge = async (request, response) => {
       challenges.push(challenge)
     )
 
-  })
-
-  const challenges = []
-  await Promise.all(challengesPromisse).then((challenge) =>
-    challenges.push(challenge)
-  )
-
-  return httpResponse.createSuccessResponse(
-    Message.SUCCESS,
-    { id, challenges, count: challengesSheet.length },
-    response
-  )
-}
-
-
     return httpResponse.createSuccessResponse(
-      message.SUCCESS,
+      Message.SUCCESS,
       { id, challenges, count: challengesSheet.length },
       response
     )
