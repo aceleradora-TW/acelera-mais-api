@@ -2,12 +2,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  OneToOne,
-  PrimaryColumn,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from "typeorm"
 
@@ -16,11 +12,11 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number
 
-  @Column({ name: "email", type: "varchar", unique: true })
-  email: String
-
   @Column({ name: "name", type: "varchar" })
   name: String
+
+  @Column({ name: "email", type: "varchar" })
+  email: String
 
   @Column({ name: "telephone", type: "varchar" })
   telephone: String

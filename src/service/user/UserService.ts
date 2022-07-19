@@ -9,10 +9,6 @@ import {
 } from "@messages/email/content"
 const jwt = require("jsonwebtoken")
 
-const errorHandler = (message, httpStatusCode) => {
-  throw new HttpError(message, httpStatusCode)
-}
-
 export const userService = () => {
   const sendEmail = async (user, message) => {
     const { from, subject, content } = message

@@ -24,13 +24,8 @@ import {
 } from "@controllers/evaluation"
 import { importAllChallenge } from "@controllers/challenge"
 import { getEvaluation, getAllEvaluation } from "@controllers/evaluation"
-import {
-  createUser,
-  updateUser,
-  deleteUser,
-  getUser,
-  sendRememberEmail,
-} from "@controllers/user"
+import { deleteUser } from "@controllers/user"
+import * as UserX from "@controllers/userx"
 import { getExercise, updateExercise } from "@controllers/exercise"
 
 export const defineRoutes = (app) => {
@@ -57,10 +52,10 @@ export const defineRoutes = (app) => {
   app.patch("/challenge/:id", updateChallenge)
   app.post("/challenge/hiring_process/:id", importAllChallenge)
 
-  app.post("/user", createUser)
-  app.get("/user", verifyAccessToken, getUser)
-  app.put("/user/:id", verifyAccessToken, updateUser)
-  app.put("/user/:id/email_verification", sendRememberEmail)
+  app.post("/user", verifyAccessToken, UserX.createUser)
+  app.get("/user", verifyAccessToken, UserX.getUser)
+  app.put("/user/:id", verifyAccessToken, UserX.updateUser)
+  app.put("/user/:id/email_verification", verifyAccessToken, UserX.resendEmail)
   app.delete("/user/:id", verifyAccessToken, deleteUser)
 
   app.get("/exercise/:id", getExercise)
