@@ -37,7 +37,6 @@ export const createEvaluation = async (request, response) => {
 export const updateEvaluation = async (request, response) => {
   try {
     const { mentorName, score, feedback } = request.body
-    console.log({ mentorName })
     const { id } = request.params
     const evaluationUpdated = await evaluationService().editEvaluation({
       id,
