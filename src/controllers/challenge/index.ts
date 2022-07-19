@@ -58,11 +58,12 @@ const getExerciseType = (challenge) => {
   return { type: "Not defined.", link: "" }
 }
 
-const createExercise = ({ name, type, link }) => {
+const createExercise = ({ name, type, link, exerciseStatement }) => {
   const exercise = new Exercise()
   exercise.name = name
   exercise.type = type
   exercise.link = link
+  exercise.exerciseStatement = exerciseStatement
   exercise.evaluation = new Evaluation()
   return exercise
 }
@@ -80,6 +81,7 @@ const groupChallengesByEmail = ({ challenges }) => {
         name: obj.challenge,
         type: typeAndLink.type,
         link: typeAndLink.link,
+        exerciseStatement: obj.exerciseStatement,
       })
     )
     return acc
@@ -167,23 +169,8 @@ export const importAllChallenge = async (request, response) => {
       challenges.push(challenge)
     )
 
-  })
-
-  const challenges = []
-  await Promise.all(challengesPromisse).then((challenge) =>
-    challenges.push(challenge)
-  )
-
-  return httpResponse.createSuccessResponse(
-    Message.SUCCESS,
-    { id, challenges, count: challengesSheet.length },
-    response
-  )
-}
-
-
     return httpResponse.createSuccessResponse(
-      message.SUCCESS,
+      Message.SUCCESS,
       { id, challenges, count: challengesSheet.length },
       response
     )
