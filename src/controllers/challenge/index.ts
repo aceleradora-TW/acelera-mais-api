@@ -95,72 +95,81 @@ const getChallengeList = (sumirized) => {
 }
 
 export const importAllChallenge = async (request, response) => {
-  const { id } = request.params
-  const { link } = request.body
+  try {
+    const { id } = request.params
+    const { link } = request.body
 
-  // transformo o que tem no link de desafio em dados do javascript
-  const challengesSheet = await importSpreadSheet(link, mapChallenges(id))
+    // transformo o que tem no link de desafio em dados do javascript
+    const challengesSheet = await importSpreadSheet(link, mapChallenges(id))
 
-  // agrupo os desafio por email
-  const challengeSumarized = groupChallengesByEmail({
-    challenges: challengesSheet,
-  })
-
-  // transformo o objeto do agrupamento em um array de objetos contendo dados dos desafios
-  const challengeList = getChallengeList(challengeSumarized)
-
-  // crio uma instancia para manipular os desafios no banco
-  const challengeRepository = getRepository(Challenge)
-
-  // com a lista de desafios eu salvo
-  const challengesPromisse = challengeList.map(async (data) => {
-    const {
-      timeStamp,
-      addressEmail,
-      name,
-      phone,
-      challenge,
-      fileType,
-      zip,
-      github,
-      haveComputer,
-      haveInternet,
-      haveWebcam,
-      canUseWebcam,
-      cityState,
-      hiringProcess,
-      exercises,
-      exerciseStatement,
-    } = data
-
-    const newChallenge = await challengeRepository.findOne({
-      addressEmail,
-      hiringProcess,
+    // agrupo os desafio por email
+    const challengeSumarized = groupChallengesByEmail({
+      challenges: challengesSheet,
     })
 
-    if (newChallenge) {
-      newChallenge.hiringProcess = hiringProcess
-      newChallenge.timeStamp = timeStamp
-      newChallenge.name = name
-      newChallenge.phone = phone
-      newChallenge.challenge = challenge
-      newChallenge.github = github
-      newChallenge.fileType = fileType
-      newChallenge.zip = zip
-      newChallenge.haveComputer = haveComputer
-      newChallenge.haveInternet = haveInternet
-      newChallenge.haveWebcam = haveWebcam
-      newChallenge.canUseWebcam = canUseWebcam
-      newChallenge.cityState = cityState
-      newChallenge.exercises = exercises
-      newChallenge.exerciseStatement = exerciseStatement
-      return await challengeRepository.save(newChallenge)
-    }
-    return IncompleteCandidateService().createIncompleteCandidate(
-      addressEmail,
-      hiringProcess,
-      name
+    // transformo o objeto do agrupamento em um array de objetos contendo dados dos desafios
+    const challengeList = getChallengeList(challengeSumarized)
+
+    // crio uma instancia para manipular os desafios no banco
+    const challengeRepository = getRepository(Challenge)
+
+    // com a lista de desafios eu salvo
+    const challengesPromisse = challengeList.map(async (data) => {
+      const {
+        timeStamp,
+        addressEmail,
+        name,
+        phone,
+        challenge,
+        fileType,
+        zip,
+        github,
+        haveComputer,
+        haveInternet,
+        haveWebcam,
+        canUseWebcam,
+        cityState,
+        hiringProcess,
+        exercises,
+        exerciseStatement,
+      } = data
+
+      const newChallenge = await challengeRepository.findOne({
+        addressEmail,
+        hiringProcess,
+      })
+
+      if (newChallenge) {
+        newChallenge.hiringProcess = hiringProcess
+        newChallenge.timeStamp = timeStamp
+        newChallenge.name = name
+        newChallenge.phone = phone
+        newChallenge.challenge = challenge
+        newChallenge.github = github
+        newChallenge.fileType = fileType
+        newChallenge.zip = zip
+        newChallenge.haveComputer = haveComputer
+        newChallenge.haveInternet = haveInternet
+        newChallenge.haveWebcam = haveWebcam
+        newChallenge.canUseWebcam = canUseWebcam
+        newChallenge.cityState = cityState
+        newChallenge.exercises = exercises
+        newChallenge.exerciseStatement = exerciseStatement
+        return await challengeRepository.save(newChallenge)
+      }
+
+      return IncompleteCandidateService().createIncompleteCandidate(
+        addressEmail,
+        hiringProcess,
+        name
+      )
+    })
+
+    const challenges = []
+    await Promise.all(challengesPromisse).then((challenge) =>
+      challenges.push(challenge)
     )
+
   })
 
   const challenges = []
@@ -175,6 +184,16 @@ export const importAllChallenge = async (request, response) => {
   )
 }
 
+
+    return httpResponse.createSuccessResponse(
+      message.SUCCESS,
+      { id, challenges, count: challengesSheet.length },
+      response
+    )
+  } catch (error) {
+    return httpResponse.createErrorResponse(error, response)
+  }
+}
 export const exportHiringProcessResume = async (req, res) => {
   const { id } = req.params
   return res.json({ id })
