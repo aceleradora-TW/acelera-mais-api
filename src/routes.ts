@@ -36,21 +36,33 @@ export const defineRoutes = (app) => {
   app.patch("/hiring_process/:id", verifyAccessToken, updateHiringProcess)
   app.delete("/hiring_process/:id", verifyAccessToken, deleteHiringProcess)
 
-  app.get("/candidate", getAllCandidate)
-  app.get("/candidate/:id", getCandidate)
-  app.get("/candidate/challenge/hiring_process/:id", exportHiringProcessResume)
-  app.post("/candidate/hiring_process/:id", importAllCandidate)
+  app.get("/candidate", verifyAccessToken, getAllCandidate)
+  app.get("/candidate/:id", verifyAccessToken, getCandidate)
+  app.get(
+    "/candidate/challenge/hiring_process/:id",
+    verifyAccessToken,
+    exportHiringProcessResume
+  )
+  app.post(
+    "/candidate/hiring_process/:id",
+    verifyAccessToken,
+    importAllCandidate
+  )
 
-  app.get("/evaluation", getAllEvaluation)
-  app.get("/evaluation/:id", getEvaluation)
-  app.patch("/evaluation/:id", updateEvaluation)
-  app.post("/evaluation", createEvaluation)
-  app.delete("/evaluation/:id", deleteEvaluation)
+  app.get("/evaluation", verifyAccessToken, getAllEvaluation)
+  app.get("/evaluation/:id", verifyAccessToken, getEvaluation)
+  app.patch("/evaluation/:id", verifyAccessToken, updateEvaluation)
+  app.post("/evaluation", verifyAccessToken, createEvaluation)
+  app.delete("/evaluation/:id", verifyAccessToken, deleteEvaluation)
 
-  app.get("/challenge", getChallengeByHiringProcessId)
-  app.get("/challenge/:id", getChallengeById)
-  app.patch("/challenge/:id", updateChallenge)
-  app.post("/challenge/hiring_process/:id", importAllChallenge)
+  app.get("/challenge", verifyAccessToken, getChallengeByHiringProcessId)
+  app.get("/challenge/:id", verifyAccessToken, getChallengeById)
+  app.patch("/challenge/:id", verifyAccessToken, updateChallenge)
+  app.post(
+    "/challenge/hiring_process/:id",
+    verifyAccessToken,
+    importAllChallenge
+  )
 
   app.post("/user", verifyAccessToken, UserX.createUser)
   app.get("/user", verifyAccessToken, UserX.getUser)
@@ -58,6 +70,6 @@ export const defineRoutes = (app) => {
   app.put("/user/:id/email_verification", verifyAccessToken, UserX.resendEmail)
   app.delete("/user/:id", verifyAccessToken, deleteUser)
 
-  app.get("/exercise/:id", getExercise)
-  app.put("/exercise/:id", updateExercise)
+  app.get("/exercise/:id", verifyAccessToken, getExercise)
+  app.put("/exercise/:id", verifyAccessToken, updateExercise)
 }

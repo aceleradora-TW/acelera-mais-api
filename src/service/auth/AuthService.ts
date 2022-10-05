@@ -38,9 +38,14 @@ export const createAccessToken = async (emailUser, passwordUser) => {
 export const validateAccessToken = (authHeaders) => {
   const { SECRET } = process.env
   const accessToken = authHeaders && authHeaders.split(" ")[1]
+  const decodedTolken = jwt.decode(accessToken)
+  const role = decodedTolken.role
+  const roleAuth = "admin"
 
   const isAuthenticated = jwt.verify(accessToken, SECRET, (err) => {
     return !err
   })
-  return isAuthenticated
+  if (role === roleAuth) {
+    return isAuthenticated
+  }
 }

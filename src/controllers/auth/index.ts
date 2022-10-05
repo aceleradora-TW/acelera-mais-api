@@ -1,5 +1,8 @@
-import { httpResponseHandler } from '@controllers/HttpResponseHandler'
-import { createAccessToken, validateAccessToken } from '../../service/auth/AuthService'
+import { httpResponseHandler } from "@controllers/HttpResponseHandler"
+import {
+  createAccessToken,
+  validateAccessToken,
+} from "../../service/auth/AuthService"
 const responseHandler = httpResponseHandler()
 
 export const generateAccessToken = async (request, response) => {
@@ -18,7 +21,6 @@ export const verifyAccessToken = (request, response, next) => {
   const authHeaders = request.headers.authorization
 
   const isAuthenticated = validateAccessToken(authHeaders)
-
   if (isAuthenticated) {
     next()
   } else {
