@@ -35,17 +35,14 @@ export const createAccessToken = async (emailUser, passwordUser) => {
   }
 }
 
-export const validateAccessToken = (authHeaders) => {
+export const validateAccessToken = (authorization = "", roles = []) => {
   const { SECRET } = process.env
-  const accessToken = authHeaders && authHeaders.split(" ")[1]
-  const decodedTolken = jwt.decode(accessToken)
-  const role = decodedTolken.role
-  const roleAuth = "admin"
+  const [, token] = authorization.split(" ")
+  const { role } = jwt.decode(token)
 
-  const isAuthenticated = jwt.verify(accessToken, SECRET, (err) => {
+  const isVerified = jwt.verify(token, SECRET, (err) => {
     return !err
   })
-  if (role === roleAuth) {
-    return isAuthenticated
-  }
+
+  return isVerified && roles.includes(role)
 }

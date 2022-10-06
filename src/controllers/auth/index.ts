@@ -17,13 +17,11 @@ export const generateAccessToken = async (request, response) => {
   }
 }
 
-export const verifyAccessToken = (request, response, next) => {
-  const authHeaders = request.headers.authorization
+export const verifyAccessToken = (roles) => (request, response, next) => {
+  const { authorization } = request.headers
 
-  const isAuthenticated = validateAccessToken(authHeaders)
-  if (isAuthenticated) {
-    next()
-  } else {
-    return response.sendStatus(401)
+  if (validateAccessToken(authorization, roles)) {
+    return next()
   }
+  return response.sendStatus(401)
 }
