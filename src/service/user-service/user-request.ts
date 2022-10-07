@@ -1,7 +1,7 @@
 import { Message } from "@messages/languages/pt-br"
 import { UserRegistrationStatus } from "@service/Flags"
 import { HttpError, HttpStatusCode } from "@service/HttpError"
-import { UserType } from "./Types"
+import { Roles } from "./Roles"
 import jwt from "jsonwebtoken"
 
 export const UserRequest = ({ params, body, query }) => {
@@ -12,7 +12,7 @@ export const UserRequest = ({ params, body, query }) => {
   const { id } = params
 
   const isValidType = () => {
-    const { ADMIN, MENTOR } = UserType
+    const { ADMIN, MENTOR } = Roles
     const types = [ADMIN, MENTOR]
     return type && types.includes(type)
   }
