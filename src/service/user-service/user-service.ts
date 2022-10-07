@@ -12,7 +12,6 @@ import { UserRequest } from "./user-request"
 
 export const userService = (request) => {
   const userRepository = getRepository(User)
-
   const sendEmail = (user, context) => {
     const { from, subject, content } = context
     EmailService().send(from, subject, user.email, content(user))
@@ -95,7 +94,13 @@ export const userService = (request) => {
   }
 
   const getAllUser = async () => {
-    return await userRepository.find()
+    // const password = userRepository.findOne()
+    return await (
+      await userRepository.find()
+    ).map((element) => {
+      delete element.password
+      return element
+    })
   }
 
   return {

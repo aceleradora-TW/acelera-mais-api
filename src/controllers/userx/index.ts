@@ -28,12 +28,7 @@ export const updateUser = async (request, response) => {
 
 export const getUser = async (request, response) => {
   try {
-    const result = await (
-      await userService(request).getAllUser()
-    ).map((data) => {
-      delete data.password
-      return data
-    })
+    const result = await await userService(request).getAllUser()
     return httpResponse.createSuccessResponse(Message.FOUND, result, response)
   } catch (error) {
     return httpResponse.createErrorResponse(error, response)
