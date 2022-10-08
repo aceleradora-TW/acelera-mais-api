@@ -21,7 +21,9 @@ export const userService = (request) => {
   const resendEmail = async () => {
     const { FIRST_LOGIN, EMAIL_RESENT } = UserRegistrationStatus
     const user = UserRequest(request).getUserForResendEmail()
-    const userEntity = await userRepository.findOneOrFail({ email: user.email })
+    const userEntity = await userRepository.findOneOrFail({
+      where: { email: user.email },
+    })
 
     if (userEntity.flag === FIRST_LOGIN) {
       userEntity.flag = EMAIL_RESENT
@@ -46,7 +48,9 @@ export const userService = (request) => {
 
   const createUser = async () => {
     const user = UserRequest(request).firstLogin()
-    const findUser = await userRepository.findOne({ email: user.email })
+    const findUser = await userRepository.findOne({
+      where: { email: user.email },
+    })
     if (findUser) {
       throw new HttpError(
         "User already exist in database",

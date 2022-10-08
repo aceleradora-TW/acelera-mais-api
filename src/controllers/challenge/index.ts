@@ -134,8 +134,10 @@ export const importAllChallenge = async (request, response) => {
       } = data
 
       const newChallenge = await challengeRepository.findOne({
-        addressEmail,
-        hiringProcess,
+        where: {
+          addressEmail,
+          hiringProcess,
+        },
       })
 
       if (newChallenge) {
