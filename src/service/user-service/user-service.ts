@@ -94,7 +94,7 @@ export const userService = (request) => {
   }
 
   const getAllUser = async () => {
-    return await await userRepository.find({
+    return await userRepository.find({
       select: [
         "id",
         "name",
