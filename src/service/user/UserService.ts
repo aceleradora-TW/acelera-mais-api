@@ -47,7 +47,6 @@ export const userService = () => {
       )
     }
   }
-<<<<<<< HEAD
   const editUser = async ({
     id,
     name,
@@ -57,10 +56,6 @@ export const userService = () => {
     flag,
     password,
   }) => {
-=======
-
-  const editUser = async ({ id, name, email, telephone, type, flag }) => {
->>>>>>> e7c098d035330955314267bbe71dade8d27ec35f
     const userRepository = getRepository(User)
     const user = await userRepository.findOne(id)
     if (!user) {
