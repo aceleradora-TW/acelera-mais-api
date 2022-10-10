@@ -32,7 +32,11 @@ import { Roles } from "./service/user-service/Roles"
 export const defineRoutes = (app) => {
   app.get("/", itsWorks)
   app.post("/login", generateAccessToken)
-  app.get("/hiring_process", getAllHiringProcess)
+  app.get(
+    "/hiring_process",
+    verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
+    getAllHiringProcess
+  )
   app.post(
     "/hiring_process",
     verifyAccessToken([Roles.ADMIN]),
@@ -49,24 +53,16 @@ export const defineRoutes = (app) => {
     deleteHiringProcess
   )
 
-  app.get(
-    "/candidate",
-    verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
-    getAllCandidate
-  )
-  app.get(
-    "/candidate/:id",
-    verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
-    getCandidate
-  )
+  app.get("/candidate", verifyAccessToken([Roles.ADMIN]), getAllCandidate)
+  app.get("/candidate/:id", verifyAccessToken([Roles.ADMIN]), getCandidate)
   app.get(
     "/candidate/challenge/hiring_process/:id",
-    verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
+    verifyAccessToken([Roles.ADMIN]),
     exportHiringProcessResume
   )
   app.post(
     "/candidate/hiring_process/:id",
-    verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
+    verifyAccessToken([Roles.ADMIN]),
     importAllCandidate
   )
 
@@ -109,31 +105,15 @@ export const defineRoutes = (app) => {
     importAllChallenge
   )
 
-  app.post(
-    "/user",
-    verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
-    UserX.createUser
-  )
-  app.get(
-    "/user",
-    verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
-    UserX.getUser
-  )
-  app.put(
-    "/user/:id",
-    verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
-    UserX.updateUser
-  )
+  app.post("/user", verifyAccessToken([Roles.ADMIN]), UserX.createUser)
+  app.get("/user", verifyAccessToken([Roles.ADMIN]), UserX.getUser)
+  app.put("/user/:id", verifyAccessToken([Roles.ADMIN]), UserX.updateUser)
   app.put(
     "/user/:id/email_verification",
-    verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
+    verifyAccessToken([Roles.ADMIN]),
     UserX.resendEmail
   )
-  app.delete(
-    "/user/:id",
-    verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
-    deleteUser
-  )
+  app.delete("/user/:id", verifyAccessToken([Roles.ADMIN]), deleteUser)
 
   app.get(
     "/exercise/:id",
