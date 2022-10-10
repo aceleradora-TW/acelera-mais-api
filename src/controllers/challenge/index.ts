@@ -1,5 +1,5 @@
 import { httpResponseHandler } from "@controllers/HttpResponseHandler"
-import { message } from "@messages/languages/pt-br"
+import { Message } from "@messages/languages/pt-br"
 import { Challenge } from "@models/entity/Challenge"
 import { getRepository } from "typeorm"
 import { importSpreadSheet } from "@service/google-spreadsheet"
@@ -58,11 +58,12 @@ const getExerciseType = (challenge) => {
   return { type: "Not defined.", link: "" }
 }
 
-const createExercise = ({ name, type, link }) => {
+const createExercise = ({ name, type, link, exerciseStatement }) => {
   const exercise = new Exercise()
   exercise.name = name
   exercise.type = type
   exercise.link = link
+  exercise.exerciseStatement = exerciseStatement
   exercise.evaluation = new Evaluation()
   return exercise
 }
@@ -80,6 +81,7 @@ const groupChallengesByEmail = ({ challenges }) => {
         name: obj.challenge,
         type: typeAndLink.type,
         link: typeAndLink.link,
+        exerciseStatement: obj.exerciseStatement,
       })
     )
     return acc
@@ -92,86 +94,90 @@ const getChallengeList = (sumirized) => {
 }
 
 export const importAllChallenge = async (request, response) => {
-  const { id } = request.params
-  const { link } = request.body
+  try {
+    const { id } = request.params
+    const { link } = request.body
 
-  // transformo o que tem no link de desafio em dados do javascript
-  const challengesSheet = await importSpreadSheet(link, mapChallenges(id))
+    // transformo o que tem no link de desafio em dados do javascript
+    const challengesSheet = await importSpreadSheet(link, mapChallenges(id))
 
-  // agrupo os desafio por email
-  const challengeSumarized = groupChallengesByEmail({
-    challenges: challengesSheet,
-  })
-
-  // transformo o objeto do agrupamento em um array de objetos contendo dados dos desafios
-  const challengeList = getChallengeList(challengeSumarized)
-
-  // crio uma instancia para manipular os desafios no banco
-  const challengeRepository = getRepository(Challenge)
-
-  // com a lista de desafios eu salvo
-  const challengesPromisse = challengeList.map(async (data) => {
-    const {
-      timeStamp,
-      addressEmail,
-      name,
-      phone,
-      challenge,
-      fileType,
-      zip,
-      github,
-      haveComputer,
-      haveInternet,
-      haveWebcam,
-      canUseWebcam,
-      cityState,
-      hiringProcess,
-      exercises,
-      exerciseStatement,
-    } = data
-
-    const newChallenge = await challengeRepository.findOne({
-      addressEmail,
-      hiringProcess,
+    // agrupo os desafio por email
+    const challengeSumarized = groupChallengesByEmail({
+      challenges: challengesSheet,
     })
 
-    if (newChallenge) {
-      newChallenge.hiringProcess = hiringProcess
-      newChallenge.timeStamp = timeStamp
-      newChallenge.name = name
-      newChallenge.phone = phone
-      newChallenge.challenge = challenge
-      newChallenge.github = github
-      newChallenge.fileType = fileType
-      newChallenge.zip = zip
-      newChallenge.haveComputer = haveComputer
-      newChallenge.haveInternet = haveInternet
-      newChallenge.haveWebcam = haveWebcam
-      newChallenge.canUseWebcam = canUseWebcam
-      newChallenge.cityState = cityState
-      newChallenge.exercises = exercises
-      newChallenge.exerciseStatement = exerciseStatement
-      return await challengeRepository.save(newChallenge)
-    }
-    return IncompleteCandidateService().createIncompleteCandidate(
-      addressEmail,
-      hiringProcess,
-      name
+    // transformo o objeto do agrupamento em um array de objetos contendo dados dos desafios
+    const challengeList = getChallengeList(challengeSumarized)
+
+    // crio uma instancia para manipular os desafios no banco
+    const challengeRepository = getRepository(Challenge)
+
+    // com a lista de desafios eu salvo
+    const challengesPromisse = challengeList.map(async (data) => {
+      const {
+        timeStamp,
+        addressEmail,
+        name,
+        phone,
+        challenge,
+        fileType,
+        zip,
+        github,
+        haveComputer,
+        haveInternet,
+        haveWebcam,
+        canUseWebcam,
+        cityState,
+        hiringProcess,
+        exercises,
+        exerciseStatement,
+      } = data
+
+      const newChallenge = await challengeRepository.findOne({
+        addressEmail,
+        hiringProcess,
+      })
+
+      if (newChallenge) {
+        newChallenge.hiringProcess = hiringProcess
+        newChallenge.timeStamp = timeStamp
+        newChallenge.name = name
+        newChallenge.phone = phone
+        newChallenge.challenge = challenge
+        newChallenge.github = github
+        newChallenge.fileType = fileType
+        newChallenge.zip = zip
+        newChallenge.haveComputer = haveComputer
+        newChallenge.haveInternet = haveInternet
+        newChallenge.haveWebcam = haveWebcam
+        newChallenge.canUseWebcam = canUseWebcam
+        newChallenge.cityState = cityState
+        newChallenge.exercises = exercises
+        newChallenge.exerciseStatement = exerciseStatement
+        return await challengeRepository.save(newChallenge)
+      }
+
+      return IncompleteCandidateService().createIncompleteCandidate(
+        addressEmail,
+        hiringProcess,
+        name
+      )
+    })
+
+    const challenges = []
+    await Promise.all(challengesPromisse).then((challenge) =>
+      challenges.push(challenge)
     )
-  })
 
-  const challenges = []
-  await Promise.all(challengesPromisse).then((challenge) =>
-    challenges.push(challenge)
-  )
-
-  return httpResponse.createSuccessResponse(
-    message.SUCCESS,
-    { id, challenges, count: challengesSheet.length },
-    response
-  )
+    return httpResponse.createSuccessResponse(
+      Message.SUCCESS,
+      { id, challenges, count: challengesSheet.length },
+      response
+    )
+  } catch (error) {
+    return httpResponse.createErrorResponse(error, response)
+  }
 }
-
 export const exportHiringProcessResume = async (req, res) => {
   const { id } = req.params
   return res.json({ id })
@@ -187,7 +193,7 @@ export const getChallengeByHiringProcessId = async (req, res) => {
       type,
     })
     return httpResponse.createSuccessResponse(
-      message.FOUND,
+      Message.FOUND,
       { hiringProcessId, result },
       res
     )
@@ -202,7 +208,7 @@ export const getChallengeById = async (request, response) => {
     const challenge = await challengeRepository.findOne(request.params.id)
 
     if (!challenge) {
-      return response.status(404).json({ message: message.NOT_FOUND })
+      return response.status(404).json({ message: Message.NOT_FOUND })
     }
     return response.status(200).json(challenge)
   } catch (error) {

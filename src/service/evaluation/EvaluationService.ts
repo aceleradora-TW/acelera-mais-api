@@ -1,23 +1,29 @@
-import { getRepository } from 'typeorm'
-import { validate } from 'class-validator'
-import { Evaluation } from '@models/entity/Evaluation'
-import { HttpError, HttpStatusCode } from '../HttpError'
+import { getRepository } from "typeorm"
+import { validate } from "class-validator"
+import { Evaluation } from "@models/entity/Evaluation"
+import { HttpError, HttpStatusCode } from "../HttpError"
 
 export const evaluationService = () => {
-
-  const validateEvaluation = async ({ evaluation }) => {
+  const validateEvaluation = async (evaluation) => {
     const errors = await validate(evaluation)
     if (errors.length > 0) {
-      throw new HttpError('Errors validating the evaluation:' + errors, HttpStatusCode.BAD_REQUEST)
+      throw new HttpError(
+        "Errors validating the evaluation:" + errors,
+        HttpStatusCode.BAD_REQUEST
+      )
     }
     return validateEvaluation
   }
 
   const createEvaluationService = async (evaluationRequest: any) => {
     const evaluationRepository = getRepository(Evaluation)
-    const evaluationEntity = await evaluationRepository.create(evaluationRequest)
+    const evaluationEntity = await evaluationRepository.create(
+      evaluationRequest
+    )
     validateEvaluation(evaluationEntity)
-    const evaluationEntitySaved = await evaluationRepository.save(evaluationEntity)
+    const evaluationEntitySaved = await evaluationRepository.save(
+      evaluationEntity
+    )
     return evaluationEntitySaved
   }
 
@@ -25,7 +31,10 @@ export const evaluationService = () => {
     const evaluationRepository = getRepository(Evaluation)
     const evaluation = await evaluationRepository.findOne(id)
     if (!evaluation) {
-      throw new HttpError('Evaluation not found with: ' + id, HttpStatusCode.BAD_REQUEST)
+      throw new HttpError(
+        "Evaluation not found with: " + id,
+        HttpStatusCode.BAD_REQUEST
+      )
     }
 
     if (mentorName) {
@@ -50,7 +59,10 @@ export const evaluationService = () => {
     const evaluationDeleted = await evaluationRepository.delete(id)
 
     if (evaluationDeleted.affected === 0) {
-      throw new HttpError('Evaluation not found with: ' + id, HttpStatusCode.NOT_FOUND)
+      throw new HttpError(
+        "Evaluation not found with: " + id,
+        HttpStatusCode.NOT_FOUND
+      )
     }
     return evaluationDeleted
   }

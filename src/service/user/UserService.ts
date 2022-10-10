@@ -11,12 +11,17 @@ import { encryptPassword } from "./UserRequest"
 const jwt = require("jsonwebtoken")
 
 export const userService = () => {
-  const sendEmail = (user, message) => {
+  const sendEmail = async (user, message) => {
     const { from, subject, content } = message
     const { name, password, email } = user
     const { NODEMAILER_SECRET } = process.env
     const decodedPassword = jwt.verify(password, NODEMAILER_SECRET)
-    EmailService().send(from, subject, email, content(name, decodedPassword))
+    ;(await EmailService()).send(
+      from,
+      subject,
+      email,
+      content(name, decodedPassword)
+    )
   }
 
   const inviteEmail = (user) => sendEmail(user, inviteEmailContent)
@@ -25,15 +30,16 @@ export const userService = () => {
 
   const createUserService = async (userRequest: any) => {
     const userRepository = getRepository(User)
-    const userEntity = await userRepository.create(userRequest)
-    validateUser(userEntity)
-    inviteEmail(userRequest)
+    const userEntity = userRepository.create(userRequest)
+    await validateUser(userEntity)
     const userEntitySaved = await userRepository.save(userEntity)
+    await inviteEmail(userRequest)
     return userEntitySaved
   }
 
   const validateUser = async (user) => {
     const errors = await validate(user)
+
     if (errors.length > 0) {
       throw new HttpError(
         "Errors validating the user:" + errors,
@@ -41,6 +47,7 @@ export const userService = () => {
       )
     }
   }
+<<<<<<< HEAD
   const editUser = async ({
     id,
     name,
@@ -50,6 +57,10 @@ export const userService = () => {
     flag,
     password,
   }) => {
+=======
+
+  const editUser = async ({ id, name, email, telephone, type, flag }) => {
+>>>>>>> e7c098d035330955314267bbe71dade8d27ec35f
     const userRepository = getRepository(User)
     const user = await userRepository.findOne(id)
     if (!user) {

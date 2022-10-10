@@ -1,5 +1,5 @@
 import { httpResponseHandler } from "@controllers/HttpResponseHandler"
-import { message } from "@messages/languages/pt-br"
+import { Message } from "@messages/languages/pt-br"
 import { User } from "@models/entity/User"
 import { UserRegistrationStatus } from "@service/Flags"
 import { userRequest } from "@service/user/UserRequest"
@@ -13,7 +13,7 @@ export const createUser = async (request, response) => {
     const user = userRequest().convertFromHttpBody(request.body)
     const result = await userService().createUserService(user)
     return httpResponseHandler().createSuccessResponse(
-      message.EMAIL_SENT,
+      Message.EMAIL_SENT,
       result,
       response
     )
@@ -37,7 +37,7 @@ export const updateUser = async (request, response) => {
       password,
     })
     return httpResponse.createSuccessResponse(
-      message.UPDATED,
+      Message.UPDATED,
       userUpdated,
       response
     )
@@ -51,9 +51,9 @@ export const deleteUser = async (request, response) => {
     const UserRepository = getRepository(User)
     const result = await UserRepository.delete(request.params.id)
     if (result.affected === 0) {
-      return response.status(410).json({ message: message.NOT_REMOVED })
+      return response.status(410).json({ message: Message.NOT_REMOVED })
     }
-    return response.json({ message: message.REMOVED, result })
+    return response.json({ message: Message.REMOVED, result })
   } catch (error) {
     return response.status(500).json(error)
   }
@@ -84,7 +84,7 @@ export const sendRememberEmail = async (request, response) => {
     })
     userService().rememberEmail(userEntity)
     return httpResponseHandler().createSuccessResponse(
-      message.EMAIL_SENT,
+      Message.EMAIL_SENT,
       save,
       response
     )
