@@ -94,12 +94,16 @@ export const userService = (request) => {
   }
 
   const getAllUser = async () => {
-    // const password = userRepository.findOne()
-    return await (
-      await userRepository.find()
-    ).map((element) => {
-      delete element.password
-      return element
+    return await await userRepository.find({
+      select: [
+        "id",
+        "name",
+        "email",
+        "telephone",
+        "flag",
+        "createdAt",
+        "updatedAt",
+      ],
     })
   }
 
