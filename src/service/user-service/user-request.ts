@@ -3,6 +3,7 @@ import { UserRegistrationStatus } from "@service/Flags"
 import { HttpError, HttpStatusCode } from "@service/HttpError"
 import { UserType } from "./Types"
 import jwt from "jsonwebtoken"
+import md5 from "md5"
 
 export const UserRequest = ({ params, body, query }) => {
   const { NODEMAILER_SECRET } = process.env
@@ -26,7 +27,7 @@ export const UserRequest = ({ params, body, query }) => {
     return name && email && telephone && type && !flag
   }
 
-  const encryptPassword = (password) => jwt.sign(password, NODEMAILER_SECRET)
+  const encryptPassword = (password) => md5(password)
 
   const generatePassword = () => {
     const randomPassword = Math.random().toString(36).slice(-10)
