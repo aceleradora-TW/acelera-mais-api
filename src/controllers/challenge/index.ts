@@ -8,6 +8,7 @@ import { Evaluation } from "@models/entity/Evaluation"
 import { Exercise } from "@models/entity/Exercise"
 import { IncompleteCandidateService } from "@service/incomplete-candidate/IncompleteCandidateService"
 import { challengesAdapter } from "@service/challenge/adapter/ChallengeAdapter"
+import { hiringProcessAdapter } from "@controllers/hiring-process/adapter/HiringProcessAdapter"
 
 const httpResponse = httpResponseHandler()
 
@@ -195,7 +196,10 @@ export const getChallengeByHiringProcessId = async (req, res) => {
     })
     return httpResponse.createSuccessResponse(
       Message.FOUND,
-      { hiringProcessId, result: csv ? result : challengesAdapter(result) },
+      {
+        hiringProcessId,
+        result: csv ? hiringProcessAdapter(result) : challengesAdapter(result),
+      },
       res
     )
   } catch (error) {
