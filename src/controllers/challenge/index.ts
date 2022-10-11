@@ -7,6 +7,7 @@ import { challengeService } from "@service/challenge/ChallengeService"
 import { Evaluation } from "@models/entity/Evaluation"
 import { Exercise } from "@models/entity/Exercise"
 import { IncompleteCandidateService } from "@service/incomplete-candidate/IncompleteCandidateService"
+import { challengesAdapter } from "@service/challenge/adapter/ChallengeAdapter"
 
 const httpResponse = httpResponseHandler()
 
@@ -196,7 +197,7 @@ export const getChallengeByHiringProcessId = async (req, res) => {
     })
     return httpResponse.createSuccessResponse(
       Message.FOUND,
-      { hiringProcessId, result },
+      { hiringProcessId, result: challengesAdapter(result) },
       res
     )
   } catch (error) {

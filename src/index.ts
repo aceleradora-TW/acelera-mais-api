@@ -1,25 +1,25 @@
-require('dotenv').config({ path: '../.env' })
+require("dotenv").config({ path: __dirname + "../.env" })
 
-import express from 'express'
-import { connect } from './db-connection'
-import cors from 'cors'
-import { defineRoutes } from './routes'
-import { requestLogger, requestErrorLogger, logger } from './logger'
+import express from "express"
+import { connect } from "./db-connection"
+import cors from "cors"
+import { defineRoutes } from "./routes"
+import { requestLogger, requestErrorLogger, logger } from "./logger"
 
 const start = async () => {
   try {
-    logger.info('Establishing database connection...');
+    logger.info("Establishing database connection...")
     await connect()
-    logger.info('Database connection established!');
+    logger.info("Database connection established!")
 
-    logger.info('Starting application server...');
+    logger.info("Starting application server...")
 
     const app = express()
     const port = process.env.PORT || 9000
 
     app.use(express.json())
     app.use(express.urlencoded({ extended: true }))
-    app.use(cors({ origin: '*' }))
+    app.use(cors({ origin: "*" }))
     app.use(requestLogger())
 
     defineRoutes(app)
