@@ -65,6 +65,8 @@ export const userService = (request) => {
     })
     validateEntity(userEntity)
     const saveUser = await userRepository.save(userEntity)
+    console.log(generatedPassword)
+    console.log(password)
     sendEmail({ user, password: generatedPassword }, inviteEmailContent)
     return saveUser
   }

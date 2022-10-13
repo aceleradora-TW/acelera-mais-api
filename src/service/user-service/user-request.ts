@@ -64,7 +64,7 @@ export const UserRequest = ({ params, body, query }) => {
     return {
       ...user,
       password: generatePassword().encryptedPassword,
-      generetedPassword: generatePassword().password,
+      generatedPassword: generatePassword().password,
       flag: FIRST_LOGIN,
     }
   }
