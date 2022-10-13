@@ -8,6 +8,7 @@ import { Evaluation } from "@models/entity/Evaluation"
 import { Exercise } from "@models/entity/Exercise"
 import { IncompleteCandidateService } from "@service/incomplete-candidate/IncompleteCandidateService"
 import { challengesAdapter } from "@service/challenge/adapter/ChallengeAdapter"
+import { hiringProcessAdapter } from "@controllers/hiring-process/adapter/HiringProcessAdapter"
 
 const httpResponse = httpResponseHandler()
 
@@ -187,7 +188,7 @@ export const exportHiringProcessResume = async (req, res) => {
 }
 
 export const getChallengeByHiringProcessId = async (req, res) => {
-  const { page, count, hiringProcessId, type, feedback } = req.query
+  const { page, count, hiringProcessId, type, csv = false } = req.query
   try {
     const result = await challengeService().getAllChallenges({
       page,
@@ -197,7 +198,10 @@ export const getChallengeByHiringProcessId = async (req, res) => {
     })
     return httpResponse.createSuccessResponse(
       Message.FOUND,
-      { hiringProcessId, result: challengesAdapter(result) },
+      {
+        hiringProcessId,
+        result: csv ? hiringProcessAdapter(result) : challengesAdapter(result),
+      },
       res
     )
   } catch (error) {
