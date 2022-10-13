@@ -2,7 +2,6 @@ import { Message } from "@messages/languages/pt-br"
 import { UserRegistrationStatus } from "@service/Flags"
 import { HttpError, HttpStatusCode } from "@service/HttpError"
 import { UserType } from "./Types"
-import jwt from "jsonwebtoken"
 import md5 from "md5"
 
 export const UserRequest = ({ params, body, query }) => {
@@ -31,7 +30,10 @@ export const UserRequest = ({ params, body, query }) => {
 
   const generatePassword = () => {
     const randomPassword = Math.random().toString(36).slice(-10)
-    return encryptPassword(randomPassword)
+    return {
+      encryptedPassword: encryptPassword(randomPassword),
+      password: randomPassword,
+    }
   }
 
   const isValidBodyForCreateUser = () => {
@@ -61,7 +63,8 @@ export const UserRequest = ({ params, body, query }) => {
     const user = isValidBodyForCreateUser()
     return {
       ...user,
-      password: generatePassword(),
+      password: generatePassword().encryptedPassword,
+      generetedPassword: generatePassword().password,
       flag: FIRST_LOGIN,
     }
   }

@@ -1,10 +1,3 @@
-import jwt from "jsonwebtoken"
-
-const decodedPassword = (password) => {
-  const { NODEMAILER_SECRET } = process.env
-  return jwt.verify(password, NODEMAILER_SECRET)
-}
-
 export const inviteEmailContent = {
   from: "AceleraMais <aceleradorametodosageis@gmail.com>",
   subject: "AceleraMais: Convite para mentora avaliadora!",
@@ -16,7 +9,7 @@ export const inviteEmailContent = {
     Você foi convidada para ser mentora avaliadora no Acelera Mais. Uhuuuul!!!!
     Por favor, acesse https://acelera-mais.herokuapp.com/, faça o login com o seu e-mail usando a senha abaixo.
     Você precisará trocar a senha no primeiro login.
-    Senha gerada: ${decodedPassword(password)}
+    Senha gerada: ${password}
     Seja bem vinda!
     `
   },
@@ -32,7 +25,7 @@ export const rememberEmailContent = {
     Estamos enviando está mensagem para lhe relembrar do convite para ser mentora no AceleraMais.
     Por favor, acesse https://acelera-mais.herokuapp.com/, faça o login com o seu e-mail usando a senha abaixo.
     Você precisará trocar a senha no primeiro login.
-    Senha gerada: ${decodedPassword(password)}
+    Senha gerada: ${password}
     Seja bem vinda!
     `
   },
