@@ -22,14 +22,11 @@ export const userService = (request) => {
     const { FIRST_LOGIN, EMAIL_RESENT } = UserRegistrationStatus
     const user = UserRequest(request).getUserForResendEmail()
     const userEntity = await userRepository.findOneOrFail({ email: user.email })
-
     if (userEntity.flag === FIRST_LOGIN) {
       userEntity.flag = EMAIL_RESENT
       return await userRepository.save(userEntity)
     }
-
     sendEmail(userEntity, rememberEmailContent)
-
     return {}
   }
 
