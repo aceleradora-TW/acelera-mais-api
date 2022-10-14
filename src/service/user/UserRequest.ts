@@ -3,13 +3,14 @@ import { HttpError, HttpStatusCode } from "@service/HttpError"
 const jwt = require("jsonwebtoken")
 import { UserRegistrationStatus } from "@service/Flags"
 
+export const encryptPassword = (password) => {
+  const { NODEMAILER_SECRET } = process.env
+  const encryptedPassword = jwt.sign(password, NODEMAILER_SECRET)
+  return encryptedPassword
+}
+
 export const userRequest = () => {
-  const passwordGenerator = () => {
-    const { NODEMAILER_SECRET } = process.env
-    const randomPassword = Math.random().toString(36).slice(-10)
-    const encryptedPassword = jwt.sign(randomPassword, NODEMAILER_SECRET)
-    return encryptedPassword
-  }
+  const randomPassword = Math.random().toString(36).slice(-10)
 
   const convertFromHttpBody = (body) => {
     const { name, telephone, email, type, flag } = body
@@ -19,7 +20,7 @@ export const userRequest = () => {
         telephone: telephone || "",
         email,
         type,
-        password: passwordGenerator(),
+        password: encryptPassword(randomPassword),
         flag,
       }
     }

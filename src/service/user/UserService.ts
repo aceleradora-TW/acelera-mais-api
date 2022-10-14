@@ -7,6 +7,7 @@ import {
   inviteEmailContent,
   rememberEmailContent,
 } from "@messages/email/content"
+import { encryptPassword } from "./UserRequest"
 const jwt = require("jsonwebtoken")
 
 export const userService = () => {
@@ -46,8 +47,15 @@ export const userService = () => {
       )
     }
   }
-
-  const editUser = async ({ id, name, email, telephone, type, flag }) => {
+  const editUser = async ({
+    id,
+    name,
+    email,
+    telephone,
+    type,
+    flag,
+    password,
+  }) => {
     const userRepository = getRepository(User)
     const user = await userRepository.findOne(id)
     if (!user) {
@@ -68,6 +76,9 @@ export const userService = () => {
     }
     if (type) {
       user.type = type
+    }
+    if (password) {
+      user.password = encryptPassword(password)
     }
     if (flag) {
       user.flag = flag
