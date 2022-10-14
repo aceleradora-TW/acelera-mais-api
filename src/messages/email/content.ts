@@ -1,8 +1,8 @@
 export const inviteEmailContent = {
   from: "AceleraMais <aceleradorametodosageis@gmail.com>",
   subject: "AceleraMais: Convite para mentora avaliadora!",
-  content: (user) => {
-    const { name, password } = user
+  content: (emailuser) => {
+    const { name, password } = emailuser
 
     return `
     Olá ${name},

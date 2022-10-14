@@ -32,7 +32,7 @@ export const UserRequest = ({ params, body, query }) => {
     const randomPassword = Math.random().toString(36).slice(-10)
     return {
       encryptedPassword: encryptPassword(randomPassword),
-      password: randomPassword,
+      decodedpassword: randomPassword,
     }
   }
 
@@ -63,8 +63,7 @@ export const UserRequest = ({ params, body, query }) => {
     const user = isValidBodyForCreateUser()
     return {
       ...user,
-      password: generatePassword().encryptedPassword,
-      generetedPassword: generatePassword().password,
+      passwords: generatePassword(),
       flag: FIRST_LOGIN,
     }
   }

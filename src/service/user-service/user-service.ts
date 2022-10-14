@@ -46,8 +46,9 @@ export const userService = (request) => {
 
   const createUser = async () => {
     const user = UserRequest(request).firstLogin()
-    const { name, email, telephone, type, flag, password, generatedPassword } =
-      user
+    const { name, email, telephone, type, flag, passwords } = user
+    const password = passwords.encryptedPassword
+    const decodedpassword = passwords.decodedpassword
     const findUser = await userRepository.findOne({ email: user.email })
     if (findUser) {
       throw new HttpError(
@@ -55,6 +56,9 @@ export const userService = (request) => {
         HttpStatusCode.CONFLICT
       )
     }
+
+    console.log(password)
+    console.log(decodedpassword)
     const userEntity = userRepository.create({
       name,
       email,
@@ -65,7 +69,12 @@ export const userService = (request) => {
     })
     validateEntity(userEntity)
     const saveUser = await userRepository.save(userEntity)
-    sendEmail({ user, password: generatedPassword }, inviteEmailContent)
+    const emailuser = {
+      name: name,
+      password: decodedpassword,
+      email: email,
+    }
+    sendEmail(emailuser, inviteEmailContent)
     return saveUser
   }
 
