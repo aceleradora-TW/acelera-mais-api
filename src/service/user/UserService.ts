@@ -22,7 +22,6 @@ export const userService = () => {
       content(name, decodedPassword)
     )
   }
-
   const inviteEmail = (user) => sendEmail(user, inviteEmailContent)
 
   const rememberEmail = async (user) => sendEmail(user, rememberEmailContent)

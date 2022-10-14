@@ -49,7 +49,7 @@ export const userService = (request) => {
     const { name, email, telephone, type, flag, passwords } = user
     const password = passwords.encryptedPassword
     const decodedpassword = passwords.decodedpassword
-    const findUser = await userRepository.findOne({ email: user.email })
+    const findUser = await userRepository.findOne({ email: email })
     if (findUser) {
       throw new HttpError(
         "User already exist in database",
@@ -57,8 +57,6 @@ export const userService = (request) => {
       )
     }
 
-    console.log(password)
-    console.log(decodedpassword)
     const userEntity = userRepository.create({
       name,
       email,
