@@ -21,22 +21,12 @@ export const userService = (request) => {
   }
 
   const resendEmail = async () => {
-    const encryptPassword = (password) => md5(password)
-    const generatePassword = () => {
-      const randomPassword = Math.random().toString(36).slice(-10)
-      return {
-        encryptedPassword: encryptPassword(randomPassword),
-        decodedpassword: randomPassword,
-      }
-    }
     const { FIRST_LOGIN, EMAIL_RESENT } = UserRegistrationStatus
-    const user = UserRequest(request).getUserForResendEmail()
-    console.log(user)
-    const passwords = generatePassword()
+    const userId = request.params.id
+    const passwords = UserRequest(request).generatePassword()
     const password = passwords.encryptedPassword
     const decodedpassword = passwords.decodedpassword
-    const userEntity = await userRepository.findOneOrFail({ email: user.email })
-    console.log(userEntity)
+    const userEntity = await userRepository.findOneOrFail({ id: userId })
     console.log(decodedpassword)
     if (userEntity.flag === FIRST_LOGIN) {
       userEntity.flag = EMAIL_RESENT
@@ -46,7 +36,7 @@ export const userService = (request) => {
     const emailuser = {
       name: userEntity.name,
       password: decodedpassword,
-      email: user.email,
+      email: userEntity.email,
     }
     sendEmail(emailuser, rememberEmailContent)
     return {}
