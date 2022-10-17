@@ -85,7 +85,7 @@ export const userService = (request) => {
   }
 
   const updateUser = async () => {
-    const user = UserRequest(request).getUser()
+    const user = UserRequest(request).getUserUpdate()
     let userEntity = await userRepository.findOne(user.id)
     const { name, email, telephone, type, flag, password } = user
     if (!userEntity) {
@@ -96,7 +96,7 @@ export const userService = (request) => {
     }
 
     if (password) {
-      userEntity.password = password
+      userEntity.password = md5(password)
     }
 
     if (name) {

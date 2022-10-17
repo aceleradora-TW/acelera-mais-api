@@ -48,7 +48,6 @@ export const UserRequest = ({ params, body, query }) => {
     if (password) {
       user = {
         ...user,
-        password: encryptPassword(password),
         flag: USER_ENABLED,
       }
     }
@@ -65,6 +64,13 @@ export const UserRequest = ({ params, body, query }) => {
       ...user,
       passwords: generatePassword(),
       flag: FIRST_LOGIN,
+    }
+  }
+
+  const getUserUpdate = () => {
+    const user = isValidBodyForUpdateUser()
+    return {
+      ...user,
     }
   }
 
@@ -91,5 +97,6 @@ export const UserRequest = ({ params, body, query }) => {
     getUser,
     getUserForResendEmail,
     generatePassword,
+    getUserUpdate,
   }
 }
