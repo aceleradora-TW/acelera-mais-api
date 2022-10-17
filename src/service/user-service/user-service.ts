@@ -27,18 +27,17 @@ export const userService = (request) => {
     const password = passwords.encryptedPassword
     const decodedpassword = passwords.decodedpassword
     const userEntity = await userRepository.findOneOrFail({ id: userId })
-    console.log(decodedpassword)
     if (userEntity.flag === FIRST_LOGIN) {
       userEntity.flag = EMAIL_RESENT
       userEntity.password = password
+      const emailUser = {
+        name: userEntity.name,
+        password: decodedpassword,
+        email: userEntity.email,
+      }
+      sendEmail(emailUser, rememberEmailContent)
       return await userRepository.save(userEntity)
     }
-    const emailuser = {
-      name: userEntity.name,
-      password: decodedpassword,
-      email: userEntity.email,
-    }
-    sendEmail(emailuser, rememberEmailContent)
     return {}
   }
 
@@ -97,7 +96,7 @@ export const userService = (request) => {
     }
 
     if (password) {
-      userEntity.password = md5(password)
+      userEntity.password = password
     }
 
     if (name) {
