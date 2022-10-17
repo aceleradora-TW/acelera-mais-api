@@ -90,5 +90,6 @@ export const UserRequest = ({ params, body, query }) => {
     firstLogin,
     getUser,
     getUserForResendEmail,
+    generatePassword,
   }
 }

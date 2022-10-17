@@ -9,6 +9,8 @@ import { HttpError, HttpStatusCode } from "@service/HttpError"
 import { validate } from "class-validator"
 import { getRepository } from "typeorm"
 import { UserRequest } from "./user-request"
+import md5 from "md5"
+import { userRequest } from "@service/user/UserRequest"
 
 export const userService = (request) => {
   const userRepository = getRepository(User)
@@ -19,14 +21,34 @@ export const userService = (request) => {
   }
 
   const resendEmail = async () => {
+    const encryptPassword = (password) => md5(password)
+    const generatePassword = () => {
+      const randomPassword = Math.random().toString(36).slice(-10)
+      return {
+        encryptedPassword: encryptPassword(randomPassword),
+        decodedpassword: randomPassword,
+      }
+    }
     const { FIRST_LOGIN, EMAIL_RESENT } = UserRegistrationStatus
     const user = UserRequest(request).getUserForResendEmail()
+    console.log(user)
+    const passwords = generatePassword()
+    const password = passwords.encryptedPassword
+    const decodedpassword = passwords.decodedpassword
     const userEntity = await userRepository.findOneOrFail({ email: user.email })
+    console.log(userEntity)
+    console.log(decodedpassword)
     if (userEntity.flag === FIRST_LOGIN) {
       userEntity.flag = EMAIL_RESENT
+      userEntity.password = password
       return await userRepository.save(userEntity)
     }
-    sendEmail(userEntity, rememberEmailContent)
+    const emailuser = {
+      name: userEntity.name,
+      password: decodedpassword,
+      email: user.email,
+    }
+    sendEmail(emailuser, rememberEmailContent)
     return {}
   }
 
@@ -85,7 +107,7 @@ export const userService = (request) => {
     }
 
     if (password) {
-      userEntity.password = password
+      userEntity.password = md5(password)
     }
 
     if (name) {
