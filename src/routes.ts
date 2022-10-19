@@ -27,37 +27,102 @@ import { getEvaluation, getAllEvaluation } from "@controllers/evaluation"
 import { deleteUser } from "@controllers/user"
 import * as UserX from "@controllers/userx"
 import { getExercise, updateExercise } from "@controllers/exercise"
+import { Roles } from "./service/user-service/Roles"
 
 export const defineRoutes = (app) => {
   app.get("/", itsWorks)
   app.post("/login", generateAccessToken)
-  app.get("/hiring_process", getAllHiringProcess)
-  app.post("/hiring_process", verifyAccessToken, createHiringProcess)
-  app.patch("/hiring_process/:id", verifyAccessToken, updateHiringProcess)
-  app.delete("/hiring_process/:id", verifyAccessToken, deleteHiringProcess)
+  app.get(
+    "/hiring_process",
+    verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
+    getAllHiringProcess
+  )
+  app.post(
+    "/hiring_process",
+    verifyAccessToken([Roles.ADMIN]),
+    createHiringProcess
+  )
+  app.patch(
+    "/hiring_process/:id",
+    verifyAccessToken([Roles.ADMIN]),
+    updateHiringProcess
+  )
+  app.delete(
+    "/hiring_process/:id",
+    verifyAccessToken([Roles.ADMIN]),
+    deleteHiringProcess
+  )
 
-  app.get("/candidate", getAllCandidate)
-  app.get("/candidate/:id", getCandidate)
-  app.get("/candidate/challenge/hiring_process/:id", exportHiringProcessResume)
-  app.post("/candidate/hiring_process/:id", importAllCandidate)
+  app.get("/candidate", verifyAccessToken([Roles.ADMIN]), getAllCandidate)
+  app.get("/candidate/:id", verifyAccessToken([Roles.ADMIN]), getCandidate)
+  app.get(
+    "/candidate/challenge/hiring_process/:id",
+    verifyAccessToken([Roles.ADMIN]),
+    exportHiringProcessResume
+  )
+  app.post(
+    "/candidate/hiring_process/:id",
+    verifyAccessToken([Roles.ADMIN]),
+    importAllCandidate
+  )
 
-  app.get("/evaluation", getAllEvaluation)
-  app.get("/evaluation/:id", getEvaluation)
-  app.patch("/evaluation/:id", updateEvaluation)
-  app.post("/evaluation", createEvaluation)
-  app.delete("/evaluation/:id", deleteEvaluation)
+  app.get(
+    "/evaluation",
+    verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
+    getAllEvaluation
+  )
+  app.get(
+    "/evaluation/:id",
+    verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
+    getEvaluation
+  )
+  app.patch(
+    "/evaluation/:id",
+    verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
+    updateEvaluation
+  )
+  app.post("/evaluation", verifyAccessToken([Roles.ADMIN]), createEvaluation)
+  app.delete(
+    "/evaluation/:id",
+    verifyAccessToken([Roles.ADMIN]),
+    deleteEvaluation
+  )
 
-  app.get("/challenge", getChallengeByHiringProcessId)
-  app.get("/challenge/:id", getChallengeById)
-  app.patch("/challenge/:id", updateChallenge)
-  app.post("/challenge/hiring_process/:id", importAllChallenge)
+  app.get(
+    "/challenge",
+    verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
+    getChallengeByHiringProcessId
+  )
+  app.get(
+    "/challenge/:id",
+    verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
+    getChallengeById
+  )
+  app.patch("/challenge/:id", verifyAccessToken([Roles.ADMIN]), updateChallenge)
+  app.post(
+    "/challenge/hiring_process/:id",
+    verifyAccessToken([Roles.ADMIN]),
+    importAllChallenge
+  )
 
-  app.post("/user", verifyAccessToken, UserX.createUser)
-  app.get("/user", verifyAccessToken, UserX.getUser)
-  app.put("/user/:id", verifyAccessToken, UserX.updateUser)
-  app.put("/user/:id/email_verification", verifyAccessToken, UserX.resendEmail)
-  app.delete("/user/:id", verifyAccessToken, deleteUser)
+  app.post("/user", verifyAccessToken([Roles.ADMIN]), UserX.createUser)
+  app.get("/user", verifyAccessToken([Roles.ADMIN]), UserX.getUser)
+  app.put("/user/:id", verifyAccessToken([Roles.ADMIN]), UserX.updateUser)
+  app.put(
+    "/user/:id/email_verification",
+    verifyAccessToken([Roles.ADMIN]),
+    UserX.resendEmail
+  )
+  app.delete("/user/:id", verifyAccessToken([Roles.ADMIN]), deleteUser)
 
-  app.get("/exercise/:id", getExercise)
-  app.put("/exercise/:id", updateExercise)
+  app.get(
+    "/exercise/:id",
+    verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
+    getExercise
+  )
+  app.put(
+    "/exercise/:id",
+    verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
+    updateExercise
+  )
 }
