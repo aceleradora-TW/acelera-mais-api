@@ -64,7 +64,7 @@ export const UserRequest = ({ params, body, query }) => {
     return {
       ...user,
       password: passwords.encryptedPassword,
-      decodedpassword: passwords.decodedPassword,
+      decodedPassword: passwords.decodedPassword,
       flag: FIRST_LOGIN,
     }
   }
