@@ -4,7 +4,6 @@ import {
 } from "@messages/email/content"
 import { User } from "@models/entity/User"
 import { EmailService } from "@service/email/EmailService"
-import { UserRegistrationStatus } from "@service/Flags"
 import { HttpError, HttpStatusCode } from "@service/HttpError"
 import { validate } from "class-validator"
 import { getRepository } from "typeorm"
@@ -19,21 +18,18 @@ export const userService = (request) => {
   }
 
   const resendEmail = async () => {
-    const { FIRST_LOGIN, EMAIL_RESENT } = UserRegistrationStatus
-    const user = UserRequest(request).getUserForResendEmail()
-    const { id, encryptedPassword, decodedPassword, flag } = user
-    const userEntity = await userRepository.findOneOrFail({ id: id })
-    if (userEntity.flag === FIRST_LOGIN || userEntity.flag === EMAIL_RESENT) {
-      userEntity.flag = flag
-      userEntity.password = encryptedPassword
-    }
-    const userForResendEmail = {
-      name: userEntity.name,
-      password: decodedPassword,
-      email: userEntity.email,
-    }
-    sendEmail(userForResendEmail, rememberEmailContent)
-    return await userRepository.save(userEntity)
+    const { id, encryptedPassword, decodedPassword, flag } =
+      UserRequest(request).getUserForResendEmail()
+
+    const userEntity = await userRepository.findOneOrFail({ where: { id } })
+    userEntity.password = encryptedPassword
+    userEntity.flag = flag
+    await userRepository.save(userEntity)
+
+    return sendEmail(
+      { ...userEntity, password: decodedPassword },
+      rememberEmailContent
+    )
   }
 
   const validateEntity = async (entity) => {
@@ -48,17 +44,17 @@ export const userService = (request) => {
   }
 
   const createUser = async () => {
-    const user = UserRequest(request).firstLogin()
-    const { name, email, telephone, type, flag, password, userForSendEmail } =
-      user
-    const findUser = await userRepository.findOne({ email: email })
+    const { name, email, telephone, type, flag, password, decodedPassword } =
+      UserRequest(request).firstLogin()
+
+    const findUser = await userRepository.findOne({ where: { email } })
     if (findUser) {
       throw new HttpError(
         "User already exist in database",
         HttpStatusCode.CONFLICT
       )
     }
-    const userEntity = userRepository.create({
+    const user = userRepository.create({
       name,
       email,
       telephone,
@@ -66,19 +62,30 @@ export const userService = (request) => {
       flag,
       password,
     })
-    validateEntity(userEntity)
-    const saveUser = await userRepository.save(userEntity)
-    sendEmail(userForSendEmail, inviteEmailContent)
+
+    validateEntity(user)
+    const saveUser = await userRepository.save(user)
+
+    sendEmail(
+      {
+        name,
+        email,
+        password: decodedPassword,
+      },
+      inviteEmailContent
+    )
+
     return saveUser
   }
 
   const updateUser = async () => {
-    const user = UserRequest(request).getUserUpdate()
-    const { name, email, telephone, type, flag, password, id } = user
+    const { name, email, telephone, type, flag, password, id } =
+      UserRequest(request).getUserUpdate()
+
     let userEntity = await userRepository.findOne(id)
     if (!userEntity) {
       throw new HttpError(
-        `User not found with: ${user.id}`,
+        `User not found with: ${id}`,
         HttpStatusCode.BAD_REQUEST
       )
     }

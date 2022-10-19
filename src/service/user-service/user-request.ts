@@ -66,11 +66,6 @@ export const UserRequest = ({ params, body, query }) => {
       password: passwords.encryptedPassword,
       decodedpassword: passwords.decodedPassword,
       flag: FIRST_LOGIN,
-      userForSendEmail: {
-        name: name,
-        password: passwords.decodedPassword,
-        email: email,
-      },
     }
   }
 
