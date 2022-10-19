@@ -5,7 +5,6 @@ import { UserType } from "./Types"
 import md5 from "md5"
 
 export const UserRequest = ({ params, body, query }) => {
-  const { NODEMAILER_SECRET } = process.env
   const { FIRST_LOGIN, EMAIL_RESENT, USER_DISABLED, USER_ENABLED } =
     UserRegistrationStatus
   const { name, email, password, telephone, type, flag } = body
@@ -32,7 +31,7 @@ export const UserRequest = ({ params, body, query }) => {
     const randomPassword = Math.random().toString(36).slice(-10)
     return {
       encryptedPassword: encryptPassword(randomPassword),
-      decodedpassword: randomPassword,
+      decodedPassword: randomPassword,
     }
   }
 
@@ -48,6 +47,7 @@ export const UserRequest = ({ params, body, query }) => {
     if (password) {
       user = {
         ...user,
+        id: id,
         flag: USER_ENABLED,
       }
     }
@@ -60,18 +60,32 @@ export const UserRequest = ({ params, body, query }) => {
 
   const firstLogin = () => {
     const user = isValidBodyForCreateUser()
+    const passwords = generatePassword()
     return {
       ...user,
-      passwords: generatePassword(),
+      password: passwords.encryptedPassword,
+      decodedpassword: passwords.decodedPassword,
       flag: FIRST_LOGIN,
+      userForSendEmail: {
+        name: name,
+        password: passwords.decodedPassword,
+        email: email,
+      },
+    }
+  }
+
+  const getUserForResendEmail = () => {
+    const passwords = generatePassword()
+    return {
+      id: id,
+      encryptedPassword: passwords.encryptedPassword,
+      decodedPassword: passwords.decodedPassword,
+      flag: EMAIL_RESENT,
     }
   }
 
   const getUserUpdate = () => {
-    const user = isValidBodyForUpdateUser()
-    return {
-      ...user,
-    }
+    return isValidBodyForUpdateUser()
   }
 
   const getUser = () => {
@@ -82,21 +96,10 @@ export const UserRequest = ({ params, body, query }) => {
     }
   }
 
-  const getUserForResendEmail = () => {
-    if (email && id) {
-      return {
-        email,
-        flag: EMAIL_RESENT,
-      }
-    }
-    throw new HttpError(Message.CREATE_ERROR, HttpStatusCode.BAD_REQUEST)
-  }
-
   return {
     firstLogin,
     getUser,
     getUserForResendEmail,
-    generatePassword,
     getUserUpdate,
   }
 }

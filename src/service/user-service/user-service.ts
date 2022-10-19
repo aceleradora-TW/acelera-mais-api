@@ -10,7 +10,6 @@ import { validate } from "class-validator"
 import { getRepository } from "typeorm"
 import { UserRequest } from "./user-request"
 import md5 from "md5"
-import { userRequest } from "@service/user/UserRequest"
 
 export const userService = (request) => {
   const userRepository = getRepository(User)
@@ -22,23 +21,20 @@ export const userService = (request) => {
 
   const resendEmail = async () => {
     const { FIRST_LOGIN, EMAIL_RESENT } = UserRegistrationStatus
-    const userId = request.params.id
-    const passwords = UserRequest(request).generatePassword()
-    const password = passwords.encryptedPassword
-    const decodedpassword = passwords.decodedpassword
-    const userEntity = await userRepository.findOneOrFail({ id: userId })
-    if (userEntity.flag === FIRST_LOGIN) {
-      userEntity.flag = EMAIL_RESENT
-      userEntity.password = password
-      const emailUser = {
-        name: userEntity.name,
-        password: decodedpassword,
-        email: userEntity.email,
-      }
-      sendEmail(emailUser, rememberEmailContent)
-      return await userRepository.save(userEntity)
+    const user = UserRequest(request).getUserForResendEmail()
+    const { id, encryptedPassword, decodedPassword, flag } = user
+    const userEntity = await userRepository.findOneOrFail({ id: id })
+    if (userEntity.flag === FIRST_LOGIN || userEntity.flag === EMAIL_RESENT) {
+      userEntity.flag = flag
+      userEntity.password = encryptedPassword
     }
-    return {}
+    const userForResendEmail = {
+      name: userEntity.name,
+      password: decodedPassword,
+      email: userEntity.email,
+    }
+    sendEmail(userForResendEmail, rememberEmailContent)
+    return await userRepository.save(userEntity)
   }
 
   const validateEntity = async (entity) => {
@@ -54,9 +50,8 @@ export const userService = (request) => {
 
   const createUser = async () => {
     const user = UserRequest(request).firstLogin()
-    const { name, email, telephone, type, flag, passwords } = user
-    const password = passwords.encryptedPassword
-    const decodedpassword = passwords.decodedpassword
+    const { name, email, telephone, type, flag, password, userForSendEmail } =
+      user
     const findUser = await userRepository.findOne({ email: email })
     if (findUser) {
       throw new HttpError(
@@ -64,7 +59,6 @@ export const userService = (request) => {
         HttpStatusCode.CONFLICT
       )
     }
-
     const userEntity = userRepository.create({
       name,
       email,
@@ -75,19 +69,14 @@ export const userService = (request) => {
     })
     validateEntity(userEntity)
     const saveUser = await userRepository.save(userEntity)
-    const emailuser = {
-      name: name,
-      password: decodedpassword,
-      email: email,
-    }
-    sendEmail(emailuser, inviteEmailContent)
+    sendEmail(userForSendEmail, inviteEmailContent)
     return saveUser
   }
 
   const updateUser = async () => {
     const user = UserRequest(request).getUserUpdate()
-    let userEntity = await userRepository.findOne(user.id)
-    const { name, email, telephone, type, flag, password } = user
+    const { name, email, telephone, type, flag, password, id } = user
+    let userEntity = await userRepository.findOne(id)
     if (!userEntity) {
       throw new HttpError(
         `User not found with: ${user.id}`,
@@ -98,7 +87,6 @@ export const userService = (request) => {
     if (password) {
       userEntity.password = md5(password)
     }
-
     if (name) {
       userEntity.name = name
     }
