@@ -1,7 +1,12 @@
 import JWT from "jsonwebtoken"
+import { httpResponseHandler } from "@controllers/HttpResponseHandler"
+import { Message } from "@messages/languages/pt-br"
 
-export const createLink = () => {
-  const dateLink = JWT.sign({ date: new Date().valueOf() })
-  console.log(dateLink)
-  return { url: "/user/" + dateLink }
+export const createLink = (request, response) => {
+  const dateLink = "user/" + JWT.sign({ date: new Date().valueOf() })
+  return httpResponseHandler().createSuccessResponse(
+    Message.FOUND,
+    dateLink,
+    response
+  )
 }
