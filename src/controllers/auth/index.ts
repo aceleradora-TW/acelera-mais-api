@@ -13,7 +13,7 @@ export const generateAccessToken = async (request, response) => {
     const tokenPayload = await createAccessToken(emailUser, passwordUser)
     return response.json(tokenPayload)
   } catch (error) {
-    return responseHandler.createErrorResponse(error, response)
+    return responseHandler.createErrorResponse(error, response) 
   }
 }
 
