@@ -46,7 +46,6 @@ export const userService = (request) => {
   const createUser = async () => {
     const { name, email, telephone, type, flag, password, decodedPassword } =
       UserRequest(request).firstLogin()
-
     const findUser = await userRepository.findOne({ where: { email } })
     if (findUser) {
       throw new HttpError(
@@ -82,7 +81,7 @@ export const userService = (request) => {
     const { name, email, telephone, type, flag, password, id } =
       UserRequest(request).getUserUpdate()
 
-    let userEntity = await userRepository.findOne(id)
+    let userEntity = await userRepository.findOne({ where: { id } })
     if (!userEntity) {
       throw new HttpError(
         `User not found with: ${id}`,
