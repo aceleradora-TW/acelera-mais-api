@@ -27,7 +27,7 @@ export const createAccessToken = async (emailUser, passwordUser) => {
     id: user.id,
   }
   const accessToken = jwt.sign(payload, SECRET)
-
+//criando a bracnh e compartilhando
   return {
     auth,
     accessToken,
