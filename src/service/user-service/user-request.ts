@@ -3,6 +3,7 @@ import { UserRegistrationStatus } from "@service/Flags"
 import { HttpError, HttpStatusCode } from "@service/HttpError"
 import { Roles } from "./Roles"
 import md5 from "md5"
+import { isLocal } from "src/utils/islocal"
 
 export const UserRequest = ({ params, body, query }) => {
   const { FIRST_LOGIN, EMAIL_RESENT, USER_DISABLED, USER_ENABLED } =
@@ -28,7 +29,9 @@ export const UserRequest = ({ params, body, query }) => {
   const encryptPassword = (password) => md5(password)
 
   const generatePassword = () => {
-    const randomPassword = Math.random().toString(36).slice(-10)
+    const randomPassword = isLocal()
+      ? "123"
+      : Math.random().toString(36).slice(-10)
     return {
       encryptedPassword: encryptPassword(randomPassword),
       decodedPassword: randomPassword,
