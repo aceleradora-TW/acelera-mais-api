@@ -28,7 +28,7 @@ import { deleteUser } from "@controllers/user"
 import * as UserX from "@controllers/userx"
 import { getExercise, updateExercise } from "@controllers/exercise"
 import { Roles } from "./service/user-service/Roles"
-import { createLink } from "@controllers/userx/link"
+import { createLink, verifyLink } from "@controllers/userx/link"
 
 export const defineRoutes = (app) => {
   app.get("/", itsWorks)
@@ -108,7 +108,8 @@ export const defineRoutes = (app) => {
 
   app.post("/user", verifyAccessToken([Roles.ADMIN]), UserX.createUser)
   app.get("/user", verifyAccessToken([Roles.ADMIN]), UserX.getUser)
-  app.get("/user/link", verifyAccessToken, createLink)
+  app.get("/user/link", verifyAccessToken(Roles.ADMIN), createLink)
+  app.get("/user/link_validation/:token", verifyAccessToken, verifyLink)
   app.put("/user/:id", verifyAccessToken([Roles.ADMIN]), UserX.updateUser)
   app.put(
     "/user/:id/email_verification",
