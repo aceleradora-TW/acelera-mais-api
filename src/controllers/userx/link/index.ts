@@ -17,7 +17,6 @@ export const createLink = async (request, response) => {
 
 export const verifyLink = async (request, response) => {
   const webJWT = await request.params.token
-  console.log(webJWT)
   const answer = {
     verified: JWT.verify(webJWT, process.env.SECRET, (err, decoded) => {
       const time = new Date().valueOf() - decoded.date
@@ -25,7 +24,6 @@ export const verifyLink = async (request, response) => {
       return time / (1000 * 60) < 30 ? true : false
     }),
   }
-  console.log(answer)
   return await httpResponseHandler().createSuccessResponse(
     Message.FOUND,
     answer,
