@@ -10,7 +10,6 @@ export const EmailService = () => {
       subject: subject,
       text: content,
     }
-
     ;(await NodemailerService()).transport.sendMail(message, (err, info) => {
       const { envelope, response } = info
       if (err) {

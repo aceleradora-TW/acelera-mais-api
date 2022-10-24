@@ -1,18 +1,18 @@
 import { Message } from "@messages/languages/pt-br"
 import { UserRegistrationStatus } from "@service/Flags"
 import { HttpError, HttpStatusCode } from "@service/HttpError"
-import { UserType } from "./Types"
-import jwt from "jsonwebtoken"
+import { Roles } from "./Roles"
+import md5 from "md5"
+import { isLocal } from "src/utils/islocal"
 
 export const UserRequest = ({ params, body, query }) => {
-  const { NODEMAILER_SECRET } = process.env
   const { FIRST_LOGIN, EMAIL_RESENT, USER_DISABLED, USER_ENABLED } =
     UserRegistrationStatus
   const { name, email, password, telephone, type, flag } = body
   const { id } = params
 
   const isValidType = () => {
-    const { ADMIN, MENTOR } = UserType
+    const { ADMIN, MENTOR } = Roles
     const types = [ADMIN, MENTOR]
     return type && types.includes(type)
   }
@@ -26,11 +26,16 @@ export const UserRequest = ({ params, body, query }) => {
     return name && email && telephone && type && !flag
   }
 
-  const encryptPassword = (password) => jwt.sign(password, NODEMAILER_SECRET)
+  const encryptPassword = (password) => md5(password)
 
   const generatePassword = () => {
-    const randomPassword = Math.random().toString(36).slice(-10)
-    return encryptPassword(randomPassword)
+    const randomPassword = isLocal()
+      ? "123"
+      : Math.random().toString(36).slice(-10)
+    return {
+      encryptedPassword: encryptPassword(randomPassword),
+      decodedPassword: randomPassword,
+    }
   }
 
   const isValidBodyForCreateUser = () => {
@@ -45,7 +50,7 @@ export const UserRequest = ({ params, body, query }) => {
     if (password) {
       user = {
         ...user,
-        password: encryptPassword(password),
+        id: id,
         flag: USER_ENABLED,
       }
     }
@@ -58,11 +63,27 @@ export const UserRequest = ({ params, body, query }) => {
 
   const firstLogin = () => {
     const user = isValidBodyForCreateUser()
+    const passwords = generatePassword()
     return {
       ...user,
-      password: generatePassword(),
+      password: passwords.encryptedPassword,
+      decodedPassword: passwords.decodedPassword,
       flag: FIRST_LOGIN,
     }
+  }
+
+  const getUserForResendEmail = () => {
+    const passwords = generatePassword()
+    return {
+      id: id,
+      encryptedPassword: passwords.encryptedPassword,
+      decodedPassword: passwords.decodedPassword,
+      flag: EMAIL_RESENT,
+    }
+  }
+
+  const getUserUpdate = () => {
+    return isValidBodyForUpdateUser()
   }
 
   const getUser = () => {
@@ -73,19 +94,10 @@ export const UserRequest = ({ params, body, query }) => {
     }
   }
 
-  const getUserForResendEmail = () => {
-    if (email && id) {
-      return {
-        email,
-        flag: EMAIL_RESENT,
-      }
-    }
-    throw new HttpError(Message.CREATE_ERROR, HttpStatusCode.BAD_REQUEST)
-  }
-
   return {
     firstLogin,
     getUser,
     getUserForResendEmail,
+    getUserUpdate,
   }
 }

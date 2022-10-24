@@ -23,7 +23,6 @@ export const userService = () => {
       content(name, decodedPassword)
     )
   }
-
   const inviteEmail = (user) => sendEmail(user, inviteEmailContent)
 
   const rememberEmail = async (user) => sendEmail(user, rememberEmailContent)
@@ -107,7 +106,7 @@ export const userService = () => {
 
   const findUserByEmail = async (email) => {
     const userRepository = getRepository(User)
-    const user = await userRepository.findOne({ email })
+    const user = await userRepository.findOne({ where: { email } })
     return user
   }
 

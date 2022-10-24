@@ -1,18 +1,17 @@
 import { UserRegistrationStatus } from "@service/Flags"
 import { HttpError, HttpStatusCode } from "../HttpError"
 import { userService } from "@service/user/UserService"
+import md5 from "md5"
 
 const jwt = require("jsonwebtoken")
 
 export const createAccessToken = async (emailUser, passwordUser) => {
-  const { SECRET, NODEMAILER_SECRET } = process.env
+  const { SECRET } = process.env
   let auth = true
-
-  const encodePassword = jwt.sign(passwordUser, NODEMAILER_SECRET)
 
   const user = await userService().findUserByEmail(emailUser)
 
-  if (!user || user.password !== encodePassword) {
+  if (!user || user.password !== md5(passwordUser)) {
     throw new HttpError("Unauthorized", HttpStatusCode.UNAUTHORIZED)
   }
 
@@ -34,12 +33,14 @@ export const createAccessToken = async (emailUser, passwordUser) => {
   }
 }
 
-export const validateAccessToken = (authHeaders) => {
+export const validateAccessToken = (authorization = "", roles = []) => {
   const { SECRET } = process.env
-  const accessToken = authHeaders && authHeaders.split(" ")[1]
+  const [, token] = authorization.split(" ")
+  const { role } = jwt.decode(token) || ''
 
-  const isAuthenticated = jwt.verify(accessToken, SECRET, (err) => {
+  const isVerified = jwt.verify(token, SECRET, (err) => {
     return !err
   })
-  return isAuthenticated
+
+  return isVerified && roles.includes(role)
 }
