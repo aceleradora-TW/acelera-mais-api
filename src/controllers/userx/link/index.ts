@@ -1,7 +1,6 @@
 import JWT from "jsonwebtoken"
 import { httpResponseHandler } from "@controllers/HttpResponseHandler"
 import { Message } from "@messages/languages/pt-br"
-import { hasUncaughtExceptionCaptureCallback } from "process"
 
 export const createLink = async (request, response) => {
   const dateLink = {
@@ -20,7 +19,6 @@ export const verifyLink = async (request, response) => {
   const answer = {
     verified: JWT.verify(webJWT, process.env.SECRET, (err, decoded) => {
       const time = new Date().valueOf() - decoded.date
-      console.log(time)
       return time / (1000 * 60) < 30 ? true : false
     }),
   }
