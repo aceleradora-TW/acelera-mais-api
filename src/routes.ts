@@ -113,6 +113,11 @@ export const defineRoutes = (app) => {
     verifyAccessToken([Roles.ADMIN]),
     UserX.resendEmail
   )
+  app.put(
+    "user/reset_password/:id",
+    verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
+    UserX.updateUser
+  )
   app.delete("/user/:id", verifyAccessToken([Roles.ADMIN]), deleteUser)
 
   app.get(
