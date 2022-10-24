@@ -3,7 +3,7 @@ import { UserRegistrationStatus } from "@service/Flags"
 import { HttpError, HttpStatusCode } from "@service/HttpError"
 import { Roles } from "./Roles"
 import md5 from "md5"
-import { isLocal } from "src/utils/islocal"
+import { isLocal } from "../../utils/islocal"
 
 export const UserRequest = ({ params, body, query }) => {
   const { FIRST_LOGIN, EMAIL_RESENT, USER_DISABLED, USER_ENABLED } =
