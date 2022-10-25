@@ -114,7 +114,7 @@ export const defineRoutes = (app) => {
     UserX.resendEmail
   )
   app.put(
-    "user/reset_password/:id",
+    "/user/reset_password/:id",
     verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
     UserX.updateUser
   )
