@@ -107,7 +107,11 @@ export const defineRoutes = (app) => {
 
   app.post("/user", verifyAccessToken([Roles.ADMIN]), UserX.createUser)
   app.get("/user", verifyAccessToken([Roles.ADMIN]), UserX.getUser)
-  app.put("/user/:id", verifyAccessToken([Roles.ADMIN]), UserX.updateUser)
+  app.put(
+    "/user/:id",
+    verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
+    UserX.updateUser
+  )
   app.put(
     "/user/:id/email_verification",
     verifyAccessToken([Roles.ADMIN]),
