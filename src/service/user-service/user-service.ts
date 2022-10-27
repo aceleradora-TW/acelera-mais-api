@@ -8,6 +8,7 @@ import { HttpError, HttpStatusCode } from "@service/HttpError"
 import { validate } from "class-validator"
 import { getRepository } from "typeorm"
 import { UserRequest } from "./user-request"
+import { convertDate } from "src/utils/dataConvert"
 import md5 from "md5"
 
 export const userService = (request) => {
@@ -112,7 +113,7 @@ export const userService = (request) => {
   }
 
   const getAllUser = async () => {
-    return await userRepository.find({
+    const users = await userRepository.find({
       select: [
         "id",
         "name",
@@ -123,6 +124,7 @@ export const userService = (request) => {
         "updatedAt",
       ],
     })
+    return users.map((user) => ({ ...user, date: convertDate(user.createdAt) }))
   }
 
   return {
