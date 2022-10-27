@@ -25,7 +25,7 @@ export const createAccessToken = async (emailUser, passwordUser) => {
     role: user.type,
     id: user.id,
   }
-  const accessToken = jwt.sign(payload, SECRET)
+  const accessToken = jwt.sign(payload, SECRET, { expiresIn: "1d" })
 
   return {
     auth,
