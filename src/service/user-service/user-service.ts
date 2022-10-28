@@ -21,7 +21,7 @@ export const userService = (request) => {
     const { id, encryptedPassword, decodedPassword, flag } =
       UserRequest(request).getUserForResendEmail()
 
-    const userEntity = await userRepository.findOneOrFail({ where: { id } })
+    const userEntity = await userRepository.findOneOrFail({ where: { id } }) //investigando id
     userEntity.password = encryptedPassword
     userEntity.flag = flag
     await userRepository.save(userEntity)
