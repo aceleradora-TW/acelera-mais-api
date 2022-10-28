@@ -8,8 +8,8 @@ import { HttpError, HttpStatusCode } from "@service/HttpError"
 import { validate } from "class-validator"
 import { getRepository } from "typeorm"
 import { UserRequest } from "./user-request"
-import { convertDate } from "src/utils/dataConvert"
 import md5 from "md5"
+import { convertDate } from "src/utils/dataConvert"
 
 export const userService = (request) => {
   const userRepository = getRepository(User)
