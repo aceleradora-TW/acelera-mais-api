@@ -1,4 +1,4 @@
-export const convertDate = (date: Date) => {
+export const convertDate = (date) => {
   return `${Math.round(
     (Date.now() - 10800000 - Number(date)) / 86400000
   )} dias atrás`
