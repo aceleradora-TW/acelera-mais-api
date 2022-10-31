@@ -6,7 +6,7 @@ import { User } from "@models/entity/User"
 import { EmailService } from "@service/email/EmailService"
 import { HttpError, HttpStatusCode } from "@service/HttpError"
 import { validate } from "class-validator"
-import { getRepository, Equal } from "typeorm"
+import { getRepository } from "typeorm"
 import { UserRequest } from "./user-request"
 import md5 from "md5"
 
@@ -21,10 +21,9 @@ export const userService = (request) => {
     const { id, encryptedPassword, decodedPassword, flag } =
       UserRequest(request).getUserForResendEmail()
 
-    const userEntity = await userRepository.findBy({ id: Equal(id) }) //investigando id
-    console.log(userEntity)
-    //userEntity.password = encryptedPassword
-    //userEntity.flag = flag
+    const userEntity = await userRepository.findOneOrFail({ where: { id } })
+    userEntity.password = encryptedPassword
+    userEntity.flag = flag
     await userRepository.save(userEntity)
 
     return sendEmail(
@@ -82,7 +81,8 @@ export const userService = (request) => {
     const { name, email, telephone, type, flag, password, id } =
       UserRequest(request).getUserUpdate()
 
-    let userEntity = await userRepository.findOne({ where: { id } })
+    let userEntity = await userRepository.findOneBy(id)
+    
     if (!userEntity) {
       throw new HttpError(
         `User not found with: ${id}`,
