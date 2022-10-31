@@ -4,8 +4,8 @@ import { Message } from "@messages/languages/pt-br"
 
 export const createLink = async (request, response) => {
   const dateLink = {
-    link: `user/${JWT.sign({ role: "admin" }, process.env.SECRET, {
-      expiresIn: "30m",
+    link: `user/${JWT.sign({ role: "guest" }, process.env.SECRET, {
+      expiresIn: "1d",
     })}`,
   }
   return await httpResponseHandler().createSuccessResponse(

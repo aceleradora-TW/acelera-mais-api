@@ -30,107 +30,81 @@ import { getExercise, updateExercise } from "@controllers/exercise"
 import { Roles } from "./service/user-service/Roles"
 import { createLink, verifyLink } from "@controllers/userx/link"
 
+const { ADMIN, MENTOR, GUEST } = Roles
+
 export const defineRoutes = (app) => {
   app.get("/", itsWorks)
   app.post("/login", generateAccessToken)
   app.get(
     "/hiring_process",
-    verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
+    verifyAccessToken([ADMIN, MENTOR]),
     getAllHiringProcess
   )
-  app.post(
-    "/hiring_process",
-    verifyAccessToken([Roles.ADMIN]),
-    createHiringProcess
-  )
+  app.post("/hiring_process", verifyAccessToken([ADMIN]), createHiringProcess)
   app.patch(
     "/hiring_process/:id",
-    verifyAccessToken([Roles.ADMIN]),
+    verifyAccessToken([ADMIN]),
     updateHiringProcess
   )
   app.delete(
     "/hiring_process/:id",
-    verifyAccessToken([Roles.ADMIN]),
+    verifyAccessToken([ADMIN]),
     deleteHiringProcess
   )
 
-  app.get("/candidate", verifyAccessToken([Roles.ADMIN]), getAllCandidate)
-  app.get("/candidate/:id", verifyAccessToken([Roles.ADMIN]), getCandidate)
+  app.get("/candidate", verifyAccessToken([ADMIN]), getAllCandidate)
+  app.get("/candidate/:id", verifyAccessToken([ADMIN]), getCandidate)
   app.get(
     "/candidate/challenge/hiring_process/:id",
-    verifyAccessToken([Roles.ADMIN]),
+    verifyAccessToken([ADMIN]),
     exportHiringProcessResume
   )
   app.post(
     "/candidate/hiring_process/:id",
-    verifyAccessToken([Roles.ADMIN]),
+    verifyAccessToken([ADMIN]),
     importAllCandidate
   )
 
-  app.get(
-    "/evaluation",
-    verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
-    getAllEvaluation
-  )
-  app.get(
-    "/evaluation/:id",
-    verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
-    getEvaluation
-  )
+  app.get("/evaluation", verifyAccessToken([ADMIN, MENTOR]), getAllEvaluation)
+  app.get("/evaluation/:id", verifyAccessToken([ADMIN, MENTOR]), getEvaluation)
   app.patch(
     "/evaluation/:id",
-    verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
+    verifyAccessToken([ADMIN, MENTOR]),
     updateEvaluation
   )
-  app.post("/evaluation", verifyAccessToken([Roles.ADMIN]), createEvaluation)
-  app.delete(
-    "/evaluation/:id",
-    verifyAccessToken([Roles.ADMIN]),
-    deleteEvaluation
-  )
+  app.post("/evaluation", verifyAccessToken([ADMIN]), createEvaluation)
+  app.delete("/evaluation/:id", verifyAccessToken([ADMIN]), deleteEvaluation)
 
   app.get(
     "/challenge",
-    verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
+    verifyAccessToken([ADMIN, MENTOR]),
     getChallengeByHiringProcessId
   )
   app.get(
     "/challenge/:id",
-    verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
+    verifyAccessToken([ADMIN, MENTOR]),
     getChallengeById
   )
-  app.patch("/challenge/:id", verifyAccessToken([Roles.ADMIN]), updateChallenge)
+  app.patch("/challenge/:id", verifyAccessToken([ADMIN]), updateChallenge)
   app.post(
     "/challenge/hiring_process/:id",
-    verifyAccessToken([Roles.ADMIN]),
+    verifyAccessToken([ADMIN]),
     importAllChallenge
   )
 
-  app.post("/user", verifyAccessToken([Roles.ADMIN]), UserX.createUser)
-  app.get("/user", verifyAccessToken([Roles.ADMIN]), UserX.getUser)
-  app.get("/user/link", verifyAccessToken(Roles.ADMIN), createLink)
-  app.get("/user/link_validation/", verifyAccessToken(Roles.ADMIN), verifyLink)
-  app.put(
-    "/user/:id",
-    verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
-    UserX.updateUser
-  )
+  app.post("/user", verifyAccessToken([ADMIN]), UserX.createUser)
+  app.get("/user", verifyAccessToken([ADMIN]), UserX.getUser)
+  app.get("/user/link", verifyAccessToken(ADMIN), createLink)
+  app.get("/user/link_validation/", verifyAccessToken(GUEST), verifyLink)
+  app.put("/user/:id", verifyAccessToken([ADMIN, MENTOR]), UserX.updateUser)
   app.put(
     "/user/:id/email_verification",
-    verifyAccessToken([Roles.ADMIN]),
+    verifyAccessToken([ADMIN]),
     UserX.resendEmail
   )
 
-  app.delete("/user/:id", verifyAccessToken([Roles.ADMIN]), deleteUser)
+  app.delete("/user/:id", verifyAccessToken([ADMIN]), deleteUser)
 
-  app.get(
-    "/exercise/:id",
-    verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
-    getExercise
-  )
-  app.put(
-    "/exercise/:id",
-    verifyAccessToken([Roles.ADMIN, Roles.MENTOR]),
-    updateExercise
-  )
+  app.get("/exercise/:id", verifyAccessToken([ADMIN, MENTOR]), getExercise)
+  app.put("/exercise/:id", verifyAccessToken([ADMIN, MENTOR]), updateExercise)
 }
