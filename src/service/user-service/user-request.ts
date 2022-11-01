@@ -4,8 +4,9 @@ import { HttpError, HttpStatusCode } from "@service/HttpError"
 import { Roles } from "./Roles"
 import md5 from "md5"
 import { isLocal } from "../../utils/islocal"
+const jwt = require("jsonwebtoken")
 
-export const UserRequest = ({ params, body, query }) => {
+export const UserRequest = ({ params, body, query, headers }) => {
   const { FIRST_LOGIN, EMAIL_RESENT, USER_DISABLED, USER_ENABLED } =
     UserRegistrationStatus
   const { name, email, password, telephone, type, flag } = body
@@ -64,11 +65,14 @@ export const UserRequest = ({ params, body, query }) => {
   const firstLogin = () => {
     const user = isValidBodyForCreateUser()
     const passwords = generatePassword()
+    const role = getRoleToken()
+    const { GUEST } = Roles
+
     return {
       ...user,
       password: passwords.encryptedPassword,
       decodedPassword: passwords.decodedPassword,
-      flag: FIRST_LOGIN,
+      flag: role === GUEST ? USER_ENABLED : FIRST_LOGIN,
     }
   }
 
@@ -92,6 +96,13 @@ export const UserRequest = ({ params, body, query }) => {
       id,
       ...user,
     }
+  }
+  const getRoleToken = () => {
+    const { authorization } = headers
+    const [, token] = authorization.split(" ")
+    const { role } = jwt.decode(token)
+    if (role) return role
+    return false
   }
 
   return {

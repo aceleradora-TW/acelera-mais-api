@@ -92,7 +92,7 @@ export const defineRoutes = (app) => {
     importAllChallenge
   )
 
-  app.post("/user", verifyAccessToken([ADMIN]), UserX.createUser)
+  app.post("/user", verifyAccessToken([ADMIN, GUEST]), UserX.createUser)
   app.get("/user", verifyAccessToken([ADMIN]), UserX.getUser)
   app.get("/user/link", verifyAccessToken(ADMIN), createLink)
   app.get("/user/link_validation/", verifyAccessToken(GUEST), verifyLink)
