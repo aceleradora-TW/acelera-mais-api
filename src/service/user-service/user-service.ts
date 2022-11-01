@@ -122,6 +122,9 @@ export const userService = (request) => {
         "createdAt",
         "updatedAt",
       ],
+      order: {
+        name: "ASC",
+      },
     })
   }
 
