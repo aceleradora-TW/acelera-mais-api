@@ -42,7 +42,7 @@ export const UserRequest = ({ params, body, query }) => {
     if (isRequired() && isValidType()) {
       return { ...body }
     }
-    throw new HttpError("s", HttpStatusCode.BAD_REQUEST)
+    throw new HttpError(Message.CREATE_ERROR, HttpStatusCode.BAD_REQUEST)
   }
 
   const isValidBodyForUpdateUser = () => {
