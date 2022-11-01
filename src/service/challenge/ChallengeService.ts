@@ -5,13 +5,13 @@ import { getRepository } from "typeorm"
 
 export const challengeService = () => {
   const getAllChallenges = async ({ page, count, hiringProcessId, type }) => {
-    let where = { hiringProcess: hiringProcessId }
+    let where = { hiringProcess: { id: hiringProcessId } }
     if (type) {
       where = { ...where, type }
     }
     const challengeRepository = getRepository(Challenge)
     const result = await challengeRepository.find({
-      where,
+      where: where,
       skip: page,
       take: count,
     })
