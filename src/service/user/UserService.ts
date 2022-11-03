@@ -48,7 +48,7 @@ export const userService = () => {
 
   const editUser = async ({ id, name, email, telephone, type, flag }) => {
     const userRepository = getRepository(User)
-    const user = await userRepository.findOne(id)
+    const user = await userRepository.findOne({ where: { id } })
     if (!user) {
       throw new HttpError(
         "User not found with: " + id,
@@ -78,7 +78,7 @@ export const userService = () => {
 
   const editUserFlag = async ({ id, flag }) => {
     const userRepository = getRepository(User)
-    const user = await userRepository.findOne(id)
+    const user = await userRepository.findOne({ where: { id } })
     if (!user) {
       throw new HttpError(
         "User not found with: " + id,
