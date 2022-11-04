@@ -6,7 +6,7 @@ import { getRepository } from "typeorm"
 export const getExercise = async (request, response) => {
   const { id } = request.params
   const exerciseRepository = getRepository(Exercise)
-  const exercise = await exerciseRepository.findOne(id)
+  const exercise = await exerciseRepository.findOne({ where: { id } })
   return response.json({ exercise })
 }
 
@@ -25,7 +25,7 @@ export const updateExercise = async (request, response) => {
   const { id } = request.params
   const { exerciseType } = request.body
   const exerciseRepository = getRepository(Exercise)
-  const exercise = await exerciseRepository.findOne(id)
+  const exercise = await exerciseRepository.findOne({ where: { id } })
   if (!exercise) {
     throw new HttpError(
       "Evaluation not found with: " + id,

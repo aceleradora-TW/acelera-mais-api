@@ -228,7 +228,7 @@ export const updateChallenge = async (request, response) => {
   const { type } = request.body
 
   const challengeRepository = getRepository(Challenge)
-  const challenge = await challengeRepository.findOne(id)
+  const challenge = await challengeRepository.findOne({ where: { id } })
   challenge.type = type
   const result = await challengeRepository.save(challenge)
 

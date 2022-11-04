@@ -83,6 +83,6 @@ export const getAllCandidate = async (request, response) => {
 export const getCandidate = async (request, response) => {
   const { id } = request.params
   const candidateRepository = getRepository(Candidate)
-  const candidate = await candidateRepository.findOne(id)
+  const candidate = await candidateRepository.findOne({ where: { id } })
   return response.json({ candidate })
 }
