@@ -20,7 +20,7 @@ export const getAllEvaluation = async (request, response) => {
 export const getEvaluation = async (request, response) => {
   const { id } = request.params
   const evaluationRepository = getRepository(Evaluation)
-  const evaluation = await evaluationRepository.findOne(id)
+  const evaluation = await evaluationRepository.findOne({ where: { id } })
   return response.json({ evaluation })
 }
 
