@@ -73,11 +73,12 @@ export const UserRequest = ({ params, body, query, headers }) => {
     const user = isValidBodyForCreateUser()
     const passwords = generatePassword()
     const role = getRoleToken()
-    const { GUEST } = Roles
+    const { GUEST, MENTOR} = Roles
     let flag = FIRST_LOGIN
 
     if(role === GUEST){
      flag = USER_ENABLED
+     user.type = MENTOR
     }
 
     return {
