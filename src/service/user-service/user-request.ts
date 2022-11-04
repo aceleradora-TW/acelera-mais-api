@@ -30,7 +30,14 @@ export const UserRequest = ({ params, body, query, headers }) => {
   const encryptPassword = (password) => md5(password)
 
   const generatePassword = () => {
-    const randomPassword = isLocal()
+    const { GUEST } = Roles
+    if(getRoleToken() === GUEST){
+      return {
+        encryptedPassword: encryptPassword(password),
+        decodedPassword: password,
+      }
+    }
+     const randomPassword = isLocal()
       ? "123"
       : Math.random().toString(36).slice(-10)
     return {
@@ -67,12 +74,17 @@ export const UserRequest = ({ params, body, query, headers }) => {
     const passwords = generatePassword()
     const role = getRoleToken()
     const { GUEST } = Roles
+    let flag = FIRST_LOGIN
+
+    if(role === GUEST){
+     flag = USER_ENABLED
+    }
 
     return {
       ...user,
       password: passwords.encryptedPassword,
       decodedPassword: passwords.decodedPassword,
-      flag: role === GUEST ? USER_ENABLED : FIRST_LOGIN,
+      flag,
     }
   }
 
