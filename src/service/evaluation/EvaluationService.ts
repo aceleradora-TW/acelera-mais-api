@@ -29,7 +29,7 @@ export const evaluationService = () => {
 
   const editEvaluation = async ({ id, mentorName, score, feedback }) => {
     const evaluationRepository = getRepository(Evaluation)
-    const evaluation = await evaluationRepository.findOne(id)
+    const evaluation = await evaluationRepository.findOne({ where: { id } })
     if (!evaluation) {
       throw new HttpError(
         "Evaluation not found with: " + id,
