@@ -82,6 +82,7 @@ export const userService = (request) => {
       UserRequest(request).getUserUpdate()
 
     let userEntity = await userRepository.findOne({ where: { id } })
+
     if (!userEntity) {
       throw new HttpError(
         `User not found with: ${id}`,
