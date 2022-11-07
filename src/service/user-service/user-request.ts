@@ -9,7 +9,7 @@ const jwt = require("jsonwebtoken")
 export const UserRequest = ({ params, body, query, headers }) => {
   const { FIRST_LOGIN, EMAIL_RESENT, USER_DISABLED, USER_ENABLED } =
     UserRegistrationStatus
-  const { name, email, password, telephone, type, flag } = body
+  const { name, email, password, telephone, type, flag = false } = body
   const { id } = params
 
   const isValidType = () => {
@@ -64,7 +64,7 @@ export const UserRequest = ({ params, body, query, headers }) => {
     }
 
     if (!flag || isValidFlag()) {
-      return { ...user }
+      return { ...user, id: id }
     }
     throw new HttpError(Message.CREATE_ERROR, HttpStatusCode.BAD_REQUEST)
   }
