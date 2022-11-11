@@ -120,6 +120,7 @@ export const userService = (request) => {
         "email",
         "telephone",
         "flag",
+        "type",
         "createdAt",
         "updatedAt",
       ],
