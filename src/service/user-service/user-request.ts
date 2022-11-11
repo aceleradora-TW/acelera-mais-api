@@ -4,7 +4,6 @@ import { HttpError, HttpStatusCode } from "@service/HttpError"
 import { Roles } from "./Roles"
 import md5 from "md5"
 import { isLocal } from "../../utils/islocal"
-const jwt = require("jsonwebtoken")
 
 export const UserRequest = ({ params, body, query, headers }) => {
   const { FIRST_LOGIN, EMAIL_RESENT, USER_DISABLED, USER_ENABLED } =
@@ -24,20 +23,19 @@ export const UserRequest = ({ params, body, query, headers }) => {
   }
 
   const isRequired = () => {
-    return name && email && telephone && type && !flag
+    return name && email && telephone && type
   }
 
   const encryptPassword = (password) => md5(password)
 
   const generatePassword = () => {
-    const { GUEST } = Roles
-    if(getRoleToken() === GUEST){
+    if (password) {
       return {
         encryptedPassword: encryptPassword(password),
         decodedPassword: password,
       }
     }
-     const randomPassword = isLocal()
+    const randomPassword = isLocal()
       ? "123"
       : Math.random().toString(36).slice(-10)
     return {
@@ -72,14 +70,6 @@ export const UserRequest = ({ params, body, query, headers }) => {
   const firstLogin = () => {
     const user = isValidBodyForCreateUser()
     const passwords = generatePassword()
-    const role = getRoleToken()
-    const { GUEST, MENTOR} = Roles
-    let flag = FIRST_LOGIN
-
-    if(role === GUEST){
-     flag = USER_ENABLED
-     user.type = MENTOR
-    }
 
     return {
       ...user,
@@ -109,13 +99,6 @@ export const UserRequest = ({ params, body, query, headers }) => {
       id,
       ...user,
     }
-  }
-  const getRoleToken = () => {
-    const { authorization } = headers
-    const [, token] = authorization.split(" ")
-    const { role } = jwt.decode(token)
-    if (role) return role
-    return false
   }
 
   return {

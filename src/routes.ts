@@ -1,5 +1,9 @@
 import { itsWorks } from "@controllers/index"
-import { generateAccessToken, verifyAccessToken } from "@controllers/auth"
+import {
+  generateAccessToken,
+  verifyAccessToken,
+  verifyGuest,
+} from "@controllers/auth"
 import {
   createHiringProcess,
   deleteHiringProcess,
@@ -92,7 +96,12 @@ export const defineRoutes = (app) => {
     importAllChallenge
   )
 
-  app.post("/user", verifyAccessToken([ADMIN, GUEST]), UserX.createUser)
+  app.post(
+    "/user",
+    verifyAccessToken([ADMIN, GUEST]),
+    verifyGuest,
+    UserX.createUser
+  )
   app.get("/user", verifyAccessToken([ADMIN]), UserX.getUser)
   app.get("/user/link", verifyAccessToken(ADMIN), createLink)
   app.get("/user/link_validation/", verifyAccessToken(GUEST), verifyLink)
