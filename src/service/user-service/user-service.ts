@@ -113,7 +113,7 @@ export const userService = (request) => {
   }
 
   const getAllUser = async () => {
-    const { orderBy, orientation } = request.params || {
+    const { orderBy, orientation } = request.query || {
       orderBy: "name",
       orientation: "ASC",
     }
