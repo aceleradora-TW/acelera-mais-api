@@ -113,6 +113,10 @@ export const userService = (request) => {
   }
 
   const getAllUser = async () => {
+    const { orderBy, orientation } = request.query || {
+      orderBy: "name",
+      orientation: "ASC",
+    }
     return await userRepository.find({
       select: [
         "id",
@@ -120,9 +124,13 @@ export const userService = (request) => {
         "email",
         "telephone",
         "flag",
+        "type",
         "createdAt",
         "updatedAt",
       ],
+      order: {
+        [orderBy]: orientation,
+      },
     })
   }
 
