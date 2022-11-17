@@ -135,7 +135,7 @@ export const userService = (request) => {
       order: {
         [orderBy]: orientation,
       },
-      skip: getSkip(page - 1),
+      skip: getSkip(page - 1, limit),
       take: limit,
     })
     return {
