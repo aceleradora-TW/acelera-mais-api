@@ -5,8 +5,8 @@ import { Roles } from "./Roles"
 import md5 from "md5"
 import { isLocal } from "../../utils/islocal"
 
-export const UserRequest = ({ params, body, query, headers }) => {
-  const { FIRST_LOGIN, EMAIL_RESENT, USER_DISABLED, USER_ENABLED } =
+export const UserRequest = ({ params, body }) => {
+  const { EMAIL_RESENT, USER_DISABLED, USER_ENABLED } =
     UserRegistrationStatus
   const { name, email, password, telephone, type, flag = false } = body
   const { id } = params
