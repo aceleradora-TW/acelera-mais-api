@@ -1,0 +1,1 @@
+export const getSkip = (page) => page > 0 ? page * limit : 0
