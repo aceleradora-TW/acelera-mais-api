@@ -113,9 +113,7 @@ export const userService = (request) => {
   }
 
   const getAllUser = async () => {
-    const { orderBy, orientation, page } = request.query
-      ? request.query
-      : { orderBy: "name", orientation: "ASC", page: 0 }
+    const { orderBy = "name", orientation = "ASC", page = 0 } = request.query
     const [list, count] = await userRepository.findAndCount({
       select: [
         "id",
@@ -131,7 +129,7 @@ export const userService = (request) => {
         [orderBy]: orientation,
       },
       skip: page,
-      take: 2,
+      take: 20,
     })
     return {
       users: list,
