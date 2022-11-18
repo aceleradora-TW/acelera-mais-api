@@ -6,7 +6,7 @@ import md5 from "md5"
 import { isLocal } from "../../utils/islocal"
 
 export const UserRequest = ({ params, body }) => {
-  const { EMAIL_RESENT, USER_DISABLED, USER_ENABLED } =
+  const { EMAIL_RESENT, USER_DISABLED, USER_ENABLED, USER_FROM_LINK } =
     UserRegistrationStatus
   const { name, email, password, telephone, type, flag = false } = body
   const { id } = params
@@ -18,12 +18,12 @@ export const UserRequest = ({ params, body }) => {
   }
 
   const isValidFlag = () => {
-    const flags = [USER_DISABLED, USER_ENABLED]
+    const flags = [USER_DISABLED, USER_ENABLED, USER_FROM_LINK]
     return flag && flags.includes(flag)
   }
 
   const isRequired = () => {
-    return name && email && telephone && type && !flag
+    return name && email && telephone && type && (isUserFromLink() || !flag)
   }
 
   const encryptPassword = (password) => md5(password)
@@ -67,14 +67,14 @@ export const UserRequest = ({ params, body }) => {
     throw new HttpError(Message.CREATE_ERROR, HttpStatusCode.BAD_REQUEST)
   }
 
+  const isUserFromLink = () => {
+    const { USER_FROM_LINK } = UserRegistrationStatus
+    return flag === USER_FROM_LINK
+  }
+
   const firstLogin = () => {
     let user = isValidBodyForCreateUser()
     const { FIRST_LOGIN, USER_ENABLED } = UserRegistrationStatus
-    let defaultFlag = FIRST_LOGIN
-    
-    if (flag === null) {
-      defaultFlag = USER_ENABLED
-    }
 
     const passwords = generatePassword()
 
@@ -82,7 +82,7 @@ export const UserRequest = ({ params, body }) => {
       ...user,
       password: passwords.encryptedPassword,
       decodedPassword: passwords.decodedPassword,
-      flag: defaultFlag,
+      flag: isUserFromLink() ? USER_ENABLED : FIRST_LOGIN,
     }
   }
 
