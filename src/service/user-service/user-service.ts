@@ -9,6 +9,7 @@ import { validate } from "class-validator"
 import { getRepository } from "typeorm"
 import { UserRequest } from "./user-request"
 import md5 from "md5"
+import { getSkip } from "../../utils/getSkip"
 
 export const userService = (request) => {
   const userRepository = getRepository(User)
@@ -113,11 +114,14 @@ export const userService = (request) => {
   }
 
   const getAllUser = async () => {
-    const { orderBy, orientation } = request.query || {
-      orderBy: "name",
-      orientation: "ASC",
-    }
-    return await userRepository.find({
+    const {
+      orderBy = "name",
+      orientation = "ASC",
+      page = 0,
+      limit = 20,
+    } = request.query
+
+    const [list, count] = await userRepository.findAndCount({
       select: [
         "id",
         "name",
@@ -131,7 +135,13 @@ export const userService = (request) => {
       order: {
         [orderBy]: orientation,
       },
+      skip: getSkip(page - 1, limit),
+      take: limit,
     })
+    return {
+      users: list,
+      count: count,
+    }
   }
 
   return {
