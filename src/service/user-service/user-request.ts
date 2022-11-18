@@ -8,7 +8,7 @@ import { isLocal } from "../../utils/islocal"
 export const UserRequest = ({ params, body }) => {
   const { EMAIL_RESENT, USER_DISABLED, USER_ENABLED } =
     UserRegistrationStatus
-  const { name, email, password, telephone, type, flag = false } = body
+  const { name, email, password, telephone, type, flag = false, guest = false } = body
   const { id } = params
 
   const isValidType = () => {
@@ -45,6 +45,13 @@ export const UserRequest = ({ params, body }) => {
   }
 
   const isValidBodyForCreateUser = () => {
+    if (isRequired() && isValidType()  && !flag) {
+      return { ...body }
+    }
+    throw new HttpError(Message.CREATE_ERROR, HttpStatusCode.BAD_REQUEST)
+  }
+
+  const isValidBodyForCreateUserLink = () => {
     if (isRequired() && isValidType()) {
       return { ...body }
     }
@@ -68,7 +75,10 @@ export const UserRequest = ({ params, body }) => {
   }
 
   const firstLogin = () => {
-    const user = isValidBodyForCreateUser()
+    let user = isValidBodyForCreateUser()
+    if(guest){
+      user = isValidBodyForCreateUserLink()
+    }
     const passwords = generatePassword()
 
     return {

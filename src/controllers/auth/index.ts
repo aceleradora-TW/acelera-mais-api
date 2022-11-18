@@ -33,9 +33,8 @@ export const verifyGuest = (request, responde, next) => {
   const { authorization } = request.headers
   const role = getRoleToken(authorization)
   const { MENTOR, GUEST } = Roles
-  const { USER_ENABLED, FIRST_LOGIN } = UserRegistrationStatus
+  const { USER_ENABLED } = UserRegistrationStatus
   const body = request.body
-  request.body.flag = FIRST_LOGIN
 
   if (role === GUEST) {
     request.body = {
