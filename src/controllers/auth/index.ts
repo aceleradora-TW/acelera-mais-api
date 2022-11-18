@@ -5,7 +5,6 @@ import {
   getRoleToken,
 } from "@service/auth/AuthService"
 import { Roles } from "@service/user-service/Roles"
-import { UserRegistrationStatus } from "@service/Flags"
 const responseHandler = httpResponseHandler()
 
 export const generateAccessToken = async (request, response) => {
@@ -32,15 +31,14 @@ export const verifyAccessToken = (roles) => (request, response, next) => {
 export const verifyGuest = (request, responde, next) => {
   const { authorization } = request.headers
   const role = getRoleToken(authorization)
-  const { MENTOR, GUEST } = Roles
-  const { USER_ENABLED } = UserRegistrationStatus
+  const { GUEST, MENTOR } = Roles
   const body = request.body
 
   if (role === GUEST) {
     request.body = {
       ...body,
-      type: MENTOR,
-      flag: USER_ENABLED,
+      flag: null,
+      type: MENTOR
     }
   }
   next()

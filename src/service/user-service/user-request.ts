@@ -8,7 +8,7 @@ import { isLocal } from "../../utils/islocal"
 export const UserRequest = ({ params, body }) => {
   const { EMAIL_RESENT, USER_DISABLED, USER_ENABLED } =
     UserRegistrationStatus
-  const { name, email, password, telephone, type, flag = false, guest = false } = body
+  const { name, email, password, telephone, type, flag = false } = body
   const { id } = params
 
   const isValidType = () => {
@@ -23,7 +23,7 @@ export const UserRequest = ({ params, body }) => {
   }
 
   const isRequired = () => {
-    return name && email && telephone && type
+    return name && email && telephone && type && !flag
   }
 
   const encryptPassword = (password) => md5(password)
@@ -45,13 +45,6 @@ export const UserRequest = ({ params, body }) => {
   }
 
   const isValidBodyForCreateUser = () => {
-    if (isRequired() && isValidType()  && !flag) {
-      return { ...body }
-    }
-    throw new HttpError(Message.CREATE_ERROR, HttpStatusCode.BAD_REQUEST)
-  }
-
-  const isValidBodyForCreateUserLink = () => {
     if (isRequired() && isValidType()) {
       return { ...body }
     }
@@ -76,16 +69,20 @@ export const UserRequest = ({ params, body }) => {
 
   const firstLogin = () => {
     let user = isValidBodyForCreateUser()
-    if(guest){
-      user = isValidBodyForCreateUserLink()
+    const { FIRST_LOGIN, USER_ENABLED } = UserRegistrationStatus
+    let defaultFlag = FIRST_LOGIN
+    
+    if (flag === null) {
+      defaultFlag = USER_ENABLED
     }
+
     const passwords = generatePassword()
 
     return {
       ...user,
       password: passwords.encryptedPassword,
       decodedPassword: passwords.decodedPassword,
-      flag,
+      flag: defaultFlag,
     }
   }
 
