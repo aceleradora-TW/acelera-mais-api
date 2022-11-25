@@ -37,7 +37,7 @@ export const createAccessToken = async (emailUser, passwordUser) => {
 export const validateAccessToken = (authorization = "", roles = []) => {
   const { SECRET } = process.env
   const [, token] = authorization.split(" ")
-  const { role = null } = jwt.decode(token)
+  const role = getRoleToken(authorization)
 
   if (!role) {
     return false
@@ -48,4 +48,10 @@ export const validateAccessToken = (authorization = "", roles = []) => {
   })
 
   return isVerified && roles.includes(role)
+}
+
+export const getRoleToken = (authorization = "") => {
+  const [, token] = authorization.split(" ")
+  const { role = null } = jwt.decode(token)
+  return role
 }
