@@ -2,7 +2,10 @@ import { httpResponseHandler } from "@controllers/HttpResponseHandler"
 import {
   createAccessToken,
   validateAccessToken,
-} from "../../service/auth/AuthService"
+  getRoleToken,
+} from "@service/auth/AuthService"
+import { UserRegistrationStatus } from "@service/Flags"
+import { Roles } from "@service/user-service/Roles"
 const responseHandler = httpResponseHandler()
 
 export const generateAccessToken = async (request, response) => {
@@ -24,4 +27,21 @@ export const verifyAccessToken = (roles) => (request, response, next) => {
     return next()
   }
   return response.sendStatus(401)
+}
+
+export const verifyGuest = (request, responde, next) => {
+  const { authorization } = request.headers
+  const role = getRoleToken(authorization)
+  const { GUEST, MENTOR } = Roles
+  const { USER_FROM_LINK } = UserRegistrationStatus
+  const body = request.body
+
+  if (role === GUEST) {
+    request.body = {
+      ...body,
+      flag: USER_FROM_LINK,
+      type: MENTOR,
+    }
+  }
+  next()
 }

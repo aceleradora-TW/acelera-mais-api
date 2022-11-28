@@ -3,4 +3,5 @@ export enum UserRegistrationStatus {
   EMAIL_RESENT = "email-resent",
   USER_ENABLED = "user-enabled",
   USER_DISABLED = "user-disabled",
+  USER_FROM_LINK = "user-from-link",
 }
