@@ -1,12 +1,13 @@
 import { Message } from "@messages/languages/pt-br"
 import { Challenge } from "@models/entity/Challenge"
 import { HttpError, HttpStatusCode } from "@service/HttpError"
+import { getSkip } from "src/utils/getSkip"
 import { getRepository } from "typeorm"
 
 export const challengeService = () => {
   const getAllChallenges = async ({
     page = 0,
-    count,
+    limit,
     hiringProcessId,
     type,
     orderBy = "createdAt",
@@ -14,22 +15,21 @@ export const challengeService = () => {
   }) => {
     let where = { hiringProcess: { id: hiringProcessId } }
     if (type) {
-      where = { ...where, type }
+      where = { ...where }
     }
     const challengeRepository = getRepository(Challenge)
-    const result = await challengeRepository.find({
+    const [list, count] = await challengeRepository.findAndCount({
       where: where,
       order: {
         [orderBy]: orientation,
       },
-      skip: page,
-      take: count,
+      skip: getSkip(page - 1, limit),
+      take: limit,
     })
-    if (result.length === 0) {
-      throw new HttpError(Message.NOT_FOUND, HttpStatusCode.NOT_FOUND)
-    }
-    return result
-  }
 
-  return { getAllChallenges }
+    return {
+      challenge: list,
+      count: count,
+    }
+  }
 }

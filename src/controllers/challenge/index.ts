@@ -190,7 +190,7 @@ export const exportHiringProcessResume = async (req, res) => {
 export const getChallengeByHiringProcessId = async (req, res) => {
   const {
     page,
-    count,
+    limit,
     hiringProcessId,
     type,
     csv = false,
@@ -200,7 +200,7 @@ export const getChallengeByHiringProcessId = async (req, res) => {
   try {
     const result = await challengeService().getAllChallenges({
       page,
-      count,
+      limit,
       hiringProcessId,
       type,
     })
