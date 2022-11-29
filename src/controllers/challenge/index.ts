@@ -192,7 +192,6 @@ export const getChallengeByHiringProcessId = async (req, res) => {
     page,
     limit,
     hiringProcessId,
-    type,
     csv = false,
     orderBy,
     orientation,
@@ -202,13 +201,17 @@ export const getChallengeByHiringProcessId = async (req, res) => {
       page,
       limit,
       hiringProcessId,
-      type,
+      orderBy,
+      orientation,
     })
     return httpResponse.createSuccessResponse(
       Message.FOUND,
       {
         hiringProcessId,
-        result: csv ? hiringProcessAdapter(result) : challengesAdapter(result),
+        List: csv
+          ? hiringProcessAdapter(result.list)
+          : challengesAdapter(result.list),
+        Count: result.count,
       },
       res
     )

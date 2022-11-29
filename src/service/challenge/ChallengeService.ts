@@ -7,16 +7,12 @@ import { getRepository } from "typeorm"
 export const challengeService = () => {
   const getAllChallenges = async ({
     page = 0,
-    limit,
+    limit = 20,
     hiringProcessId,
-    type,
     orderBy = "createdAt",
     orientation = "ASC",
   }) => {
     let where = { hiringProcess: { id: hiringProcessId } }
-    if (type) {
-      where = { ...where }
-    }
     const challengeRepository = getRepository(Challenge)
     const [list, count] = await challengeRepository.findAndCount({
       where: where,
@@ -26,10 +22,13 @@ export const challengeService = () => {
       skip: getSkip(page - 1, limit),
       take: limit,
     })
-
     return {
-      challenge: list,
+      list: list,
       count: count,
     }
+  }
+
+  return {
+    getAllChallenges,
   }
 }
