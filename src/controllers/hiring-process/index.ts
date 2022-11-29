@@ -42,10 +42,11 @@ export const createHiringProcess = async (request, response) => {
 
 export const updateHiringProcess = async (request, response) => {
   try {
+    const { id } = request.params
     const hiringProcessRepository = getRepository(HiringProcess)
-    const hiringProcess = await hiringProcessRepository.findOne(
-      request.params.id
-    )
+    const hiringProcess = await hiringProcessRepository.findOne({
+      where: { id },
+    })
 
     if (!hiringProcess) {
       return response.status(404).json({ message: Message.NOT_FOUND })
