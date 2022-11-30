@@ -22,6 +22,7 @@ export const challengesAdapter = (challenges) => {
       return { id, type, ...exercise }
     })
   })
+  return challengesMapped
   const exercisesMapped = []
   challengesMapped.forEach((challenge) => {
     challenge.forEach((exercise) => {

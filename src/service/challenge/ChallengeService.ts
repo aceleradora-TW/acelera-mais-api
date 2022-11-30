@@ -14,6 +14,7 @@ export const challengeService = () => {
   }) => {
     let where = { hiringProcess: { id: hiringProcessId } }
     const challengeRepository = getRepository(Challenge)
+    console.log(limit)
     const [list, count] = await challengeRepository.findAndCount({
       where: where,
       order: {
@@ -23,7 +24,7 @@ export const challengeService = () => {
       take: limit,
     })
     return {
-      list: list,
+      challengers: list,
       count: count,
     }
   }

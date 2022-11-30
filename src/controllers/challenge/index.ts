@@ -208,10 +208,10 @@ export const getChallengeByHiringProcessId = async (req, res) => {
       Message.FOUND,
       {
         hiringProcessId,
-        List: csv
-          ? hiringProcessAdapter(result.list)
-          : challengesAdapter(result.list),
-        Count: result.count,
+        challengers: csv
+          ? hiringProcessAdapter(result.challengers)
+          : challengesAdapter(result.challengers),
+        count: result.count,
       },
       res
     )
