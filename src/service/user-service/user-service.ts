@@ -122,7 +122,7 @@ export const userService = (request) => {
       search,
     } = request.query
 
-    if (search) {
+    if (search != "") {
       try {
         const [list, count] = await userRepository.findAndCount({
           where: { name: search },
