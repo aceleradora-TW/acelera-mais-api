@@ -119,7 +119,22 @@ export const userService = (request) => {
       orientation = "ASC",
       page = 0,
       limit = 20,
+      search,
     } = request.query
+
+    if (search) {
+      try {
+        const [list, count] = await userRepository.findAndCount({
+          where: { name: search },
+        })
+        return {
+          users: list,
+          count: count,
+        }
+      } catch (error) {
+        return error
+      }
+    }
 
     const [list, count] = await userRepository.findAndCount({
       select: [
