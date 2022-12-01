@@ -3,9 +3,9 @@ export const hiringProcessAdapter = (hiringProcesses) => {
     exercises.map((exercise) => exercise.evaluation[property] ?? "")
 
   return hiringProcesses.map((h) => ({
-    name: h.name,
-    email: h.addressEmail,
-    phone: h.phone,
+    name: h.candidate.name,
+    email: h.candidate.addressEmail,
+    phone: h.candidate.phone,
     birthDate: h.candidate.birthDate,
     genre: h.candidate.genre || "",
     skinColor: h.candidate.skinColor || "",
