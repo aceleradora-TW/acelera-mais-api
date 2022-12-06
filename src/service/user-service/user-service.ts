@@ -122,8 +122,8 @@ export const userService = (request) => {
       search,
     } = request.query
 
-    if (search != "") {
-      try {
+    try {
+      if (search) {
         const [list, count] = await userRepository.findAndCount({
           where: { name: Like(`%${search}%`) },
         })
@@ -131,9 +131,9 @@ export const userService = (request) => {
           users: list,
           count: count,
         }
-      } catch (error) {
-        return error
       }
+    } catch (error) {
+      return error
     }
 
     const [list, count] = await userRepository.findAndCount({
