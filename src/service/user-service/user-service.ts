@@ -114,7 +114,7 @@ export const userService = (request) => {
   }
 
   const getAllUser = async () => {
-    const {
+    let {
       orderBy = "name",
       orientation = "ASC",
       page = 0,
@@ -122,21 +122,14 @@ export const userService = (request) => {
       search,
     } = request.query
 
-    try {
-      if (search) {
-        const [list, count] = await userRepository.findAndCount({
-          where: { name: Like(`%${search}%`) },
-        })
-        return {
-          users: list,
-          count: count,
-        }
-      }
-    } catch (error) {
-      return error
+    let where
+    if (search) {
+      where = { name: Like(`%${search}%`) }
+      page = 0
     }
 
     const [list, count] = await userRepository.findAndCount({
+      where,
       select: [
         "id",
         "name",
@@ -155,7 +148,7 @@ export const userService = (request) => {
     })
     return {
       users: list,
-      count: count,
+      count,
     }
   }
 
