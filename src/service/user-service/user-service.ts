@@ -6,7 +6,7 @@ import { User } from "@models/entity/User"
 import { EmailService } from "@service/email/EmailService"
 import { HttpError, HttpStatusCode } from "@service/HttpError"
 import { validate } from "class-validator"
-import { getRepository } from "typeorm"
+import { getRepository, Like } from "typeorm"
 import { UserRequest } from "./user-request"
 import md5 from "md5"
 import { getSkip } from "../../utils/getSkip"
@@ -119,9 +119,16 @@ export const userService = (request) => {
       orientation = "ASC",
       page = 0,
       limit = 20,
+      search,
     } = request.query
 
+    let where = {}
+    if (search) {
+      where = { name: Like(`%${search}%`) }
+    }
+
     const [list, count] = await userRepository.findAndCount({
+      where,
       select: [
         "id",
         "name",
@@ -140,7 +147,7 @@ export const userService = (request) => {
     })
     return {
       users: list,
-      count: count,
+      count,
     }
   }
 
