@@ -14,6 +14,7 @@ const httpResponse = httpResponseHandler()
 
 const mapChallenges = (id) => {
   const normaliseDate = (date) => {
+    return date
     const newDate = date.split("/")
     return `${newDate[1]}/${newDate[0]}/${newDate[2]}`
   }
@@ -24,24 +25,15 @@ const mapChallenges = (id) => {
 
       return {
         timeStamp,
-        addressEmail: r["Endereço de e-mail"],
-        name: r["Informe seu nome completo"],
-        phone: r["Informe o número de um telefone para contato:"],
-        challenge: r["Informe qual o exercício que você escolheu:"],
-        fileType: r["O que você prefere nos enviar?"],
+        email: r["E-mail:"],
+        challenge: r["Informe qual o desafio você escolheu:"],
+        fileType: r["Qual é o tipo do desafio:"],
         zip: r["Arquivo . ZIP"],
         github:
           r[
-            "Nos informe o link completo do seu repositório no GitHub com a solução do exercício."
+          "Nos informe o link completo do seu repositório no GitHub com a solução do desafio."
           ],
-        haveComputer: r["Você possui computador em casa ?"],
-        haveInternet: r["Você possui acesso a internet em casa?"],
-        haveWebcam: r["Voce Possui Webcam?"],
-        canUseWebcam:
-          r[
-            "Você se incomodaria em abrir sua Webcam durante as interações quanto a Aceleradora Ágil?"
-          ],
-        exerciseStatement: r["Enunciado dos exercícios"],
+        exerciseStatement: r["Enunciado do Desafio"],
         type: "",
         hiringProcess: { id },
       }
@@ -72,13 +64,13 @@ const createExercise = ({ name, type, link, exerciseStatement }) => {
 
 const groupChallengesByEmail = ({ challenges }) => {
   return challenges.reduce((acc, obj) => {
-    const addressEmail = obj.addressEmail
-    if (!acc[addressEmail]) {
-      acc[addressEmail] = { ...obj }
-      acc[addressEmail].exercises = []
+    const email = obj.email
+    if (!acc[email]) {
+      acc[email] = { ...obj }
+      acc[email].exercises = []
     }
     let typeAndLink = getExerciseType(obj)
-    acc[addressEmail].exercises.push(
+    acc[email].exercises.push(
       createExercise({
         name: obj.challenge,
         type: typeAndLink.type,
@@ -118,18 +110,11 @@ export const importAllChallenge = async (request, response) => {
     const challengesPromisse = challengeList.map(async (data) => {
       const {
         timeStamp,
-        addressEmail,
-        name,
-        phone,
+        email,
         challenge,
         fileType,
         zip,
         github,
-        haveComputer,
-        haveInternet,
-        haveWebcam,
-        canUseWebcam,
-        cityState,
         hiringProcess,
         exercises,
         exerciseStatement,
@@ -137,7 +122,7 @@ export const importAllChallenge = async (request, response) => {
 
       const newChallenge = await challengeRepository.findOne({
         where: {
-          addressEmail,
+          email,
           hiringProcess,
         },
       })
@@ -145,26 +130,18 @@ export const importAllChallenge = async (request, response) => {
       if (newChallenge) {
         newChallenge.hiringProcess = hiringProcess
         newChallenge.timeStamp = timeStamp
-        newChallenge.name = name
-        newChallenge.phone = phone
         newChallenge.challenge = challenge
         newChallenge.github = github
         newChallenge.fileType = fileType
         newChallenge.zip = zip
-        newChallenge.haveComputer = haveComputer
-        newChallenge.haveInternet = haveInternet
-        newChallenge.haveWebcam = haveWebcam
-        newChallenge.canUseWebcam = canUseWebcam
-        newChallenge.cityState = cityState
         newChallenge.exercises = exercises
         newChallenge.exerciseStatement = exerciseStatement
         return await challengeRepository.save(newChallenge)
       }
 
       return IncompleteCandidateService().createIncompleteCandidate(
-        addressEmail,
-        hiringProcess,
-        name
+        email,
+        hiringProcess
       )
     })
 

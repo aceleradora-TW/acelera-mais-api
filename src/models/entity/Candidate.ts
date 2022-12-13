@@ -37,9 +37,6 @@ export class Candidate {
   @IsDate()
   timeStamp: Date
 
-  @Column({ name: "address_email", type: "varchar" })
-  addressEmail: string
-
   @CreateDateColumn({
     name: "created_at",
     type: "timestamptz",

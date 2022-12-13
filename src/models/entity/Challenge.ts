@@ -42,8 +42,8 @@ export class Challenge {
   @IsDate()
   timeStamp: Date
 
-  @Column({ name: "address_email", nullable: false, type: "varchar" })
-  addressEmail: string
+  @Column({ name: "email", nullable: false, type: "varchar" })
+  email: string
 
   @Column({ name: "challenge", nullable: true, type: "varchar" })
   challenge: string
