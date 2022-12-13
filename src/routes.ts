@@ -39,6 +39,7 @@ const { ADMIN, MENTOR, GUEST } = Roles
 export const defineRoutes = (app) => {
   app.get("/", itsWorks)
   app.post("/login", generateAccessToken)
+  app.put("/login/email_verification")
   app.get(
     "/hiring_process",
     verifyAccessToken([ADMIN, MENTOR]),
