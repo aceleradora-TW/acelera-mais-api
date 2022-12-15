@@ -14,6 +14,7 @@ const httpResponse = httpResponseHandler()
 
 const mapChallenges = (id) => {
   const normaliseDate = (date) => {
+    return date
     const newDate = date.split("/")
     return `${newDate[1]}/${newDate[0]}/${newDate[2]}`
   }
@@ -21,7 +22,7 @@ const mapChallenges = (id) => {
   return (rows) => {
     return rows.map((r) => {
       const timeStamp = normaliseDate(r["Carimbo de data/hora"])
-
+      console.log(r["Você desenvolveu o exercício com:"])
       return {
         timeStamp,
         addressEmail: r["Endereço de e-mail"],
@@ -42,7 +43,7 @@ const mapChallenges = (id) => {
             "Você se incomodaria em abrir sua Webcam durante as interações quanto a Aceleradora Ágil?"
           ],
         exerciseStatement: r["Enunciado dos exercícios"],
-        type: "",
+        type: r["Você desenvolveu o exercício com:"],
         hiringProcess: { id },
       }
     })
@@ -60,11 +61,18 @@ const getExerciseType = (challenge) => {
   return { type: "Not defined.", link: "" }
 }
 
-const createExercise = ({ name, type, link, exerciseStatement }) => {
+const createExercise = ({
+  name,
+  type,
+  link,
+  exerciseStatement,
+  exerciseType,
+}) => {
   const exercise = new Exercise()
   exercise.name = name
   exercise.type = type
   exercise.link = link
+  exercise.exerciseType = exerciseType
   exercise.exerciseStatement = exerciseStatement
   exercise.evaluation = new Evaluation()
   return exercise
@@ -84,6 +92,7 @@ const groupChallengesByEmail = ({ challenges }) => {
         type: typeAndLink.type,
         link: typeAndLink.link,
         exerciseStatement: obj.exerciseStatement,
+        exerciseType: "",
       })
     )
     return acc
@@ -133,6 +142,7 @@ export const importAllChallenge = async (request, response) => {
         hiringProcess,
         exercises,
         exerciseStatement,
+        type,
       } = data
 
       const newChallenge = await challengeRepository.findOne({
@@ -158,6 +168,7 @@ export const importAllChallenge = async (request, response) => {
         newChallenge.cityState = cityState
         newChallenge.exercises = exercises
         newChallenge.exerciseStatement = exerciseStatement
+        newChallenge.type = type
         return await challengeRepository.save(newChallenge)
       }
 
