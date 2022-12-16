@@ -33,13 +33,12 @@ import * as UserX from "@controllers/userx"
 import { getExercise, updateExercise } from "@controllers/exercise"
 import { Roles } from "./service/user-service/Roles"
 import { createLink, verifyLink } from "@controllers/userx/link"
-
 const { ADMIN, MENTOR, GUEST } = Roles
 
 export const defineRoutes = (app) => {
   app.get("/", itsWorks)
   app.post("/login", generateAccessToken)
-  app.put("/login/email_verification")
+  app.put("/login/email_verification", UserX.sendPassword)
   app.get(
     "/hiring_process",
     verifyAccessToken([ADMIN, MENTOR]),
