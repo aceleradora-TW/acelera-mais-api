@@ -9,7 +9,6 @@ const responseHandle = httpResponseHandler()
 
 const mapCandidates = (id) => {
   const normaliseDate = (date) => {
-    return date
     const newDate = date.split("/")
     return `${newDate[1]}/${newDate[0]}/${newDate[2]}`
   }
@@ -22,7 +21,6 @@ const mapCandidates = (id) => {
       const challenge = new Challenge()
       challenge.hiringProcess = id
       challenge.addressEmail = email
-      console.log(r["Você possui algum desses equipamentos ?"])
       return {
         hiringProcess: { id: parseInt(id) },
         challenge,
