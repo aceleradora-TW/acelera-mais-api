@@ -108,10 +108,16 @@ export const UserRequest = ({ params, body }) => {
     }
   }
 
+  const getEmail = () => {
+    let email = { ...body }
+    return email
+  }
+
   return {
     firstLogin,
     getUser,
     getUserForResendEmail,
     getUserUpdate,
+    getEmail,
   }
 }

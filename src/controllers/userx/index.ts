@@ -1,10 +1,14 @@
 import { httpResponseHandler } from "@controllers/HttpResponseHandler"
-import { inviteEmailContent, rememberEmailContent } from "@messages/email/content"
+import {
+  inviteEmailContent,
+  rememberEmailContent,
+} from "@messages/email/content"
 import { Message } from "@messages/languages/pt-br"
 import { User } from "@models/entity/User"
 import { EmailService } from "@service/email/EmailService"
 import { userService } from "@service/user-service/user-service"
 import { getRepository } from "typeorm"
+import { UserRequest } from "@service/user-service/user-request"
 
 const httpResponse = httpResponseHandler()
 
@@ -52,15 +56,15 @@ export const resendEmail = async (request, response) => {
   }
 }
 
-export const sendPassword = async (response, request) => {
+export const sendPassword = async (request, response) => {
   try {
-    const { email } = request.body
+    const { email } = UserRequest(request).getEmail()
     const userRepository = getRepository(User)
     const userEntity = await userRepository.findOneOrFail({ where: { email } })
     const { from, subject, content } = inviteEmailContent
     EmailService().send(from, subject, userEntity.email, content(userEntity))
     return response.json({ message: Message.EMAIL_SENT })
   } catch (error) {
-    return response.json({ message: Message.EMAIL_NOT_SENT })
+    return httpResponse.createErrorResponse(error, response)
   }
 }
