@@ -43,7 +43,8 @@ const mapChallenges = (id) => {
             "Você se incomodaria em abrir sua Webcam durante as interações quanto a Aceleradora Ágil?"
           ],
         exerciseStatement: r["Enunciado dos exercícios"],
-        type: r["Você desenvolveu o exercício com:"],
+        type: "", 
+        exerciseType: r["Você desenvolveu o exercício com:"],
         hiringProcess: { id },
       }
     })
@@ -92,7 +93,7 @@ const groupChallengesByEmail = ({ challenges }) => {
         type: typeAndLink.type,
         link: typeAndLink.link,
         exerciseStatement: obj.exerciseStatement,
-        exerciseType: "",
+        exerciseType: obj.exerciseType,
       })
     )
     return acc
@@ -142,7 +143,7 @@ export const importAllChallenge = async (request, response) => {
         hiringProcess,
         exercises,
         exerciseStatement,
-        type,
+        exerciseType,
       } = data
 
       const newChallenge = await challengeRepository.findOne({
@@ -168,7 +169,7 @@ export const importAllChallenge = async (request, response) => {
         newChallenge.cityState = cityState
         newChallenge.exercises = exercises
         newChallenge.exerciseStatement = exerciseStatement
-        newChallenge.type = type
+        newChallenge.exerciseType = exerciseType
         return await challengeRepository.save(newChallenge)
       }
 

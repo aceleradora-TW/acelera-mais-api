@@ -64,6 +64,9 @@ export class Challenge {
   @Column({ name: 'exercise_statement', nullable: true, type: 'varchar' })
   exerciseStatement: string;
 
+  @Column({ name: 'exercise_type', nullable: true, type: 'varchar' })
+  exerciseType: string;
+
   @Column({ name: 'city_state', nullable: true, type: 'varchar' })
   cityState: string;
 
