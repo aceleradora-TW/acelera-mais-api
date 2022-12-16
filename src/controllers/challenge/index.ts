@@ -21,7 +21,6 @@ const mapChallenges = (id) => {
   return (rows) => {
     return rows.map((r) => {
       const timeStamp = normaliseDate(r["Carimbo de data/hora"])
-
       return {
         timeStamp,
         addressEmail: r["Endereço de e-mail"],
@@ -43,6 +42,7 @@ const mapChallenges = (id) => {
           ],
         exerciseStatement: r["Enunciado dos exercícios"],
         type: "",
+        exerciseType: r["Você desenvolveu o exercício com:"],
         hiringProcess: { id },
       }
     })
@@ -60,11 +60,18 @@ const getExerciseType = (challenge) => {
   return { type: "Not defined.", link: "" }
 }
 
-const createExercise = ({ name, type, link, exerciseStatement }) => {
+const createExercise = ({
+  name,
+  type,
+  link,
+  exerciseStatement,
+  exerciseType,
+}) => {
   const exercise = new Exercise()
   exercise.name = name
   exercise.type = type
   exercise.link = link
+  exercise.exerciseType = exerciseType
   exercise.exerciseStatement = exerciseStatement
   exercise.evaluation = new Evaluation()
   return exercise
@@ -84,6 +91,7 @@ const groupChallengesByEmail = ({ challenges }) => {
         type: typeAndLink.type,
         link: typeAndLink.link,
         exerciseStatement: obj.exerciseStatement,
+        exerciseType: obj.exerciseType,
       })
     )
     return acc
@@ -133,6 +141,7 @@ export const importAllChallenge = async (request, response) => {
         hiringProcess,
         exercises,
         exerciseStatement,
+        exerciseType,
       } = data
 
       const newChallenge = await challengeRepository.findOne({
@@ -158,6 +167,7 @@ export const importAllChallenge = async (request, response) => {
         newChallenge.cityState = cityState
         newChallenge.exercises = exercises
         newChallenge.exerciseStatement = exerciseStatement
+        newChallenge.exerciseType = exerciseType
         return await challengeRepository.save(newChallenge)
       }
 

@@ -21,7 +21,6 @@ const mapCandidates = (id) => {
       const challenge = new Challenge()
       challenge.hiringProcess = id
       challenge.addressEmail = email
-
       return {
         hiringProcess: { id: parseInt(id) },
         challenge,
