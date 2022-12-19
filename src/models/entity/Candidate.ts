@@ -33,9 +33,12 @@ export class Candidate {
   @Column({ name: 'email', type: 'varchar' })
   email: string;
 
-  @Column({ name: 'time_stamp', type: 'timestamptz' })
+  @Column({ name: 'id_Cadidate', type: 'varchar' })
+  idCadidate: string;
+
+/*   @Column({ name: 'time_stamp', type: 'timestamptz' })
   @IsDate()
-  timeStamp: Date;
+  timeStamp: Date; */
 
   @Column({ name: 'address_email', type: 'varchar' })
   addressEmail: string;
@@ -46,9 +49,9 @@ export class Candidate {
   @Column({ name: 'phone', type: 'varchar' })
   phone: string;
 
-  @Column({ name: 'birth_date', type: 'timestamptz' })
+/*   @Column({ name: 'birth_date', type: 'timestamptz' })
   birthDate: Date;
-
+ */
   @Column({ name: 'genre', type: 'varchar' })
   genre: string;
 
